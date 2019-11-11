@@ -10,10 +10,9 @@ body,html {
   height: 100%;
   background-color: $darkGrayColor !important;
   min-height: 1200px;
-
 }
 
-.stickyTest{
+.stickyTest {
   height: 40px;
 }
 
@@ -139,10 +138,12 @@ header .container {
     background: none;
     border: none;
   }
+
   .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show > .btn-secondary.dropdown-toggle {
     background: rgba(255,255,255,0.2);
     border-radius: 20px;
   }
+
   .dropdown-menu {
     margin-top: 20px;
     border-radius: 15px;
@@ -312,7 +313,6 @@ div.login {
     }
   }
 }
-
 
 .card-nav-tabs .card-header {
   margin-top: -30px!important;

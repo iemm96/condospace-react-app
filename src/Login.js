@@ -125,7 +125,7 @@ export default class Login extends React.Component{
 
         setTimeout(function () {
             // and call `resolve` on the deferred object, once you're done
-            window.location.href = '/admin/index';
+            window.location.href = '/admin/anuncios';
 
         }, 500);
 

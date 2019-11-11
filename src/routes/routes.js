@@ -6,7 +6,8 @@ import AdminIndex from "../admin/AdminIndex";
 const AppRoutes = () =>
     <BrowserRouter>
         <Switch>
-            <Route path="/admin/index" component={AdminIndex}/>
+            <Route path="/admin/anuncios" component={AdminIndex}/>
+            <Route path="/admin/finanzas" component={AdminIndex}/>
             <Route path="/" component={Login}/>
         </Switch>
     </BrowserRouter>;
