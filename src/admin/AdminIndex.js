@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
-import {NavItem, NavLink, TabContent, TabPane} from "reactstrap";
+import {NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown} from "reactstrap";
+import DropdownMenu from "reactstrap/es/DropdownMenu";
+import DropdownItem from "reactstrap/es/DropdownItem";
+import DropdownToggle from "reactstrap/es/DropdownToggle";
+import Dropdown from "reactstrap/es/Dropdown";
 
 export default class AdminIndex extends React.Component{
 
@@ -7,7 +11,9 @@ export default class AdminIndex extends React.Component{
         super(props);
         this.state = {
             setActiveTab: 1,
-            activeTab: 1
+            activeTab: 1,
+            dropDownValue: 'Select action',
+            dropdownOpen: false
         }
     }
 
@@ -16,6 +22,7 @@ export default class AdminIndex extends React.Component{
         let self = this;
         var elements = document.querySelectorAll('[data-toggle="sticky-onscroll"]');
         // Find all data-toggle="sticky-onscroll" elements
+
 
         [].forEach.call(elements, function(element) {
 
@@ -26,7 +33,6 @@ export default class AdminIndex extends React.Component{
             var stickyWrapper = div;
             sticky.before(stickyWrapper);
             sticky.classList.add('sticky');
-
 
             // Scroll & resize events
             window.addEventListener('scroll', function () {
@@ -39,6 +45,11 @@ export default class AdminIndex extends React.Component{
 
     }
 
+    changeValue(e)
+    {
+        this.setState({dropDownValue: e.currentTarget.textContent})
+    }
+
     render() {
 
 
@@ -47,36 +58,42 @@ export default class AdminIndex extends React.Component{
                 <header className="">
                     <nav className="header-dashboard navbar navbar-expand-lg navbar-light top-navbar  animate fadeInDown one" data-toggle="sticky-onscroll">
                         <div className="container">
-                            <a className="navbar-brand" href="#">Navbar</a>
+
+                            <a className="navbar-brand" href="#">CondoSpace</a>
                             <button className="navbar-toggler" type="button" data-toggle="collapse"
                                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                     aria-expanded="false" aria-label="Toggle navigation">
                                 <span className="navbar-toggler-icon">i</span>
                             </button>
-
-                            <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                                <ul className="navbar-nav pull-right">
+                            <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                                <ul className="navbar-nav">
                                     <li className="nav-item">
-                                        <a className="nav-link active" href="#">Home</a>
+                                        <a className="nav-link active" href="#">Anuncios</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#">Services</a>
+                                        <a className="nav-link" href="#">Finanzas</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#">Our Work</a>
+                                        <a className="nav-link" href="#">Eventos</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#">Pricing</a>
+                                        <a className="nav-link" href="#">Áreas Comunes</a>
                                     </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="#">About</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="#">Contact</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="btn btn-primary" href="#">GET A QUOTE</a>
-                                    </li>
+                                </ul>
+                            </div>
+                            <div className="justify-content-end" id="navbarSupportedContent">
+                                <ul className="navbar-nav">
+                                    <img src={require('../assets/images.png')} width={35} height={35} className="rounded-circle"/>
+                                    <UncontrolledDropdown>
+                                        <DropdownToggle caret>
+                                            Nombre del usuario
+                                        </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem>Mis datos de perfil</DropdownItem>
+                                            <DropdownItem divider />
+                                            <DropdownItem>Cerrar Sesión</DropdownItem>
+                                        </DropdownMenu>
+                                    </UncontrolledDropdown>
                                 </ul>
                             </div>
                         </div>

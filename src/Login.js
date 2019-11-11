@@ -1,6 +1,5 @@
 import React from 'react';
 import './styles/style.scss';
-import classnames from "classnames";
 
 const ApiUrl = React.createContext('https://api-letygym.nucleodev.com/');
 
@@ -72,28 +71,6 @@ export default class Login extends React.Component{
 
         );
     }
-
-    /*
-    render() {
-        return (
-            <div>
-
-                <form id="formLogin" class="box center fadeInLoad" onSubmit={this.submitForm}>
-                    <h3>Bienvenid@ a LetyGym</h3>
-                    <div class="form-group">
-                        <input id="inputEmail" type="text" class="input-form" name="username" aria-describedby="emailHelp" placeholder ="Nombre de Usuario" onChange={this.clearInput}/>
-                    </div>
-                    <div class="form-group">
-                        <input id="inputPassword" type="password" class="input-form" name="password" placeholder="Password" onChange={this.clearInput}/>
-                    </div>
-                    <div class="error-box" style={{display: undefined}}>
-
-                    </div>
-                    <button id="btnIngresar" type="submit" class="">Ingresar</button>
-                </form>
-            </div>
-        );
-    }*/
 
     submitForm(e) {
 

@@ -4,6 +4,7 @@ $greenColor: #B3B3F1;
 $redColor: #de3c4b;
 $purpleColor: #bd2e9d;
 $darkGrayColor: #424651;
+$purpleClairColor: #bd2e9d;
 
 body,html {
   height: 100%;
@@ -129,6 +130,37 @@ small {
   font-size: 75%;
   color: #777;
   font-weight: 400;
+}
+
+header .container {
+  max-width: 100% !important;
+
+  .btn-secondary {
+    background: none;
+    border: none;
+  }
+  .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show > .btn-secondary.dropdown-toggle {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+  }
+  .dropdown-menu {
+    margin-top: 20px;
+    border-radius: 15px;
+  }
+}
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+  color: white !important;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+}
+
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover
+{
+  color: white !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: white !important;
 }
 
 .container .title{
