@@ -5,7 +5,7 @@ import DropdownItem from "reactstrap/es/DropdownItem";
 import DropdownToggle from "reactstrap/es/DropdownToggle";
 import Dropdown from "reactstrap/es/Dropdown";
 
-export default class AdminIndex extends React.Component{
+export default class Finanzas extends React.Component{
 
     constructor(props) {
         super(props);
@@ -67,10 +67,10 @@ export default class AdminIndex extends React.Component{
                             <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                                 <ul className="navbar-nav">
                                     <li className="nav-item">
-                                        <a className="nav-link active" href="/admin/anuncios">Anuncios</a>
+                                        <a className="nav-link" href="/admin/anuncios">Anuncios</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/admin/finanzas">Finanzas</a>
+                                        <a className="nav-link active" href="/admin/finanzas">Finanzas</a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/admin/eventos">Eventos</a>

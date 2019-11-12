@@ -5,7 +5,7 @@ import DropdownItem from "reactstrap/es/DropdownItem";
 import DropdownToggle from "reactstrap/es/DropdownToggle";
 import Dropdown from "reactstrap/es/Dropdown";
 
-export default class Finanzas extends React.Component{
+export default class AreasComunes extends React.Component{
 
     constructor(props) {
         super(props);
@@ -70,13 +70,13 @@ export default class Finanzas extends React.Component{
                                         <a className="nav-link" href="/admin/anuncios">Anuncios</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link active" href="/admin/finanzas">Finanzas</a>
+                                        <a className="nav-link" href="/admin/finanzas">Finanzas</a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/admin/eventos">Eventos</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/admin/areasComunes">Áreas Comunes</a>
+                                        <a className="nav-link active" href="/admin/areasComunes">Áreas Comunes</a>
                                     </li>
                                 </ul>
                             </div>
