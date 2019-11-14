@@ -14,7 +14,7 @@ class Header extends Component {
         const { children } = this.props;
 
         return (
-            <header className="">
+            <header className="header">
                 <nav className="header-dashboard navbar navbar-expand-lg navbar-light top-navbar  animate fadeInDown one" data-toggle="sticky-onscroll">
                     <div className="container">
 
