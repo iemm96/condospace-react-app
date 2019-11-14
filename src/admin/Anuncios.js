@@ -6,7 +6,7 @@ import DropdownToggle from "reactstrap/es/DropdownToggle";
 import Dropdown from "reactstrap/es/Dropdown";
 import Header from "../components/Global/Header";
 
-export default class AdminIndex extends React.Component{
+export default class Anuncios extends React.Component{
 
     constructor(props) {
         super(props);
