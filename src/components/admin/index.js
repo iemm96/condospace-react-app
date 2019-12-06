@@ -1,9 +1,38 @@
 import React, {useState} from 'react';
 import {NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown} from "reactstrap";
-
+import BootstrapTable from 'react-bootstrap-table-next';
 import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
+
+
+var anuncios = [{
+    id: 1,
+    titulo: "Cambios en áreas comunes",
+    descripcion: "Les informamos que a partir del día...",
+    visible: "Todos",
+}, {
+    id: 2,
+    titulo: "Aumento de cuota de mantenimiento",
+    descripcion: "Apreciables colonos...",
+    visible: "Todos",
+}];
+
+const columns = [{
+    dataField: 'titulo',
+    text: 'Título'
+},
+{
+    dataField: 'descripcion',
+    text: 'Descripción'
+},
+{
+    dataField: 'visible',
+    text: 'Visible para'
+},{
+    dataField: 'price',
+    text: 'Acciones'
+}];
 
 export default class AdminDashboard extends React.Component{
 
@@ -113,13 +142,17 @@ export default class AdminDashboard extends React.Component{
                     <TabContent activeTab={this.state.activeTab} className="text-center">
                         <TabPane className={this.state.activeTab === 1 ? 'active' : ''} tabId="1">
                             <div className="p-5">
+                                <BootstrapTable keyField='id' data={ anuncios } columns={ columns } />
                             </div>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 2 ? 'active' : ''} tabId="2">
-                            <p>2</p>
+
                         </TabPane>
                         <TabPane className={this.state.activeTab === 3 ? 'active' : ''} tabId="3">
-                            <p>3</p>
+
+                        </TabPane>
+                        <TabPane className={this.state.activeTab === 4 ? 'active' : ''} tabId="4">
+
                         </TabPane>
                     </TabContent>
                 </div>
