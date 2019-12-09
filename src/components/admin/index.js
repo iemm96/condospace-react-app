@@ -69,6 +69,51 @@ const columnsEvent = [{
         dataField: 'price',
         text: 'Acciones'
     }];
+
+var finanzas = [{
+    id: 1,
+    fecha:  "15-01-2020",
+    concepto: "Agua Eenero 2020",
+    categoria: "AGUA POTABLE",
+    cargo: "$100",
+    recargos: "$0",
+    total: "$100",
+}, {
+    id: 2,
+    fecha:  "15-01-2020",
+    concepto: "Mantenimiento Enero 2020",
+    categoria: "MANTENIMIENTO",
+    cargo: "$250",
+    recargos: "$0",
+    total: "$250",
+}];
+
+const columnsFinanz = [
+    {
+        dataField: 'fecha',
+        text: 'Fecha '
+    },
+    {
+    dataField: 'concepto',
+    text: 'Concepto'
+    },
+    {
+        dataField: 'categoria',
+        text: 'Categoria'
+    },
+    {
+        dataField: 'cargo',
+        text: 'Cargo'
+    },{
+        dataField: 'recargos',
+        text: 'Recargos'
+    },
+    {
+        dataField: 'total',
+        text: 'Total '
+    },
+    ];
+
 export default class AdminDashboard extends React.Component{
 
     constructor(props) {
@@ -186,7 +231,9 @@ export default class AdminDashboard extends React.Component{
                             </div>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 3 ? 'active' : ''} tabId="3">
-
+                            <div className="p-5">
+                                <BootstrapTable keyField='id' data={ finanzas } columns={ columnsFinanz } />
+                            </div>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 4 ? 'active' : ''} tabId="4">
 
