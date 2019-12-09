@@ -34,6 +34,41 @@ const columns = [{
     text: 'Acciones'
 }];
 
+var eventos = [{
+    id: 1,
+    titulo: "Posada",
+    fecha:  "25 de Enero, 8:00pm",
+    descripcion: "Posada de la colonia",
+    lugar: "Terraza",
+    visible: "Todos",
+}, {
+    id: 2,
+    titulo: "Reservacion Casa 14",
+    fecha:  "28 de Enero, 8:00pm",
+    descripcion: "Reservacion por vecino",
+    lugar: "Alberca",
+    visible: "Todos",
+}];
+
+const columnsEvent = [{
+    dataField: 'titulo',
+    text: 'Título'
+    },
+    {
+    dataField: 'fecha',
+    text: 'Fecha y Hora'
+    },
+    {
+        dataField: 'descripcion',
+        text: 'Descripción'
+    },
+    {
+        dataField: 'lugar',
+        text: 'Lugar'
+    },{
+        dataField: 'price',
+        text: 'Acciones'
+    }];
 export default class AdminDashboard extends React.Component{
 
     constructor(props) {
@@ -146,7 +181,9 @@ export default class AdminDashboard extends React.Component{
                             </div>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 2 ? 'active' : ''} tabId="2">
-
+                            <div className="p-5">
+                                <BootstrapTable keyField='id' data={ eventos } columns={ columnsEvent } />
+                            </div>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 3 ? 'active' : ''} tabId="3">
 
