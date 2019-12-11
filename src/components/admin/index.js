@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown} from "reactstrap";
+import {NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown, Row, Col, Button} from "reactstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
-
+import NuevoEvento from "./modals/NuevoEvento";
+import NuevoAnuncio from "./modals/NuevoAnuncio";
 
 var anuncios = [{
     id: 1,
@@ -18,7 +19,7 @@ var anuncios = [{
     visible: "Todos",
 }];
 
-const columns = [{
+const columnas = [{
     dataField: 'titulo',
     text: 'Título'
 },
@@ -50,7 +51,7 @@ var eventos = [{
     visible: "Todos",
 }];
 
-const columnsEvent = [{
+const columnasEventos = [{
     dataField: 'titulo',
     text: 'Título'
     },
@@ -88,7 +89,7 @@ var finanzas = [{
     total: "$250",
 }];
 
-const columnsFinanz = [
+const columnasFinanzas = [
     {
         dataField: 'fecha',
         text: 'Fecha '
@@ -123,7 +124,9 @@ export default class AdminDashboard extends React.Component{
             setActiveTab: 1,
             activeTab: 1,
             dropDownValue: 'Select action',
-            dropdownOpen: false
+            dropdownOpen: false,
+            modalEvento: false,
+            modalAnuncio: false
         }
     }
 
@@ -168,6 +171,33 @@ export default class AdminDashboard extends React.Component{
             this.setState({activeTab:tab})
         }
     }
+
+    toggleModal = ( modal ) => {
+
+        switch (modal) {
+            case 1: {
+                this.state.modalAnuncio ? this.setState({modalAnuncio: false}) : this.setState({modalAnuncio: true});
+
+                break;
+            }
+            case 2:{
+                this.state.modalEvento ? this.setState({modalEvento: false}) : this.setState({modalEvento: true});
+                break;
+            }
+            case 3: {
+
+                break;
+            }
+            case 4: {
+
+                break;
+            }
+
+            default: {
+
+            }
+        }
+    };
 
     render() {
 
@@ -221,19 +251,44 @@ export default class AdminDashboard extends React.Component{
                 <div className="dashboard-content animate fadeInUp one">
                     <TabContent activeTab={this.state.activeTab} className="text-center">
                         <TabPane className={this.state.activeTab === 1 ? 'active' : ''} tabId="1">
-                            <div className="p-5">
-                                <BootstrapTable keyField='id' data={ anuncios } columns={ columns } />
-                            </div>
+                            <NuevoAnuncio toggleModal={this.toggleModal} modalAnuncio={this.state.modalAnuncio}/>
+                            <Row className="p-5 justify-content-end">
+                                <Col className="col-3">
+                                    <Button onClick={() => this.toggleModal(1)}>Nuevo Anuncio</Button>
+                                </Col>
+                            </Row>
+                            <Row className="justify-content-center">
+                                <Col className="col-11">
+                                    <div>
+                                        <BootstrapTable keyField='id' data={ anuncios } columns={ columnas } />
+                                    </div>
+                                </Col>
+                            </Row>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 2 ? 'active' : ''} tabId="2">
-                            <div className="p-5">
-                                <BootstrapTable keyField='id' data={ eventos } columns={ columnsEvent } />
-                            </div>
+                            <NuevoEvento toggleModal={this.toggleModal} modalEvento={this.state.modalEvento}/>
+                            <Row className="p-5 justify-content-end">
+                                <Col className="col-3">
+                                    <Button onClick={() => this.toggleModal(2)}>Nuevo Evento</Button>
+                                </Col>
+                            </Row>
+                            <Row className="justify-content-center">
+                                <Col className="col-11">
+                                    <div>
+                                        <BootstrapTable keyField='id' data={ eventos } columns={ columnasEventos } />
+                                    </div>
+                                </Col>
+                            </Row>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 3 ? 'active' : ''} tabId="3">
-                            <div className="p-5">
-                                <BootstrapTable keyField='id' data={ finanzas } columns={ columnsFinanz } />
-                            </div>
+                            <Row className="justify-content-center">
+                                <Col className="col-11">
+                                    <div>
+                                        <BootstrapTable keyField='id' data={ finanzas } columns={ columnasFinanzas } />
+                                    </div>
+                                </Col>
+                            </Row>
+
                         </TabPane>
                         <TabPane className={this.state.activeTab === 4 ? 'active' : ''} tabId="4">
 
