@@ -5,7 +5,8 @@ import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
 import NuevoEvento from "./modals/NuevoEvento";
-import NuevoAnuncio from "./modals/NuevoAnuncio";
+
+import AnunciosTable from "./tables/AnunciosTable";
 
 var anuncios = [{
     id: 1,
@@ -205,7 +206,8 @@ export default class AdminDashboard extends React.Component{
 
             <div className="mt-3">
                 <header className="">
-                    <nav className="header-dashboard navbar navbar-expand-lg navbar-light top-navbar  animate fadeInDown one" data-toggle="sticky-onscroll">
+                    <nav className="header-dashboard navbar navbar-expand-lg navbar-light top-navbar  animate fadeInDown one"
+                         data-toggle="sticky-onscroll">
                         <div className="container">
 
                             <NavLink className="navbar-brand" to="#">CondoSpace</NavLink>
@@ -217,16 +219,20 @@ export default class AdminDashboard extends React.Component{
                             <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                                 <ul className="navbar-nav">
                                     <li className="nav-item">
-                                        <NavLink className="nav-link" href="#" onClick={() => {this.toggle(1)}} className={this.state.activeTab === 1 ? 'active' : ''}>Anuncios</NavLink>
+                                        <NavLink className="nav-link" href="#" onClick={() => {this.toggle(1)}}
+                                                 className={this.state.activeTab === 1 ? 'active' : ''}>Anuncios</NavLink>
                                     </li>
                                     <li className="nav-item">
-                                        <NavLink className="nav-link" href="#" onClick={() => {this.toggle(2)}} className={this.state.activeTab === 2 ? 'active' : ''}>Eventos</NavLink>
+                                        <NavLink className="nav-link" href="#" onClick={() => {this.toggle(2)}}
+                                                 className={this.state.activeTab === 2 ? 'active' : ''}>Eventos</NavLink>
                                     </li>
                                     <li className="nav-item">
-                                        <NavLink className="nav-link" href="#" onClick={() => {this.toggle(3)}} className={this.state.activeTab === 3 ? 'active' : ''}>Finanzas</NavLink>
+                                        <NavLink className="nav-link" href="#" onClick={() => {this.toggle(3)}}
+                                                 className={this.state.activeTab === 3 ? 'active' : ''}>Finanzas</NavLink>
                                     </li>
                                     <li className="nav-item">
-                                        <NavLink className="nav-link" href="#"  onClick={() => {this.toggle(4)}} className={this.state.activeTab === 4 ? 'active' : ''}>Áreas Comunes</NavLink>
+                                        <NavLink className="nav-link" href="#"  onClick={() => {this.toggle(4)}}
+                                                 className={this.state.activeTab === 4 ? 'active' : ''}>Áreas Comunes</NavLink>
                                     </li>
                                 </ul>
                             </div>
@@ -251,10 +257,11 @@ export default class AdminDashboard extends React.Component{
                 <div className="dashboard-content animate fadeInUp one">
                     <TabContent activeTab={this.state.activeTab} className="text-center">
                         <TabPane className={this.state.activeTab === 1 ? 'active' : ''} tabId="1">
-                            <NuevoAnuncio toggleModal={this.toggleModal} modalAnuncio={this.state.modalAnuncio}/>
-                            <Row className="p-5 justify-content-end">
-                                <Col className="col-3">
-                                    <Button onClick={() => this.toggleModal(1)}>Nuevo Anuncio</Button>
+                            <Row className="pt-5 justify-content-center">
+                                <Col className="col-11">
+                                    <div>
+                                        <AnunciosTable toggleModal={() => this.toggleModal(1)}/>
+                                    </div>
                                 </Col>
                             </Row>
                             <Row className="justify-content-center">
@@ -288,15 +295,13 @@ export default class AdminDashboard extends React.Component{
                                     </div>
                                 </Col>
                             </Row>
-
                         </TabPane>
                         <TabPane className={this.state.activeTab === 4 ? 'active' : ''} tabId="4">
-
                         </TabPane>
                     </TabContent>
                 </div>
             </div>
-        );
+    );
 
     }
 
