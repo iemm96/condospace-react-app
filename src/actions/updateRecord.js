@@ -2,7 +2,7 @@ import stringifyData from "./../services/stringifyData";
 import {url_base} from "./../constants/api_url";
 const api_url = url_base;
 
-export const setRecord = (payload,resource) => {
+export const updateRecord = (payload, resource) => {
     return dispatch => {
         fetch(`${api_url}${resource}`, {
             method: 'POST',

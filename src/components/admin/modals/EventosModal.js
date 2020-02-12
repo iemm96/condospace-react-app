@@ -48,8 +48,7 @@ export default class RenovarMembresia extends React.Component{
                 membresiasPrecios.push({idMembresia:val.id,precio:val.precio});
             });
 
-            this.setState({membresias: array, membresiasPrecios: membresiasPrecios});
-
+                this.setState({membresias: array, membresiasPrecios: membresiasPrecios});
             }
         );
     }

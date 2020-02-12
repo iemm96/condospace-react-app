@@ -1,70 +1,111 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
-import {url_base} from '../constants/api_url';
+import Select from "react-select";
 
-const api_url = url_base;
+import {fetchRecords} from "../../../actions/fetchRecords";
+import {fetchRecord} from "../../../actions/fetchRecord";
+import {updateRecord} from "../../../actions/updateRecord";
+import {storeRecord} from "../../../actions/storeRecord";
+
+let tiposImportancia = [];
+let tiposVisibilidad = [];
+
 export default class ModalAnuncio extends React.Component{
 
     constructor(props) {
         super(props);
-
         this.state = {
-            nombre: undefined,
-            apellidoP: undefined,
-            apellidoM: undefined,
-            membresias: [],
+            id:this.props.idRecord
         }
     }
 
-    componentDidMount() {
-        fetch(`${api_url}anuncios`, {
-            // mode: 'no-cors',
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-            },
-        },)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong ...');
-                }
+    async componentDidMount() {
+        try {
+            tiposImportancia = await fetchRecords('tiposImportancia');
+        }catch (error) {
+            console.log(error);
+        }
 
-            }).then(response =>
-            this.setState({membresias: response})
-        );
+        try {
+            tiposVisibilidad = await fetchRecords('tiposVisibilidad');
+        }catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    async componentWillReceiveProps(nextProps) {
+        this.setState({
+            id:nextProps.idRecord
+        });
+
+        if(nextProps.idRecord) {
+            try {
+                let recordData = await fetchRecord(nextProps.idRecord,this.props.resource);
+                this.setState({...recordData});
+            }catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    handleInputChange = event => {
+
+        console.log(event);
+        let target;
+
+        if(target = event.target) {
+            const value = target.value;
+            const name = target.name;
+            this.setState({
+                [name]:value
+            });
+        }else{
+            const name = event.name;
+            const value = event.value;
+            this.setState({
+                [name]:value
+            })
+        }
     }
 
     render() {
-        let membresias = this.state.membresias;
 
-        let optionItems = membresias.map((membresia) => {
-            console.log(membresia.id);
-            return <option key={membresia.id} value={membresia.id}>{membresia.membresia}</option>
+        let optionsImportancia = [];
+        let optionsVisibilidad = [];
+
+        tiposImportancia.map((val) => {
+            optionsImportancia.push({value:val.id,label:val.importancia,name:'id_importancia'});
         });
 
-        return(<Modal isOpen={this.props.modalRegister} toggle={() => this.props.toggleModal(1)} className={this.props.className}>
-            <ModalHeader toggle={() => this.props.toggleModal(1)}>{this.props.editMode ? 'Editar' : 'Nuevo'} Anuncio</ModalHeader>
+        tiposVisibilidad.map((val) => {
+            optionsVisibilidad.push({value:val.id,label:val.visibilidad,name:'id_visibilidad'});
+        });
+
+        console.log(this.state.titulo);
+
+        return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
+            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Anuncio</ModalHeader>
             <ModalBody>
-                <Form id="form" onSubmit={this.props.editMode ? this.props.handleEditRegister : this.props.handleNewRegister}>
+                <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
                     <FormGroup>
                         <Input type="text" name="titulo" id="" placeholder="Título"
-                               value={this.props.editMode ? this.props.titulo : undefined}
-                               onChange={event => this.props.handleInputChange(event)}/>
+                               value={this.props.idRecord ? this.state.titulo : undefined}
+                               onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
                         <Input type="textarea" name="mensaje" id="" placeholder="Descripción"
-                               value={this.props.editMode ? this.props.mensaje : undefined}
-                               onChange={event => this.props.handleInputChange(event)}/>
+                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                               onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <Row form>
                         <Col>
                             <FormGroup>
                                 <label>Visibilidad</label>
-                                <Input type="select" name="id_visibilidad" value={this.props.id_visibilidad} onChange={this.props.handleInputChange}>
-                                    {optionItems}
-                                </Input>
+                                <Select options={optionsVisibilidad}
+                                        name="id_visibilidad"
+                                        onChange={event => this.handleInputChange(event)}>
+                                </Select>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -72,9 +113,10 @@ export default class ModalAnuncio extends React.Component{
                         <Col>
                             <FormGroup>
                                 <label>Importancia</label>
-                                <Input type="select" name="id_nivelImportancia" value={this.props.id_nivelImportancia} onChange={this.props.handleInputChange}>
-                                    {optionItems}
-                                </Input>
+                                <Select options={optionsImportancia}
+                                        name="id_nivelImportancia"
+                                        onChange={event => this.handleInputChange(event)}>
+                                </Select>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -91,8 +133,8 @@ export default class ModalAnuncio extends React.Component{
                 </Form>
             </ModalBody>
             <ModalFooter>
-                <Button color="secondary" onClick={() => this.props.toggleModal(1)}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.editMode ? 'Editar ' : 'Agregar '} Anuncio</Button>
+                <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
+                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
             </ModalFooter>
         </Modal>);
     }

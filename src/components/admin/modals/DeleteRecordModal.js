@@ -1,26 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { deleteRecord } from './../../../actions/deleteRecord';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col } from 'reactstrap';
+export const  DeleteRecordModal = (props) => {
 
-export default class EliminarRegistroModal extends React.Component{
-
-    constructor(props) {
-        super(props);
-
-        this.state = {nombre: ''}
-    }
-
-    render() {
-        return(<Modal isOpen={this.props.deleteModal} toggle={() => this.props.toggleDeleteModal()} className={this.props.className}>
-            <ModalHeader toggle={() => this.props.toggleDeleteModal()}>Eliminar el registro de <b>'{this.props.titulo}'</b></ModalHeader>
-            <ModalBody>
-                <p>¿Seguro que desea eliminar el registro de <b>'{this.props.titulo}'</b>? Esta acción no se puede deshacer</p>
-            </ModalBody>
-            <ModalFooter>
-                <Button color="secondary" onClick={() => this.props.toggleDeleteModal()}>Cancelar</Button>
-                <Button color="primary" onClick={() => this.props.deleteRegister()}>Eliminar Registro</Button>{' '}
-            </ModalFooter>
-        </Modal>);
-    }
-    
+    return(<Modal isOpen={props.deleteModal} toggle={() => props.toggleDeleteModal()} className={props.className}>
+        <ModalHeader toggle={() => props.toggleDeleteModal()}>Eliminar el registro
+            de <b>'{props.title}'</b></ModalHeader>
+        <ModalBody>
+            <p>¿Seguro que desea eliminar el registro de <b>'{props.title}'</b>? Esta acción no se puede deshacer.</p>
+        </ModalBody>
+        <ModalFooter>
+            <Button color="secondary" onClick={() => props.toggleDeleteModal()}>Cancelar</Button>
+            <Button color="primary" onClick={() => deleteRecord(props.idRecord, props.resource)}>Eliminar
+                Registro</Button>{' '}
+        </ModalFooter>
+    </Modal>);
 };

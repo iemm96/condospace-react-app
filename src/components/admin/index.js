@@ -7,6 +7,7 @@ import DropdownItem from "reactstrap/es/DropdownItem";
 import NuevoEvento from "./modals/NuevoEvento";
 
 import AnunciosTable from "./tables/AnunciosTable";
+import TableEventos from "./tables/TableEventos";
 
 var anuncios = [{
     id: 1,
@@ -283,6 +284,8 @@ export default class AdminDashboard extends React.Component{
                                 <Col className="col-11">
                                     <div>
                                         <BootstrapTable keyField='id' data={ eventos } columns={ columnasEventos } />
+                                        <TableEventos/>
+
                                     </div>
                                 </Col>
                             </Row>

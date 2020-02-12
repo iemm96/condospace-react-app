@@ -5,272 +5,124 @@ import paginationFactory, {PaginationListStandalone, PaginationProvider} from "r
 import {Button, Col, TabPane} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import ModalRegister from "../modals/ModalAnuncio";
-import { Row } from "reactstrap";
-import EliminarRegistroModal from "../modals/EliminarRegistroModal";
-import {url_base} from '../constants/api_url';
+import { fetchRecords } from "../../../actions/fetchRecords";
+import Skeleton from 'react-loading-skeleton';
+import { Buscador } from '../buscador';
+import { options } from "../../../constants/tables_options";
+import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 
-const { SearchBar } = Search;
-const api_url = url_base;
+//Change
+import ModalRecord from "../modals/ModalAnuncio";
 
-let anuncios = [{
+//Change
+const RESOURCE = 'anuncios'; //API
+const NEW_BUTTON_TEXT = 'Nuevo Anuncio';
+const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
-}];
+let records = [];
 
-const Buscador = (props) => {
-    let input;
-    const search = () => {
-        props.onSearch(input.value);
-    };
-    return (
-        <Row className="row mb-2 justify-content-between">
-            <div className="col-3">
-                <input
-                    placeholder="Buscar anuncios..."
-                    className="form-control"
-                    ref={ n => input = n }
-                    type="text"
-                    onChange={search}
-                />
-            </div>
-            <div className="col-2">
-                <Button className="actionButton" onClick={() => props.prepareNewModal()}>Nuevo Anuncio</Button>
-            </div>
-        </Row>
-    );
-};
-
-class AnunciosTable extends React.Component {
+export default class AnunciosTable extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            anuncios: anuncios,
-            edit: false,
-            idRegister: null,
-            titulo: '',
-            mensaje: '',
-            id_visibilidad: '',
-            id_nivelImportancia: ''
+            edit: false
         };
     }
 
-    componentDidMount() {
-
-        fetch(`${api_url}anuncios`, {
-            // mode: 'no-cors',
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-            },
-        },)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong ...');
-                }
-
-            }).then(response =>
-                this.setState({anuncios: response})
-        );
+    async componentDidMount() {
+        try {
+            records = await fetchRecords(RESOURCE);
+            this.setState({records:records});
+        }catch (error) {
+            console.log(error);
+        }
     }
+
+    //Change "titulo" if necessary
+    actionsFormatter = (cell, row) => (<div>
+            <Button type="Button" onClick={() => this.prepareEditModal(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+        </div>
+    );
 
     toggleModal = () => {
-        this.state.ModalRegister ? this.setState({ModalRegister: false}) : this.setState({ModalRegister: true});
+        this.state.recordModal ? this.setState({recordModal: false}) : this.setState({recordModal: true});
     };
-
-    prepareNewModal = () => {
-        this.setState({edit: false});
-
-        this.toggleModal();
-    }
-
-    prepareEditModal = id => {
-        this.setState({edit: true, idRegister: id});
-
-        fetch(`${api_url}anuncios/${id}`, {
-            // mode: 'no-cors',
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-            },
-        },)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong ...');
-                }
-
-            }).then(response =>
-            this.setState({
-                titulo: response.titulo,
-                mensaje: response.mensaje,
-                id_visibilidad: response.id_visibilidad,
-                id_nivelImportancia: response.id_nivelImportancia
-            })
-        );
-
-        this.toggleModal();
-    }
 
     toggleDeleteModal = () => {
         this.state.deleteModal ? this.setState({deleteModal: false}) : this.setState({deleteModal: true});
-    }
+    };
 
-    handleInputChange = event => {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-
-    handleNewRegister = event => {
-
-        event.preventDefault();
-        fetch(`${api_url}anuncios`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json, text-plain, */*",
-            },
-            body:JSON.stringify({
-                titulo:this.state.titulo,
-                mensaje:this.state.mensaje,
-                id_visibilidad:this.state.id_visibilidad,
-                id_nivelImportancia:this.state.id_nivelImportancia,
-            })
-        }).then((res) => res.json())
-            .then((data) =>  console.log(data))
-            .catch((err)=>console.log(err))
-
-    }
-
-    handleEditRegister = event => {
-
-        event.preventDefault();
-        fetch(`${api_url}anuncios/${this.state.idRegister}`, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json, text-plain, */*",
-            },
-            body:JSON.stringify({
-                titulo:this.state.titulo,
-                mensaje:this.state.mensaje,
-                id_visibilidad:this.state.id_visibilidad,
-                id_nivelImportancia:this.state.id_nivelImportancia,
-            })
-        }).then((res) => res.json())
-            .then((data) =>  console.log(data))
-            .catch((err)=>console.log(err))
-    }
-
-    prepareDeleteModal = (id,titulo) => {
-        this.setState({idRegister: id, titulo: titulo});
+    prepareDeleteModal = (id,title) => {
+        this.setState({idRecord: id, title: title});
 
         this.toggleDeleteModal();
-    }
+    };
 
-    deleteRegister = () => {
-        fetch(`${api_url}anuncios/${this.state.idRegister}`, {
-            method: 'DELETE',
-        }).then((res) => res)
-            .then((data) =>  {
-                if(data.ok) {
-                    window.location.reload();
-                }
-            })
-            .catch((err)=>console.log(err))
-    }
+    prepareEditModal = idRecord => {
+        this.setState({idRecord:idRecord});
 
+        this.toggleModal();
+    };
 
-    actionsFormatter = (cell, row) => (<div>
-         <Button type="Button" onClick={() => this.prepareEditModal(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-         <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
-     </div>);
+    prepareNewModal = () => {
+        this.setState({idRecord: false});
 
-     render() {
+        this.toggleModal();
+    };
 
-         const {error} = this.state;
+    render() {
 
-         if(error) {
-             alert(error.message);
-             return;
-         }
-
-         const columns = [{
-             dataField: 'titulo',
-             text: 'Título',
-             sort: true,
-         },{
-             dataField: 'mensaje',
-             text: 'Mensaje',
-             sort: true,
-         },{
-             dataField: 'id_visibilidad',
-             text: 'Visible para',
-             sort: true,
-         },{
-             dataField: 'actions',
-             text: 'Acciones',
-             isDummyField: true,
-             csvExport: false,
-             formatter: this.actionsFormatter,
-         },];
-
-         const options = {
-             custom: true,
-             paginationSize: 4,
-             pageStartIndex: 1,
-             firstPageText: 'Inicio',
-             prePageText: 'Atrás',
-             nextPageText: 'Siguiente',
-             lastPageText: 'Final',
-             nextPageTitle: 'Primer página',
-             prePageTitle: 'Página anterior',
-             firstPageTitle: 'Página siguiente',
-             lastPageTitle: 'Última página',
-             showTotal: true,
-             totalSize: anuncios.length
-         };
+        const columns = [{
+            dataField: 'titulo',
+            text: 'Título',
+            sort: true,
+        },{
+            dataField: 'mensaje',
+            text: 'Mensaje',
+            sort: true,
+        },{
+            dataField: 'id_visibilidad',
+            text: 'Visible para',
+            sort: true,
+        },{
+            dataField: 'actions',
+            text: 'Acciones',
+            isDummyField: true,
+            csvExport: false,
+            formatter: this.actionsFormatter,
+        },];
 
          const contentTable = ({ paginationProps, paginationTableProps }) => (
              <div>
-                 <ModalRegister
+                 <ModalRecord
+                     idRecord={this.state.idRecord}
                      toggleModal={this.toggleModal}
-                     handleNewRegister={this.handleNewRegister}
-                     handleEditRegister={this.handleEditRegister}
-                     handleInputChange={this.handleInputChange}
-                     modalRegister={this.state.ModalRegister}
-                     editMode={this.state.edit}
-                     idRegister={this.state.idRegister}
-
-
-                     titulo={this.state.titulo}
-                     mensaje={this.state.mensaje}
-                     id_visibilidad={this.state.id_visibilidad}
-                     id_nivelImportancia={this.state.id_nivelImportancia}
+                     recordModal={this.state.recordModal}
+                     resource={RESOURCE}
                  />
-                 <EliminarRegistroModal
+                 <DeleteRecordModal
                      toggleDeleteModal={this.toggleDeleteModal}
-                     titulo={this.state.titulo}
-                     deleteRegister={this.deleteRegister}
-                     deleteModal={this.state.deleteModal}/>
+                     title={this.state.title}
+                     idRecord={this.state.idRecord}
+                     deleteModal={this.state.deleteModal}
+                     resource={RESOURCE}
+                 />
                  <ToolkitProvider
                      keyField="id"
                      columns={ columns }
-                     data={ this.state.anuncios }
+                     data={ this.state.records }
                      search>
                      {
                          toolkitprops => (
                              <div>
-                                 <Buscador prepareNewModal={this.prepareNewModal} { ...toolkitprops.searchProps } />
+                                 <Buscador prepareNewModal={this.prepareNewModal}
+                                           buttonText={NEW_BUTTON_TEXT}
+                                           placeholderText={PLACEHOLDER_SEARCH_TEXT}
+                                           { ...toolkitprops.searchProps }
+                                 />
                                  <BootstrapTable
                                      hover
                                      { ...toolkitprops.baseProps }
@@ -284,21 +136,28 @@ class AnunciosTable extends React.Component {
              </div>
          );
 
-         return(
-             <div>
-                 <Col className="col-3">
-                 </Col>
-                 <PaginationProvider
-                     pagination={paginationFactory(options)}>
+         if(this.state.records) {
 
-                     {contentTable}
+             console.log(this.state.idRecord);
+             return(
+                 <div>
+                     <Col className="col-3">
+                     </Col>
+                     <PaginationProvider
+                         pagination={paginationFactory(options(records))}>
 
-                 </PaginationProvider>
-             </div>
+                         {contentTable}
 
-         );
+                     </PaginationProvider>
+                 </div>
+             );
+         }else{
+             return(<div style={{ fontSize: 20, lineHeight: 2 }}>
+                 <h1>{<Skeleton />}</h1>
+                 {<Skeleton count={5} />}
+             </div>);
+         }
+
      }
 
 }
-
-export default AnunciosTable;

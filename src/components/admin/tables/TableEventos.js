@@ -7,8 +7,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import ModalRegister from "../modals/ModalAnuncio";
 import { Row } from "reactstrap";
-import EliminarRegistroModal from "../modals/EliminarRegistroModal";
+import { DeleteRecordModal } from "../modals/DeleteRecordModal";
+
 import {url_base} from '../../../constants/api_url';
+import ModalEvento from "../modals/ModalEvento";
 
 const { SearchBar } = Search;
 const api_url = url_base;
@@ -40,7 +42,7 @@ const Buscador = (props) => {
     );
 };
 
-class AnunciosTable extends React.Component {
+export default class TableEventos extends React.Component {
 
     constructor(props) {
         super(props);
@@ -48,7 +50,7 @@ class AnunciosTable extends React.Component {
         this.state = {
             anuncios: anuncios,
             edit: false,
-            idRegister: null,
+            idEditRecord: false,
             titulo: '',
             mensaje: '',
             id_visibilidad: '',
@@ -78,7 +80,7 @@ class AnunciosTable extends React.Component {
     }
 
     toggleModal = () => {
-        this.state.ModalRegister ? this.setState({ModalRegister: false}) : this.setState({ModalRegister: true});
+        this.state.modalRecord ? this.setState({modalRecord: false}) : this.setState({modalRecord: true});
     };
 
     prepareNewModal = () => {
@@ -197,13 +199,6 @@ class AnunciosTable extends React.Component {
 
      render() {
 
-         const {error} = this.state;
-
-         if(error) {
-             alert(error.message);
-             return;
-         }
-
          const columns = [{
              dataField: 'titulo',
              text: 'Título',
@@ -242,22 +237,12 @@ class AnunciosTable extends React.Component {
 
          const contentTable = ({ paginationProps, paginationTableProps }) => (
              <div>
-                 <ModalRegister
+                 <ModalEvento
                      toggleModal={this.toggleModal}
-                     handleNewRegister={this.handleNewRegister}
-                     handleEditRegister={this.handleEditRegister}
-                     handleInputChange={this.handleInputChange}
-                     modalRegister={this.state.ModalRegister}
-                     editMode={this.state.edit}
-                     idRegister={this.state.idRegister}
-
-
-                     titulo={this.state.titulo}
-                     mensaje={this.state.mensaje}
-                     id_visibilidad={this.state.id_visibilidad}
-                     id_nivelImportancia={this.state.id_nivelImportancia}
+                     modalRecord={this.state.modalRecord}
+                     idEditRecord={this.state.idEditRecord}
                  />
-                 <EliminarRegistroModal
+                 <DeleteRecordModal
                      toggleDeleteModal={this.toggleDeleteModal}
                      titulo={this.state.titulo}
                      deleteRegister={this.deleteRegister}
@@ -300,5 +285,3 @@ class AnunciosTable extends React.Component {
      }
 
 }
-
-export default AnunciosTable;
