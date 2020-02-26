@@ -10,7 +10,7 @@ import {storeRecord} from "../../../actions/storeRecord";
 let tiposImportancia = [];
 let tiposVisibilidad = [];
 
-export default class ModalEvento extends React.Component{
+export default class ModalAreasComunes extends React.Component{
 
     constructor(props) {
         super(props);

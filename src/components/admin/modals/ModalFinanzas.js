@@ -10,7 +10,7 @@ import {storeRecord} from "../../../actions/storeRecord";
 let tiposImportancia = [];
 let tiposVisibilidad = [];
 
-export default class ModalEvento extends React.Component{
+export default class ModalFinanzas extends React.Component{
 
     constructor(props) {
         super(props);
@@ -85,7 +85,7 @@ export default class ModalEvento extends React.Component{
         console.log(this.state.titulo);
 
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
-            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Evento</ModalHeader>
+            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Finanzas</ModalHeader>
             <ModalBody>
                 <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
                     <FormGroup>
@@ -134,7 +134,7 @@ export default class ModalEvento extends React.Component{
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Evento</Button>
+                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Finanzas</Button>
             </ModalFooter>
         </Modal>);
     }

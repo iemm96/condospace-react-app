@@ -7,7 +7,9 @@ import DropdownItem from "reactstrap/es/DropdownItem";
 import NuevoEvento from "./modals/NuevoEvento";
 
 import AnunciosTable from "./tables/AnunciosTable";
-import TableEventos from "./tables/TableEventos";
+import EventosTable from "./tables/EventosTable";
+import FinanzasTable from "./tables/FinanzasTable";
+//import AreasComunesTable from "./tables/AreasComunesTable";
 
 var anuncios = [{
     id: 1,
@@ -274,17 +276,11 @@ export default class AdminDashboard extends React.Component{
                             </Row>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 2 ? 'active' : ''} tabId="2">
-                            <NuevoEvento toggleModal={this.toggleModal} modalEvento={this.state.modalEvento}/>
-                            <Row className="p-5 justify-content-end">
-                                <Col className="col-3">
-                                    <Button onClick={() => this.toggleModal(2)}>Nuevo Evento</Button>
-                                </Col>
-                            </Row>
                             <Row className="justify-content-center">
                                 <Col className="col-11">
                                     <div>
-                                        <BootstrapTable keyField='id' data={ eventos } columns={ columnasEventos } />
-                                        <TableEventos/>
+                                        { <BootstrapTable keyField='id' data={ eventos } columns={ columnasEventos } /> }
+                                        <EventosTable toggleModal={() => this.toggleModal(1)}/>
 
                                     </div>
                                 </Col>
