@@ -9,6 +9,7 @@ import NuevoEvento from "./modals/NuevoEvento";
 import AnunciosTable from "./tables/AnunciosTable";
 import EventosTable from "./tables/EventosTable";
 import FinanzasTable from "./tables/FinanzasTable";
+import AreasComunesTable from "./tables/AreasComunesTable";
 //import AreasComunesTable from "./tables/AreasComunesTable";
 
 var anuncios = [{
@@ -118,6 +119,31 @@ const columnasFinanzas = [
         text: 'Total '
     },
     ];
+    const columnasAreasComunes = [
+        {
+            dataField: 'fecha',
+            text: 'Fecha '
+        },
+        {
+        dataField: 'concepto',
+        text: 'Concepto'
+        },
+        {
+            dataField: 'categoria',
+            text: 'Categoria'
+        },
+        {
+            dataField: 'cargo',
+            text: 'Cargo'
+        },{
+            dataField: 'recargos',
+            text: 'Recargos'
+        },
+        {
+            dataField: 'total',
+            text: 'Total '
+        },
+        ];
 
 export default class AdminDashboard extends React.Component{
 
@@ -189,11 +215,11 @@ export default class AdminDashboard extends React.Component{
                 break;
             }
             case 3: {
-
+                this.state.modalFinanzas ? this.setState({modalFinanzas: false}) : this.setState({modalFinanzas: true});
                 break;
             }
             case 4: {
-
+                this.state.modalAreasComunes ? this.setState({modalAreasComunes: false}) : this.setState({modalAreasComunes: true});
                 break;
             }
 
@@ -291,11 +317,20 @@ export default class AdminDashboard extends React.Component{
                                 <Col className="col-11">
                                     <div>
                                         <BootstrapTable keyField='id' data={ finanzas } columns={ columnasFinanzas } />
+                                        <FinanzasTable toggleModal={() => this.toggleModal(1)}/>
                                     </div>
                                 </Col>
                             </Row>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 4 ? 'active' : ''} tabId="4">
+                        <Row className="justify-content-center">
+                                <Col className="col-11">
+                                    <div>
+                                        <BootstrapTable keyField='id' data={ finanzas } columns={ columnasAreasComunes } />
+                                        <AreasComunesTable toggleModal={() => this.toggleModal(1)}/>
+                                    </div>
+                                </Col>
+                            </Row>
                         </TabPane>
                     </TabContent>
                 </div>

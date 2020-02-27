@@ -21,7 +21,7 @@ const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
 
-export default class FinanzassTable extends React.Component {
+export default class FinanzasTable extends React.Component {
 
     constructor(props) {
         super(props);

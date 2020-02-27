@@ -12,11 +12,11 @@ import { options } from "../../../constants/tables_options";
 import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 
 //Change
-import ModalRecord from "../modals/ModalAreasComune";
+import ModalRecord from "../modals/ModalAreasComunes";
 
 //Change
 const RESOURCE = 'areasComunes'; //API
-const NEW_BUTTON_TEXT = 'Nuevo AreasComune';
+const NEW_BUTTON_TEXT = 'Nuevo AreasComunes';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
