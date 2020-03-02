@@ -80,12 +80,17 @@ export default class EventosTable extends React.Component {
             text: 'Título',
             sort: true,
         },{
-            dataField: 'mensaje',
-            text: 'Mensaje',
+            dataField: 'fecha',
+            text: 'Fecha y Hora',
             sort: true,
         },{
-            dataField: 'id_visibilidad',
+            dataField: 'descripcion',
             text: 'Visible para',
+            sort: true,
+        },
+        {
+            dataField: 'lugar',
+            text: 'Lugar',
             sort: true,
         },{
             dataField: 'actions',

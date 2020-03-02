@@ -10,7 +10,7 @@ import AnunciosTable from "./tables/AnunciosTable";
 import EventosTable from "./tables/EventosTable";
 import FinanzasTable from "./tables/FinanzasTable";
 import AreasComunesTable from "./tables/AreasComunesTable";
-//import AreasComunesTable from "./tables/AreasComunesTable"; 
+//import AreasComunesTable from "./tables/AreasComunesTable";
 
 var anuncios = [{
     id: 1,
@@ -76,31 +76,48 @@ const columnasEventos = [{
         text: 'Acciones'
     }];
 
+var finanzas = [{
+    id: 1,
+    fecha:  "15-01-2020",
+    concepto: "Agua Eenero 2020",
+    categoria: "AGUA POTABLE",
+    cargo: "$100",
+    recargos: "$0",
+    total: "$100",
+}, {
+    id: 2,
+    fecha:  "15-01-2020",
+    concepto: "Mantenimiento Enero 2020",
+    categoria: "MANTENIMIENTO",
+    cargo: "$250",
+    recargos: "$0",
+    total: "$250",
+}];
 
 const columnasFinanzas = [
-        {
-            dataField: 'fecha',
-            text: 'Fecha '
-        },
-        {
-        dataField: 'concepto',
-        text: 'Concepto'
-        },
-        {
-            dataField: 'categoria',
-            text: 'Categoria'
-        },
-        {
-            dataField: 'cargo',
-            text: 'Cargo'
-        },{
-            dataField: 'recargos',
-            text: 'Recargos'
-        },
-        {
-            dataField: 'total',
-            text: 'Total '
-        },
+    {
+        dataField: 'fecha',
+        text: 'Fecha '
+    },
+    {
+    dataField: 'concepto',
+    text: 'Concepto'
+    },
+    {
+        dataField: 'categoria',
+        text: 'Categoria'
+    },
+    {
+        dataField: 'cargo',
+        text: 'Cargo'
+    },{
+        dataField: 'recargos',
+        text: 'Recargos'
+    },
+    {
+        dataField: 'total',
+        text: 'Total '
+    },
     ];
     const columnasAreasComunes = [
         {
@@ -140,9 +157,7 @@ export default class AdminDashboard extends React.Component{
             dropDownValue: 'Select action',
             dropdownOpen: false,
             modalEvento: false,
-            modalAnuncio: false,
-            modalFinanzas: false,
-            modalAreasComunes:false
+            modalAnuncio: false
         }
     }
 
@@ -279,12 +294,21 @@ export default class AdminDashboard extends React.Component{
                                     </div>
                                 </Col>
                             </Row>
+                            <Row className="justify-content-center">
+                                <Col className="col-11">
+                                    <div>
+                                        <BootstrapTable keyField='id' data={ anuncios } columns={ columnas } />
+                                    </div>
+                                </Col>
+                            </Row>
                         </TabPane>
                         <TabPane className={this.state.activeTab === 2 ? 'active' : ''} tabId="2">
                             <Row className="justify-content-center">
                                 <Col className="col-11">
                                     <div>
+                                        { <BootstrapTable keyField='id' data={ eventos } columns={ columnasEventos } /> }
                                         <EventosTable toggleModal={() => this.toggleModal(1)}/>
+
                                     </div>
                                 </Col>
                             </Row>
@@ -293,6 +317,7 @@ export default class AdminDashboard extends React.Component{
                             <Row className="justify-content-center">
                                 <Col className="col-11">
                                     <div>
+                                        <BootstrapTable keyField='id' data={ finanzas } columns={ columnasFinanzas } />
                                         <FinanzasTable toggleModal={() => this.toggleModal(1)}/>
                                     </div>
                                 </Col>
@@ -302,6 +327,7 @@ export default class AdminDashboard extends React.Component{
                         <Row className="justify-content-center">
                                 <Col className="col-11">
                                     <div>
+                                        <BootstrapTable keyField='id' data={ finanzas } columns={ columnasAreasComunes } />
                                         <AreasComunesTable toggleModal={() => this.toggleModal(1)}/>
                                     </div>
                                 </Col>

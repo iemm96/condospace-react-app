@@ -80,12 +80,24 @@ export default class FinanzasTable extends React.Component {
             text: 'Título',
             sort: true,
         },{
-            dataField: 'mensaje',
-            text: 'Mensaje',
+            dataField: 'concepto',
+            text: 'Concepto',
             sort: true,
         },{
-            dataField: 'id_visibilidad',
-            text: 'Visible para',
+            dataField: 'categoria',
+            text: 'Categoria',
+            sort: true,
+        },{
+            dataField: 'cargo',
+            text: 'Cargo',
+            sort: true,
+        },{
+            dataField: 'recargos',
+            text: 'Recargos',
+            sort: true,
+        },{
+            dataField: 'total',
+            text: 'Total ',
             sort: true,
         },{
             dataField: 'actions',
