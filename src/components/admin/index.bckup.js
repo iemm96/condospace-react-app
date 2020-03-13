@@ -10,6 +10,8 @@ import AnunciosTable from "./tables/AnunciosTable";
 import EventosTable from "./tables/EventosTable";
 import FinanzasTable from "./tables/FinanzasTable";
 import AreasComunesTable from "./tables/AreasComunesTable";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBars} from "@fortawesome/free-solid-svg-icons";
 //import AreasComunesTable from "./tables/AreasComunesTable"; 
 
 var anuncios = [{
@@ -233,8 +235,9 @@ export default class AdminDashboard extends React.Component{
                             </button>
                             <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                                 <ul className="navbar-nav">
+
                                     <li className="nav-item">
-                                        <NavLink className="nav-link" href="#" onClick={() => {this.toggle(1)}}
+                                        <NavLink className="nav-link" href="/admin/anuncios" onClick={() => {this.toggle(1)}}
                                                  className={this.state.activeTab === 1 ? 'active' : ''}>Anuncios</NavLink>
                                     </li>
                                     <li className="nav-item">
@@ -313,6 +316,8 @@ export default class AdminDashboard extends React.Component{
     );
 
     }
+
+
 
     stickyToggle(sticky, stickyWrapper, scrollElement) {
 
