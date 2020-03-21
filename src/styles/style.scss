@@ -402,6 +402,77 @@ footer p a:hover {
 
 
 
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  height: 100%;
+  background: #182b3a;
+  color: #fff;
+  margin-left: -250px;
+  transition: all 0.5s;
+  z-index: 2000;
+  position: fixed;
+  top: 0;
+}
+
+.sidebar.is-open {
+  margin-left: 0;
+  transition: .5s;
+}
+
+
+.sidebar-header {
+  background: #011627;
+}
+
+.sidebar-header h3{
+  color: #fff;
+  padding: 1em;
+}
+
+.sidebar ul p {
+  color: #fff;
+  padding: 10px;
+}
+
+.menu-open {
+  background: #6d7fcc;
+}
+
+li a.dropdown-toggle::after {
+  display: inline-flex;
+  position: relative;
+  left: 60%;
+  top: 10%
+}
+
+.sidebar-header > span {
+  position: relative;
+  float: right;
+  margin: .5em;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.side-menu {
+  height: calc(100vh - 130px);
+}
+
+.side-menu::-webkit-scrollbar {
+  width: 10px;
+}
+
+.side-menu::-webkit-scrollbar-thumb {
+  background: #5466B3;
+  border-radius: 3px;
+}
+
+.side-menu::-webkit-scrollbar-thumb:hover {
+  background: #3A4C99;
+}
 
 
 .fadeInLoad {
@@ -722,4 +793,6 @@ footer p a:hover {
   -webkit-animation-name: fadeInRight;
   animation-name: fadeInRight;
 }
+
+
 
