@@ -15,7 +15,17 @@ const SideBar = props => (
         <Nav vertical className="list-unstyled pb-3">
           <p>Menú</p>
           <NavItem>
-            <NavLink tag={Link} to={'/about'}>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faBriefcase} className="mr-2"/>Condominio
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faBriefcase} className="mr-2"/>Anuncios
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
               <FontAwesomeIcon icon={faBriefcase} className="mr-2"/>Visitas
             </NavLink>
           </NavItem>
