@@ -1,10 +1,11 @@
 const stringifyData = data => {
 
-    console.log(data);
-    debugger;
-    JSON.stringify({
+
+    var result = JSON.stringify({
         ...data
-    })
+    });
+
+    return result;
 };
 
 export default stringifyData;

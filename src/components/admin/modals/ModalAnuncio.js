@@ -15,7 +15,7 @@ export default class ModalAnuncio extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            id:this.props.idRecord
+            idAnuncio:this.props.idRecord
         }
     }
 
@@ -36,7 +36,7 @@ export default class ModalAnuncio extends React.Component{
 
     async componentWillReceiveProps(nextProps) {
         this.setState({
-            id:nextProps.idRecord
+            idAnuncio:nextProps.idRecord
         });
 
         if(nextProps.idRecord) {
@@ -51,7 +51,6 @@ export default class ModalAnuncio extends React.Component{
 
     handleInputChange = event => {
 
-        console.log(event);
         let target;
 
         if(target = event.target) {
@@ -67,7 +66,7 @@ export default class ModalAnuncio extends React.Component{
                 [name]:value
             })
         }
-    }
+    };
 
     render() {
 
@@ -82,12 +81,10 @@ export default class ModalAnuncio extends React.Component{
             optionsVisibilidad.push({value:val.id,label:val.visibilidad,name:'id_visibilidad'});
         });
 
-        console.log(this.state.titulo);
-
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
             <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Anuncio</ModalHeader>
             <ModalBody>
-                <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
+                <Form id="form" >
                     <FormGroup>
                         <Input type="text" name="titulo" id="" placeholder="Título"
                                value={this.props.idRecord ? this.state.titulo : undefined}
@@ -134,7 +131,7 @@ export default class ModalAnuncio extends React.Component{
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
+                <Button onClick={this.state.idRecord ? (e) => updateRecord(e,this.state) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
             </ModalFooter>
         </Modal>);
     }

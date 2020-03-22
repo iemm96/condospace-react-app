@@ -5,6 +5,8 @@ const api_url = url_base;
 export const storeRecord = (payload, resource) => {
 
     return dispatch => {
+
+        console.log(payload);
         fetch(`${api_url}${resource}`, {
             method: 'POST',
             headers: {
