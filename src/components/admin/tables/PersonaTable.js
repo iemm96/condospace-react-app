@@ -12,16 +12,17 @@ import { options } from "../../../constants/tables_options";
 import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 
 //Change
-import ModalRecord from "../modals/ModalCondominio";
+
+import ModalRecord from "../modals/ModalPersona";
 
 //Change
-const RESOURCE = 'Condominio'; //API
-const NEW_BUTTON_TEXT = 'Nuevo Condominio';
+const RESOURCE = 'Persona'; //API
+const NEW_BUTTON_TEXT = 'Nuevo Usuario';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
 
-export default class CondominioTable extends React.Component {
+export default class PersonaTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -52,7 +53,8 @@ export default class CondominioTable extends React.Component {
     };
 
     toggleDeleteModal = () => {
-        this.state.deleteModal ? this.setState({deleteModal: false}) : this.setState({deleteModal: true});
+        this.state
+            .deleteModal ? this.setState({deleteModal: false}) : this.setState({deleteModal: true});
     };
 
     prepareDeleteModal = (id,title) => {
@@ -77,47 +79,27 @@ export default class CondominioTable extends React.Component {
 
         const columns = [{
             dataField: 'nombre',
-            text: 'Nombre Condominio',
+            text: 'Nombre',
             sort: true,
         },{
-            dataField: 'dominio',
-            text: 'Dominio',
+            dataField: 'apellidos',
+            text: 'Apellidos',
             sort: true,
         },{
-            dataField: 'calle',
-            text: 'Av. Vallarta',
+            dataField: 'telefono',
+            text: 'Telefono',
             sort: true,
         },{
-            dataField: 'noExterior',
-            text: 'No. Exterior',
+            dataField: 'celular',
+            text: 'Celular',
             sort: true,
         },{
-            dataField: 'entre1',
-            text: 'Entre calle 1',
+            dataField: 'email',
+            text: 'Correo Electronico',
             sort: true,
         },{
-            dataField: 'entre2',
-            text: 'Entre calle 2',
-            sort: true,
-        },{
-            dataField: 'codigoPostal',
-            text: 'Codigo Postal',
-            sort: true,
-        },{
-            dataField: 'ciudad',
-            text: 'Ciudad',
-            sort: true,
-        },{
-            dataField: 'municipio',
-            text: 'Municipio',
-            sort: true,
-        },{
-            dataField: 'estado',
-            text: 'Estado',
-            sort: true,
-        },{
-            dataField: 'pais',
-            text: 'Pais',
+            dataField: 'password',
+            text: 'Password',
             sort: true,
         },{
             dataField: 'actions',

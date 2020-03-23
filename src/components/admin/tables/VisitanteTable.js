@@ -11,16 +11,16 @@ import {Buscador} from '../buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
-import ModalRecord from "../modals/ModalAnuncio";
+import ModalRecord from "../modals/ModalVisitante";
 
 //Change
-const RESOURCE = 'anuncios'; //API
-const NEW_BUTTON_TEXT = 'Nuevo Anuncio';
+const RESOURCE = 'visitante'; //API
+const NEW_BUTTON_TEXT = 'Nuevo Visitante';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
 
-export default class AnunciosTable extends React.Component {
+export default class VisitanteTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -75,16 +75,36 @@ export default class AnunciosTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'titulo',
-            text: 'Título',
+            dataField: 'nombre',
+            text: 'Nombre',
             sort: true,
         },{
-            dataField: 'mensaje',
-            text: 'Mensaje',
+            dataField: 'apellidos',
+            text: 'Apellidos',
             sort: true,
         },{
-            dataField: 'id_visibilidad',
-            text: 'Visible para',
+            dataField: 'detalles',
+            text: 'detalles',
+            sort: true,
+        },{
+            dataField: 'noIdentificacion',
+            text: 'Numero de Identificacion',
+            sort: true,
+        },{
+            dataField: 'fechaLlegada',
+            text: 'Fecha de Llegada',
+            sort: true,
+        },{
+            dataField: 'fechaSalida',
+            text: 'Fecha de Salida',
+            sort: true,
+        },{
+            dataField: 'noVisitantes',
+            text: 'Numero de visitantes',
+            sort: true,
+        },{
+            dataField: 'tipoVisitane',
+            text: 'Tipo de Visitante',
             sort: true,
         },{
             dataField: 'actions',
