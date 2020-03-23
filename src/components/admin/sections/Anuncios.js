@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import {Col, Row, TabContent, TabPane,Container} from "reactstrap";
 import AnunciosTable from "../tables/AnunciosTable";
-import EventosTable from "../tables/EventosTable";
-import FinanzasTable from "../tables/FinanzasTable";
-import AreasComunesTable from "../tables/AreasComunesTable";
+
 import Header from "./../common/Header";
 import {withRouter} from 'react-router-dom';
 const CommonHeader = withRouter(props => <Header {...props}/>);
