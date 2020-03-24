@@ -76,16 +76,20 @@ export default class AreasComunesTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'titulo',
-            text: 'Título',
+            dataField: 'nombre',
+            text: 'Nombre',
             sort: true,
         },{
-            dataField: 'mensaje',
-            text: 'Mensaje',
+            dataField: 'descripcion',
+            text: 'Descripcion',
             sort: true,
         },{
-            dataField: 'id_visibilidad',
-            text: 'Visible para',
+            dataField: 'area',
+            text: 'Area',
+            sort: true,
+        },{
+            dataField: 'idCondominio',
+            text: 'Condominio',
             sort: true,
         },{
             dataField: 'actions',

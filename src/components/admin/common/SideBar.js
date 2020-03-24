@@ -30,13 +30,53 @@ const SideBar = props => (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/pages'}>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
               <FontAwesomeIcon icon={faImage} className="mr-2"/>Cuentas
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/faq'}>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Cuotas
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Areas
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Categoria
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Eventos
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Finanzas
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Unidad
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Usuario
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Vehiculo
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to={'/admin/anuncios'}>
+              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Visitante
             </NavLink>
           </NavItem>
         </Nav>        
