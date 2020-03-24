@@ -7,9 +7,6 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
-let tiposImportancia = [];
-let tiposVisibilidad = [];
-
 export default class ModalAreasComunes extends React.Component{
 
     constructor(props) {
@@ -18,22 +15,6 @@ export default class ModalAreasComunes extends React.Component{
             id:this.props.idRecord
         }
     }
-
-    async componentDidMount() {
-        try {
-            tiposImportancia = await fetchRecords('tiposImportancia');
-        }catch (error) {
-            console.log(error);
-        }
-
-        try {
-            tiposVisibilidad = await fetchRecords('tiposVisibilidad');
-        }catch (error) {
-            console.log(error);
-        }
-
-    }
-
     async componentWillReceiveProps(nextProps) {
         this.setState({
             id:nextProps.idRecord

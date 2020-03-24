@@ -11,16 +11,16 @@ import {Buscador} from '../buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
-import ModalRecord from "../modals/ModalCuota";
+import ModalRecord from "../modals/ModalCategoria";
 
 //Change
-const RESOURCE = 'Cuotas'; //API
-const NEW_BUTTON_TEXT = 'Nueva Cuota';
+const RESOURCE = 'Categorias'; //API
+const NEW_BUTTON_TEXT = 'Nueva Categoria';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
 
-export default class CuotaTable extends React.Component {
+export default class CategoriaTable extends React.Component {
 
     constructor(props) {
         super(props);

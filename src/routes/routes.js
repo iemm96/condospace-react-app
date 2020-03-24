@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from "../Login";
 import AdminDashboard from "../components/admin";
-import AreasComunes from "../components/admin/sections/Anuncios";
+import AreasComunes from "../components/admin/sections/AreasComunes";
 import Anuncios from "../components/admin/sections/Anuncios";
 import Eventos from "../components/admin/sections/Eventos";
 import Finanzas from "../components/admin/sections/Finanzas";

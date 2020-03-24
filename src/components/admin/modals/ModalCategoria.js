@@ -63,9 +63,9 @@ export default class ModalAnuncio extends React.Component{
 
     render() {
 
-        let idCondominio = [];
+        let optionsidCondominio = [];
 
-        idCondominio.map((val) => {
+        optionsidCondominio.map((val) => {
             optionsidCondominio.push({value:val.id,label:val.idConsominio,name:'id_condominio'});
         });
 
