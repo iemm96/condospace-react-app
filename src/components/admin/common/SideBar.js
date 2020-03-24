@@ -72,8 +72,7 @@ const SideBar = props => (
           <NavItem>
             <NavLink tag={Link} to={'/admin/anuncios'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Vehiculo
-            </NavLink>
-          </NavItem>
+            </NavLink>          </NavItem>
           <NavItem>
             <NavLink tag={Link} to={'/admin/anuncios'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Visitante

@@ -15,7 +15,7 @@ import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 import ModalRecord from "../modals/ModalFinanzas";
 
 //Change
-const RESOURCE = 'finanzas'; //API
+const RESOURCE = 'transacciones'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Finanzas';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
