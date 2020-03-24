@@ -7,11 +7,11 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
-let idCuenta = [];
+let tipoUnidad = [];
 let idPersona = [];
-let idCategoria = [];
+let idCondominio = [];
 
-export default class ModalFinanzas extends React.Component{
+export default class ModalAnuncio extends React.Component{
 
     constructor(props) {
         super(props);
@@ -22,19 +22,17 @@ export default class ModalFinanzas extends React.Component{
 
     async componentDidMount() {
         try {
-            idCuenta = await fetchRecords('idCuenta');
+            idCondominio = await fetchRecords('id_Condominio');
         }catch (error) {
             console.log(error);
         }
-
         try {
-            idPersona = await fetchRecords('idPersona');
+            idPersona = await fetchRecords('id_Persona');
         }catch (error) {
             console.log(error);
         }
-
         try {
-            idCategoria = await fetchRecords('idCategoria');
+            tipoUnidad = await fetchRecords('tipo_Unidad');
         }catch (error) {
             console.log(error);
         }
@@ -76,73 +74,70 @@ export default class ModalFinanzas extends React.Component{
     }
 
     render() {
-        let optionsCuenta = [];
-        let optionsPersona = [];
-        let optionsCategoria = [];
 
-        idCuenta.map((val) => {
-            optionsCuenta.push({value:val.id,label:val.Cuenta,name:'id_Cuenta'});
+        let tipoUnidad = [];
+        let idPersona = [];
+        let idCondominio = [];
+
+        idCondominio.map((val) => {
+            optionsidCondominio.push({value:val.id,label:val.idConsominio,name:'id_Condominio'});
         });
 
         idPersona.map((val) => {
-            optionsPersona.push({value:val.id,label:val.Persona,name:'id_Persona'});
+            optionsidPersona.push({value:val.id,label:val.idPersona,name:'id_Persona'});
         });
 
-        idCategoria.map((val) => {
-            optionsCategoria.push({value:val.id,label:val.Categoria,name:'id_Categoria'});
+        tipoUnidad.map((val) => {
+            optionstipoUnidad.push({value:val.id,label:val.tipoUnidad,name:'tipo_Unidad'});
         });
+
         console.log(this.state.titulo);
 
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
-            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Finanzas</ModalHeader>
+            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Anuncio</ModalHeader>
             <ModalBody>
                 <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
                     <FormGroup>
-                        <Input type="date" name="fechaTransaccion" id="" placeholder="Fecha de transaccion"
+                        <Input type="text" name="nombre" id="" placeholder="Nombre"
                                value={this.props.idRecord ? this.state.titulo : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="textarea" name="descripcion" id="" placeholder="Descripción"
+                        <Input type="text" name="calle" id="" placeholder="Calle"
                                value={this.props.idRecord ? this.state.mensaje : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="number" name="ingresooEgreso" id="" placeholder="Ingreso o Egreso"
+                        <Input type="text" name="noExterior" id="" placeholder="Numero Exterior"
                                value={this.props.idRecord ? this.state.mensaje : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="number" name="monto" id="" placeholder="Monto"
+                        <Input type="text" name="noInterior" id="" placeholder="Numero Interior"
                                value={this.props.idRecord ? this.state.mensaje : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" name="saldo" id="" placeholder="Saldo"
+                        <Input type="text" name="entre!" id="" placeholder="Entre Calle "
                                value={this.props.idRecord ? this.state.mensaje : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="number" name="moneda" id="" placeholder="Moneda"
+                        <Input type="text" name="entre2" id="" placeholder="Entre Calle"
                                value={this.props.idRecord ? this.state.mensaje : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="number" name="formadePago" id="" placeholder="Forma de pago"
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="referencia" id="" placeholder="Referencia"
+                        <Input type="text" name="mts2" id="" placeholder="Metros Cuadrados"
                                value={this.props.idRecord ? this.state.mensaje : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <Row form>
                         <Col>
                             <FormGroup>
-                                <label>Cuenta</label>
-                                <Select options={optionsCuenta}
-                                        name="id_Cuenta"
+                                <label>Tipo de Unidad</label>
+                                <Select options={optionstipoUnidad}
+                                        name="tipo_unidad"
                                         onChange={event => this.handleInputChange(event)}>
                                 </Select>
                             </FormGroup>
@@ -152,7 +147,7 @@ export default class ModalFinanzas extends React.Component{
                         <Col>
                             <FormGroup>
                                 <label>Persona</label>
-                                <Select options={optionsPersona}
+                                <Select options={optionsidPersona}
                                         name="id_Persona"
                                         onChange={event => this.handleInputChange(event)}>
                                 </Select>
@@ -162,9 +157,9 @@ export default class ModalFinanzas extends React.Component{
                     <Row form>
                         <Col>
                             <FormGroup>
-                                <label>Categoria</label>
-                                <Select options={optionsCategoria}
-                                        name="id_Categoria"
+                                <label>Codominio</label>
+                                <Select options={optionsidCondominio}
+                                        name="id_Condominio"
                                         onChange={event => this.handleInputChange(event)}>
                                 </Select>
                             </FormGroup>
@@ -174,7 +169,7 @@ export default class ModalFinanzas extends React.Component{
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Finanzas</Button>
+                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
             </ModalFooter>
         </Modal>);
     }

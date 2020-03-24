@@ -83,8 +83,24 @@ export default class AnunciosTable extends React.Component {
             text: 'Mensaje',
             sort: true,
         },{
+            dataField: 'created_at',
+            text: 'Fecha de Creacion',
+            sort: true,
+        },{
+            dataField: 'update_at',
+            text: 'Fecha de modificacion',
+            sort: true,
+        },{
             dataField: 'id_visibilidad',
             text: 'Visible para',
+            sort: true,
+        },{
+            dataField: 'id_importancia',
+            text: 'Tipo de importancia',
+            sort: true,
+        },{
+            dataField: 'notificarEmail',
+            text: 'Notificado via Email',
             sort: true,
         },{
             dataField: 'actions',

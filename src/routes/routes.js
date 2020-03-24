@@ -2,11 +2,19 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from "../Login";
 import AdminDashboard from "../components/admin";
-import AreasComunes from "../admin/AreasComunes";
-
+import AreasComunes from "../components/admin/sections/Anuncios";
 import Anuncios from "../components/admin/sections/Anuncios";
 import Eventos from "../components/admin/sections/Eventos";
 import Finanzas from "../components/admin/sections/Finanzas";
+import Categoria from "../components/admin/sections/Categoria";
+import Cuota from "../components/admin/sections/Cuota";
+import Unidad from "../components/admin/sections/Unidad";
+import Vehiculo from "../components/admin/sections/Vehiculo";
+import Visitante from "../components/admin/sections/Visitante";
+import Cuenta from "../components/admin/sections/Cuenta";
+import Condominio from "../components/admin/sections/Condominio";
+import Usuario from "../components/admin/sections/Usuario";
+
 const AppRoutes = () =>
     <BrowserRouter>
         <Switch>
@@ -15,6 +23,14 @@ const AppRoutes = () =>
             <Route path="/admin/eventos" component={Eventos}/>
             <Route path="/admin/finanzas" component={Finanzas}/>
             <Route path="/admin/areasComunes" component={AreasComunes}/>
+            <Route path="/admin/Categoria" component={Categoria}/>
+            <Route path="/admin/Condominio" component={Condominio}/>
+            <Route path="/admin/Cuenta" component={Cuenta}/>
+            <Route path="/admin/Cuota" component={Cuota}/>
+            <Route path="/admin/Unidad" component={Unidad}/>
+            <Route path="/admin/Usuario" component={Usuario}/>
+            <Route path="/admin/Vehiculo" component={Vehiculo}/>
+            <Route path="/admin/Visitante" component={Visitante}/>
             <Route path="/" component={Login}/>
         </Switch>
     </BrowserRouter>;

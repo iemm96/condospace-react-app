@@ -70,18 +70,6 @@ export default class ModalAreasComunes extends React.Component{
     }
 
     render() {
-
-        let optionsImportancia = [];
-        let optionsVisibilidad = [];
-
-        tiposImportancia.map((val) => {
-            optionsImportancia.push({value:val.id,label:val.importancia,name:'id_importancia'});
-        });
-
-        tiposVisibilidad.map((val) => {
-            optionsVisibilidad.push({value:val.id,label:val.visibilidad,name:'id_visibilidad'});
-        });
-
         console.log(this.state.titulo);
 
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
@@ -89,46 +77,19 @@ export default class ModalAreasComunes extends React.Component{
             <ModalBody>
                 <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
                     <FormGroup>
-                        <Input type="text" name="titulo" id="" placeholder="Título"
+                        <Input type="text" name="npmbre" id="" placeholder="Nombre"
                                value={this.props.idRecord ? this.state.titulo : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="textarea" name="mensaje" id="" placeholder="Descripción"
+                        <Input type="textarea" name="descripcion" id="" placeholder="Descripción"
                                value={this.props.idRecord ? this.state.mensaje : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
-                    <Row form>
-                        <Col>
-                            <FormGroup>
-                                <label>Visibilidad</label>
-                                <Select options={optionsVisibilidad}
-                                        name="id_visibilidad"
-                                        onChange={event => this.handleInputChange(event)}>
-                                </Select>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <Row form>
-                        <Col>
-                            <FormGroup>
-                                <label>Importancia</label>
-                                <Select options={optionsImportancia}
-                                        name="id_nivelImportancia"
-                                        onChange={event => this.handleInputChange(event)}>
-                                </Select>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <FormGroup row>
-                        <Col sm={{ size: 10 }}>
-                            <FormGroup check>
-                                <Label check>
-                                    <Input type="checkbox" name="notificarEmail" id="checkbox2" />{' '}
-                                    Notificar por correo
-                                </Label>
-                            </FormGroup>
-                        </Col>
+                    <FormGroup>
+                        <Input type="text" name="area" id="" placeholder="Area"
+                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                               onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                 </Form>
             </ModalBody>

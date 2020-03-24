@@ -89,17 +89,25 @@ export default class EventosTable extends React.Component {
             sort: true,
         },
         {
-            dataField: 'lugar',
-            text: 'Lugar',
+            dataField: 'aprobado',
+            text: 'Aprobado',
             sort: true,
         },{
+                dataField: 'created_at',
+                text: 'Fecha de Creacion',
+                sort: true,
+            },{
+                dataField: 'update_at',
+                text: 'Fecha de modificacion',
+                sort: true,
+            },{
             dataField: 'actions',
             text: 'Acciones',
             isDummyField: true,
             csvExport: false,
             formatter: this.actionsFormatter,
         },{
-            
+
         }];
 
          const contentTable = ({ paginationProps, paginationTableProps }) => (

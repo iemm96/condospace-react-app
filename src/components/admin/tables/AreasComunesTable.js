@@ -15,8 +15,8 @@ import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 import ModalRecord from "../modals/ModalAreasComunes";
 
 //Change
-const RESOURCE = 'areasComunes'; //API
-const NEW_BUTTON_TEXT = 'Nuevo AreasComunes';
+const RESOURCE = 'areas'; //API
+const NEW_BUTTON_TEXT = 'Nueva Area';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
@@ -76,16 +76,20 @@ export default class AreasComunesTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'titulo',
-            text: 'Título',
+            dataField: 'nombre',
+            text: 'Nombre',
             sort: true,
         },{
-            dataField: 'mensaje',
-            text: 'Mensaje',
+            dataField: 'descripcion',
+            text: 'Descripcion',
             sort: true,
         },{
-            dataField: 'id_visibilidad',
-            text: 'Visible para',
+            dataField: 'area',
+            text: 'Area',
+            sort: true,
+        },{
+            dataField: 'idCondominio',
+            text: 'Condominio',
             sort: true,
         },{
             dataField: 'actions',

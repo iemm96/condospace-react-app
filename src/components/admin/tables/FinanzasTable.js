@@ -15,7 +15,7 @@ import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 import ModalRecord from "../modals/ModalFinanzas";
 
 //Change
-const RESOURCE = 'finanzas'; //API
+const RESOURCE = 'transacciones'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Finanzas';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
@@ -76,28 +76,56 @@ export default class FinanzasTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'titulo',
-            text: 'Título',
+            dataField: 'fechaTransaccion',
+            text: 'Fecha de Transaccion',
             sort: true,
         },{
-            dataField: 'concepto',
-            text: 'Concepto',
+            dataField: 'Descripcion',
+            text: 'Descripcion',
             sort: true,
         },{
-            dataField: 'categoria',
+            dataField: 'ingresooEgreso',
+            text: 'Ingreso o Egreso',
+            sort: true,
+        },{
+            dataField: 'Monto',
+            text: 'Monto',
+            sort: true,
+        },{
+            dataField: 'Saldo',
+            text: 'Saldo',
+            sort: true,
+        },{
+            dataField: 'Moneda',
+            text: 'Moneda',
+            sort: true,
+        },{
+            dataField: 'FormaPago',
+            text: 'Forma de pago',
+            sort: true,
+        },{
+            dataField: 'Referencia',
+            text: 'Referencia',
+            sort: true,
+        },{
+            dataField: 'idCuenta',
+            text: 'Cuenta',
+            sort: true,
+        },{
+            dataField: 'idPersona',
+            text: 'Persona',
+            sort: true,
+        },{
+            dataField: 'idCategoria',
             text: 'Categoria',
             sort: true,
         },{
-            dataField: 'cargo',
-            text: 'Cargo',
+            dataField: 'created_at',
+            text: 'Fecha de Creacion',
             sort: true,
         },{
-            dataField: 'recargos',
-            text: 'Recargos',
-            sort: true,
-        },{
-            dataField: 'total',
-            text: 'Total ',
+            dataField: 'update_at',
+            text: 'Fecha de modificacion',
             sort: true,
         },{
             dataField: 'actions',

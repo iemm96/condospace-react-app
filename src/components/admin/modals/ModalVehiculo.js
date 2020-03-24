@@ -7,12 +7,22 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
-export default class ModalEvento extends React.Component{
+let idVisitante = [];
+
+export default class ModalAnuncio extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
             id:this.props.idRecord
+        }
+    }
+
+    async componentDidMount() {
+        try {
+            idVisitante = await fetchRecords('tiposImportancia');
+        }catch (error) {
+            console.log(error);
         }
     }
 
@@ -52,42 +62,60 @@ export default class ModalEvento extends React.Component{
     }
 
     render() {
+
+        let idVisitante = [];
+
+        idVisitante.map((val) => {
+            optionsidVisitante.push({value:val.id,label:val.idVisitante,name:'id_visitante'});
+        });
+
         console.log(this.state.titulo);
 
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
-            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Evento</ModalHeader>
+            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Anuncio</ModalHeader>
             <ModalBody>
                 <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
                     <FormGroup>
-                        <Input type="text" name="nombre" id="" placeholder="Nombre"
+                        <Input type="text" name="marca" id="" placeholder="Marca"
                                value={this.props.idRecord ? this.state.titulo : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="textarea" name="mensaje" id="" placeholder="Descripción"
+                        <Input type="text" name="modelo" id="" placeholder="Modelo"
                                value={this.props.idRecord ? this.state.mensaje : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="date" name="fecha" id="" placeholder="Fecha"
+                        <Input type="text" name="color" id="" placeholder="Color"
                                value={this.props.idRecord ? this.state.mensaje : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
-                    <FormGroup row>
-                        <Col sm={{ size: 10 }}>
-                            <FormGroup check>
-                                <Label check>
-                                    <Input type="checkbox" name="aprobado" id="checkbox2" />{' '}
-                                    Aprobado
-                                </Label>
+                    <FormGroup>
+                        <Input type="text" name="placas" id="" placeholder="Placas"
+                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                               onChange={event => this.handleInputChange(event)}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Input type="number" name="tipoVehiculo" id="" placeholder="Tipo de Vehiculo"
+                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                               onChange={event => this.handleInputChange(event)}/>
+                    </FormGroup>
+                    <Row form>
+                        <Col>
+                            <FormGroup>
+                                <label>Visitante</label>
+                                <Select options={optionsVisitante}
+                                        name="id_visitante"
+                                        onChange={event => this.handleInputChange(event)}>
+                                </Select>
                             </FormGroup>
                         </Col>
-                    </FormGroup>
+                    </Row>
                 </Form>
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Evento</Button>
+                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
             </ModalFooter>
         </Modal>);
     }

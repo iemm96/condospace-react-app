@@ -101,7 +101,7 @@ export default class ModalVisitante extends React.Component{
                     </FormGroup>
 
                     <FormGroup>
-                        <Input type="date" name="identificacion" id="" placeholder="Numero de identificacion"
+                        <Input type="text" name="identificacion" id="" placeholder="Numero de identificacion"
                                value={this.props.idRecord ? this.state.identificacion : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
