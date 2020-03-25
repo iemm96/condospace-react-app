@@ -16,11 +16,7 @@ import ModalRecord from "../modals/ModalAreasComunes";
 
 //Change
 const RESOURCE = 'areas'; //API
-<<<<<<< Updated upstream
 const NEW_BUTTON_TEXT = 'Nueva Area';
-=======
-const NEW_BUTTON_TEXT = 'Nuevo AreasComunes';
->>>>>>> Stashed changes
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];

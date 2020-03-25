@@ -7,28 +7,22 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
-<<<<<<< Updated upstream
 
-=======
 let tiposImportancia = [];
 let tiposVisibilidad = [];
->>>>>>> Stashed changes
 
 export default class ModalCondominio extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-<<<<<<< Updated upstream
             id:this.props.idRecord
         }
     }
     async componentWillReceiveProps(nextProps) {
         this.setState({
-            id:nextProps.idRecord
-=======
             idAnuncio:this.props.idRecord
-        }
+        });
     }
 
     async componentDidMount() {
@@ -49,7 +43,6 @@ export default class ModalCondominio extends React.Component{
     async componentWillReceiveProps(nextProps) {
         this.setState({
             idAnuncio:nextProps.idRecord
->>>>>>> Stashed changes
         });
 
         if(nextProps.idRecord) {
@@ -64,10 +57,7 @@ export default class ModalCondominio extends React.Component{
 
     handleInputChange = event => {
 
-<<<<<<< Updated upstream
         console.log(event);
-=======
->>>>>>> Stashed changes
         let target;
 
         if(target = event.target) {
@@ -83,7 +73,6 @@ export default class ModalCondominio extends React.Component{
                 [name]:value
             })
         }
-<<<<<<< Updated upstream
     }
 
     render() {
@@ -149,82 +138,11 @@ export default class ModalCondominio extends React.Component{
                         <Input type="text" name="pais" id="" placeholder="Pais"
                                value={this.props.idRecord ? this.state.pais : undefined}
                                onChange={event => this.handleInputChange(event)}/>
-=======
-    };
-
-    render() {
-
-        let optionsImportancia = [];
-        let optionsVisibilidad = [];
-
-        tiposImportancia.map((val) => {
-            optionsImportancia.push({value:val.id,label:val.importancia,name:'id_importancia'});
-        });
-
-        tiposVisibilidad.map((val) => {
-            optionsVisibilidad.push({value:val.id,label:val.visibilidad,name:'id_visibilidad'});
-        });
-
-        return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
-            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Anuncio</ModalHeader>
-            <ModalBody>
-                <Form id="form" >
-                    <FormGroup>
-                        <Input type="text" name="titulo" id="" placeholder="Título"
-                               value={this.props.idRecord ? this.state.titulo : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="textarea" name="mensaje" id="" placeholder="Descripción"
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <Row form>
-                        <Col>
-                            <FormGroup>
-                                <label>Visibilidad</label>
-                                <Select options={optionsVisibilidad}
-                                        name="id_visibilidad"
-                                        onChange={event => this.handleInputChange(event)}>
-                                </Select>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <Row form>
-                        <Col>
-                            <FormGroup>
-                                <label>Importancia</label>
-                                <Select options={optionsImportancia}
-                                        name="id_nivelImportancia"
-                                        onChange={event => this.handleInputChange(event)}>
-                                </Select>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <FormGroup row>
-                        <Col sm={{ size: 10 }}>
-                            <FormGroup check>
-                                <Label check>
-                                    <Input type="checkbox" name="notificarEmail" id="checkbox2" />{' '}
-                                    Notificar por correo
-                                </Label>
-                            </FormGroup>
-                        </Col>
->>>>>>> Stashed changes
                     </FormGroup>
                 </Form>
             </ModalBody>
-            <ModalFooter>
-                <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-<<<<<<< Updated upstream
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
-            </ModalFooter>
-
-=======
-                <Button onClick={this.state.idRecord ? (e) => updateRecord(e,this.state) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
-            </ModalFooter>
->>>>>>> Stashed changes
         </Modal>);
-    }
+    };
+
 
 };
