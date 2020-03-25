@@ -15,7 +15,11 @@ import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 import ModalRecord from "../modals/ModalCondominio";
 
 //Change
+<<<<<<< HEAD
 const RESOURCE = 'condominios'; //API
+=======
+const RESOURCE = 'Condominios'; //API
+>>>>>>> ui-update
 const NEW_BUTTON_TEXT = 'Nuevo Condominio';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
