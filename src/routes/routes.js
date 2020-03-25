@@ -23,14 +23,14 @@ const AppRoutes = () =>
             <Route path="/admin/eventos" component={Eventos}/>
             <Route path="/admin/finanzas" component={Finanzas}/>
             <Route path="/admin/areasComunes" component={AreasComunes}/>
-            <Route path="/admin/Categoria" component={Categoria}/>
-            <Route path="/admin/Condominio" component={Condominio}/>
-            <Route path="/admin/Cuenta" component={Cuenta}/>
-            <Route path="/admin/Cuota" component={Cuota}/>
-            <Route path="/admin/Unidad" component={Unidad}/>
-            <Route path="/admin/Usuario" component={Usuario}/>
-            <Route path="/admin/Vehiculo" component={Vehiculo}/>
-            <Route path="/admin/Visitante" component={Visitante}/>
+            <Route path="/admin/categorias" component={Categoria}/>
+            <Route path="/admin/condominios" component={Condominio}/>
+            <Route path="/admin/cuentas" component={Cuenta}/>
+            <Route path="/admin/cuotas" component={Cuota}/>
+            <Route path="/admin/unidades" component={Unidad}/>
+            <Route path="/admin/usuarios" component={Usuario}/>
+            <Route path="/admin/vehiculos" component={Vehiculo}/>
+            <Route path="/admin/visitantes" component={Visitante}/>
             <Route path="/" component={Login}/>
         </Switch>
     </BrowserRouter>;

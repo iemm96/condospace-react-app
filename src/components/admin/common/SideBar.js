@@ -15,7 +15,7 @@ const SideBar = props => (
         <Nav vertical className="list-unstyled pb-3">
           <p>Menú</p>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Condominio'}>
+            <NavLink tag={Link} to={'/admin/condominios'}>
               <FontAwesomeIcon icon={faBriefcase} className="mr-2"/>Condominio
             </NavLink>
           </NavItem>
@@ -25,52 +25,52 @@ const SideBar = props => (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Visitante'}>
+            <NavLink tag={Link} to={'/admin/visitantes'}>
               <FontAwesomeIcon icon={faBriefcase} className="mr-2"/>Visitas
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Cuenta'}>
+            <NavLink tag={Link} to={'/admin/cuentas'}>
               <FontAwesomeIcon icon={faImage} className="mr-2"/>Cuentas
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Cuota'}>
+            <NavLink tag={Link} to={'/admin/cuotas'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Cuotas
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/AreasComunes'}>
+            <NavLink tag={Link} to={'/admin/areasComunes'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Areas
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Categoria'}>
+            <NavLink tag={Link} to={'/admin/categorias'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Categoria
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Eventos'}>
+            <NavLink tag={Link} to={'/admin/eventos'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Eventos
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Finanzas'}>
+            <NavLink tag={Link} to={'/admin/finanzas'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Finanzas
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Unidad'}>
+            <NavLink tag={Link} to={'/admin/unidades'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Unidad
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Usuario'}>
+            <NavLink tag={Link} to={'/admin/usuarios'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Usuario
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/Vehiculo'}>
+            <NavLink tag={Link} to={'/admin/vehiculos'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Vehiculo
             </NavLink>
           </NavItem>
