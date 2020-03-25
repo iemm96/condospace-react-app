@@ -7,36 +7,19 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
-let tiposImportancia = [];
-let tiposVisibilidad = [];
+
 
 export default class ModalUsuario extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            idUsuario:this.props.idRecord
+            id:this.props.idRecord
         }
     }
-
-    async componentDidMount() {
-        try {
-            tiposImportancia = await fetchRecords('tiposImportancia');
-        }catch (error) {
-            console.log(error);
-        }
-
-        try {
-            tiposVisibilidad = await fetchRecords('tiposVisibilidad');
-        }catch (error) {
-            console.log(error);
-        }
-
-    }
-
     async componentWillReceiveProps(nextProps) {
         this.setState({
-            idAnuncio:nextProps.idRecord
+            id:nextProps.idRecord
         });
 
         if(nextProps.idRecord) {
@@ -51,6 +34,7 @@ export default class ModalUsuario extends React.Component{
 
     handleInputChange = event => {
 
+        console.log(event);
         let target;
 
         if(target = event.target) {
@@ -66,73 +50,53 @@ export default class ModalUsuario extends React.Component{
                 [name]:value
             })
         }
-    };
+    }
 
     render() {
 
-        let optionsImportancia = [];
-        let optionsVisibilidad = [];
-
-        tiposImportancia.map((val) => {
-            optionsImportancia.push({value:val.id,label:val.importancia,name:'id_importancia'});
-        });
-
-        tiposVisibilidad.map((val) => {
-            optionsVisibilidad.push({value:val.id,label:val.visibilidad,name:'id_visibilidad'});
-        });
+        console.log(this.state.titulo);
 
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
-            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Anuncio</ModalHeader>
+            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Usuario</ModalHeader>
             <ModalBody>
-                <Form id="form" >
+                <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
                     <FormGroup>
-                        <Input type="text" name="titulo" id="" placeholder="Título"
-                               value={this.props.idRecord ? this.state.titulo : undefined}
+                        <Input type="text" name="nombre" id="" placeholder="Nombre"
+                               value={this.props.idRecord ? this.state.nombre : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="textarea" name="mensaje" id="" placeholder="Descripción"
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                        <Input type="text" name="apellidos" id="" placeholder="Apellidos"
+                               value={this.props.idRecord ? this.state.apellidos : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
-                    <Row form>
-                        <Col>
-                            <FormGroup>
-                                <label>Visibilidad</label>
-                                <Select options={optionsVisibilidad}
-                                        name="id_visibilidad"
-                                        onChange={event => this.handleInputChange(event)}>
-                                </Select>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <Row form>
-                        <Col>
-                            <FormGroup>
-                                <label>Importancia</label>
-                                <Select options={optionsImportancia}
-                                        name="id_nivelImportancia"
-                                        onChange={event => this.handleInputChange(event)}>
-                                </Select>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <FormGroup row>
-                        <Col sm={{ size: 10 }}>
-                            <FormGroup check>
-                                <Label check>
-                                    <Input type="checkbox" name="notificarEmail" id="checkbox2" />{' '}
-                                    Notificar por correo
-                                </Label>
-                            </FormGroup>
-                        </Col>
+                    <FormGroup>
+                        <Input type="text" name="telefono" id="" placeholder="Telefono"
+                               value={this.props.idRecord ? this.state.telefono : undefined}
+                               onChange={event => this.handleInputChange(event)}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Input type="text" name="celular" id="" placeholder="Celular"
+                               value={this.props.idRecord ? this.state.celular : undefined}
+                               onChange={event => this.handleInputChange(event)}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Input type="text" name="email" id="" placeholder="Email"
+                               value={this.props.idRecord ? this.state.email : undefined}
+                               onChange={event => this.handleInputChange(event)}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Input type="text" name="password" id="" placeholder="Password"
+                               value={this.props.idRecord ? this.state.password : undefined}
+                               onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                 </Form>
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button onClick={this.state.idRecord ? (e) => updateRecord(e,this.state) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
+                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
             </ModalFooter>
+
         </Modal>);
     }
 

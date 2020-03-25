@@ -16,12 +16,12 @@ export default class ModalCondominio extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            id:this.props.idRecord
+            idCondominio:this.props.idRecord
         }
     }
     async componentWillReceiveProps(nextProps) {
         this.setState({
-            idAnuncio:this.props.idRecord
+            idCondominio:this.props.idRecord
         });
     }
 
@@ -42,7 +42,7 @@ export default class ModalCondominio extends React.Component{
 
     async componentWillReceiveProps(nextProps) {
         this.setState({
-            idAnuncio:nextProps.idRecord
+            idCondominio:nextProps.idRecord
         });
 
         if(nextProps.idRecord) {
@@ -100,8 +100,8 @@ export default class ModalCondominio extends React.Component{
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" name="numeroExterior" id="" placeholder="No. Exterior"
-                               value={this.props.idRecord ? this.state.numeroExterior : undefined}
+                        <Input type="text" name="noExterior" id="" placeholder="No. Exterior"
+                               value={this.props.idRecord ? this.state.noExterior : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
@@ -141,6 +141,10 @@ export default class ModalCondominio extends React.Component{
                     </FormGroup>
                 </Form>
             </ModalBody>
+            <ModalFooter>
+                <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
+                <Button onClick={this.state.idRecord ? (e) => updateRecord(e,this.state) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Condominio</Button>
+            </ModalFooter>
         </Modal>);
     };
 

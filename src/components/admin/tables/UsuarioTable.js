@@ -12,6 +12,7 @@ import { options } from "../../../constants/tables_options";
 import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 
 //Change
+
 import ModalRecord from "../modals/ModalUsuario";
 
 //Change
@@ -52,7 +53,8 @@ export default class UsuarioTable extends React.Component {
     };
 
     toggleDeleteModal = () => {
-        this.state.deleteModal ? this.setState({deleteModal: false}) : this.setState({deleteModal: true});
+        this.state
+            .deleteModal ? this.setState({deleteModal: false}) : this.setState({deleteModal: true});
     };
 
     prepareDeleteModal = (id,title) => {
@@ -76,16 +78,28 @@ export default class UsuarioTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'titulo',
-            text: 'Título',
+            dataField: 'nombre',
+            text: 'Nombre',
             sort: true,
         },{
-            dataField: 'mensaje',
-            text: 'Mensaje',
+            dataField: 'apellidos',
+            text: 'Apellidos',
             sort: true,
         },{
-            dataField: 'id_visibilidad',
-            text: 'Visible para',
+            dataField: 'telefono',
+            text: 'Telefono',
+            sort: true,
+        },{
+            dataField: 'celular',
+            text: 'Celular',
+            sort: true,
+        },{
+            dataField: 'email',
+            text: 'Correo Electronico',
+            sort: true,
+        },{
+            dataField: 'password',
+            text: 'Password',
             sort: true,
         },{
             dataField: 'actions',
@@ -93,71 +107,72 @@ export default class UsuarioTable extends React.Component {
             isDummyField: true,
             csvExport: false,
             formatter: this.actionsFormatter,
-        },];
+        }
+        ];
 
-         const contentTable = ({ paginationProps, paginationTableProps }) => (
-             <div>
-                 <ModalRecord
-                     idRecord={this.state.idRecord}
-                     toggleModal={this.toggleModal}
-                     recordModal={this.state.recordModal}
-                     resource={RESOURCE}
-                 />
-                 <DeleteRecordModal
-                     toggleDeleteModal={this.toggleDeleteModal}
-                     title={this.state.title}
-                     idRecord={this.state.idRecord}
-                     deleteModal={this.state.deleteModal}
-                     resource={RESOURCE}
-                 />
-                 <ToolkitProvider
-                     keyField="id"
-                     columns={ columns }
-                     data={ this.state.records }
-                     search>
-                     {
-                         toolkitprops => (
-                             <div>
-                                 <Buscador prepareNewModal={this.prepareNewModal}
-                                           buttonText={NEW_BUTTON_TEXT}
-                                           placeholderText={PLACEHOLDER_SEARCH_TEXT}
-                                           { ...toolkitprops.searchProps }
-                                 />
-                                 <BootstrapTable
-                                     hover
-                                     { ...toolkitprops.baseProps }
-                                     { ...paginationTableProps }
-                                 />
-                             </div>
-                         )
-                     }
-                 </ToolkitProvider>
-                 <PaginationListStandalone { ...paginationProps } />
-             </div>
-         );
+        const contentTable = ({ paginationProps, paginationTableProps }) => (
+            <div>
+                <ModalRecord
+                    idRecord={this.state.idRecord}
+                    toggleModal={this.toggleModal}
+                    recordModal={this.state.recordModal}
+                    resource={RESOURCE}
+                />
+                <DeleteRecordModal
+                    toggleDeleteModal={this.toggleDeleteModal}
+                    title={this.state.title}
+                    idRecord={this.state.idRecord}
+                    deleteModal={this.state.deleteModal}
+                    resource={RESOURCE}
+                />
+                <ToolkitProvider
+                    keyField="id"
+                    columns={ columns }
+                    data={ this.state.records }
+                    search>
+                    {
+                        toolkitprops => (
+                            <div>
+                                <Buscador prepareNewModal={this.prepareNewModal}
+                                          buttonText={NEW_BUTTON_TEXT}
+                                          placeholderText={PLACEHOLDER_SEARCH_TEXT}
+                                          { ...toolkitprops.searchProps }
+                                />
+                                <BootstrapTable
+                                    hover
+                                    { ...toolkitprops.baseProps }
+                                    { ...paginationTableProps }
+                                />
+                            </div>
+                        )
+                    }
+                </ToolkitProvider>
+                <PaginationListStandalone { ...paginationProps } />
+            </div>
+        );
 
-         if(this.state.records) {
+        if(this.state.records) {
 
-             console.log(this.state.idRecord);
-             return(
-                 <div>
-                     <Col className="col-3">
-                     </Col>
-                     <PaginationProvider
-                         pagination={paginationFactory(options(records))}>
+            console.log(this.state.idRecord);
+            return(
+                <div>
+                    <Col className="col-3">
+                    </Col>
+                    <PaginationProvider
+                        pagination={paginationFactory(options(records))}>
 
-                         {contentTable}
+                        {contentTable}
 
-                     </PaginationProvider>
-                 </div>
-             );
-         }else{
-             return(<div style={{ fontSize: 20, lineHeight: 2 }}>
-                 <h1>{<Skeleton />}</h1>
-                 {<Skeleton count={5} />}
-             </div>);
-         }
+                    </PaginationProvider>
+                </div>
+            );
+        }else{
+            return(<div style={{ fontSize: 20, lineHeight: 2 }}>
+                <h1>{<Skeleton />}</h1>
+                {<Skeleton count={5} />}
+            </div>);
+        }
 
-     }
+    }
 
 }
