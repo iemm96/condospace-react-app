@@ -12,20 +12,16 @@ import { options } from "../../../constants/tables_options";
 import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 
 //Change
-import ModalRecord from "../modals/ModalAreasComunes";
+import ModalRecord from "../modals/ModalUsuario";
 
 //Change
-const RESOURCE = 'areas'; //API
-<<<<<<< Updated upstream
-const NEW_BUTTON_TEXT = 'Nueva Area';
-=======
-const NEW_BUTTON_TEXT = 'Nuevo AreasComunes';
->>>>>>> Stashed changes
+const RESOURCE = 'usuarios'; //API
+const NEW_BUTTON_TEXT = 'Nuevo Usuario';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
 
-export default class AreasComunesTable extends React.Component {
+export default class UsuarioTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -80,20 +76,16 @@ export default class AreasComunesTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'nombre',
-            text: 'Nombre',
+            dataField: 'titulo',
+            text: 'Título',
             sort: true,
         },{
-            dataField: 'descripcion',
-            text: 'Descripcion',
+            dataField: 'mensaje',
+            text: 'Mensaje',
             sort: true,
         },{
-            dataField: 'area',
-            text: 'Area',
-            sort: true,
-        },{
-            dataField: 'idCondominio',
-            text: 'Condominio',
+            dataField: 'id_visibilidad',
+            text: 'Visible para',
             sort: true,
         },{
             dataField: 'actions',
@@ -101,9 +93,7 @@ export default class AreasComunesTable extends React.Component {
             isDummyField: true,
             csvExport: false,
             formatter: this.actionsFormatter,
-        },{
-            
-        }];
+        },];
 
          const contentTable = ({ paginationProps, paginationTableProps }) => (
              <div>

@@ -7,27 +7,15 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
-<<<<<<< Updated upstream
-
-=======
 let tiposImportancia = [];
 let tiposVisibilidad = [];
->>>>>>> Stashed changes
 
-export default class ModalCondominio extends React.Component{
+export default class ModalUsuario extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-<<<<<<< Updated upstream
-            id:this.props.idRecord
-        }
-    }
-    async componentWillReceiveProps(nextProps) {
-        this.setState({
-            id:nextProps.idRecord
-=======
-            idAnuncio:this.props.idRecord
+            idUsuario:this.props.idRecord
         }
     }
 
@@ -49,7 +37,6 @@ export default class ModalCondominio extends React.Component{
     async componentWillReceiveProps(nextProps) {
         this.setState({
             idAnuncio:nextProps.idRecord
->>>>>>> Stashed changes
         });
 
         if(nextProps.idRecord) {
@@ -64,10 +51,6 @@ export default class ModalCondominio extends React.Component{
 
     handleInputChange = event => {
 
-<<<<<<< Updated upstream
-        console.log(event);
-=======
->>>>>>> Stashed changes
         let target;
 
         if(target = event.target) {
@@ -83,73 +66,6 @@ export default class ModalCondominio extends React.Component{
                 [name]:value
             })
         }
-<<<<<<< Updated upstream
-    }
-
-    render() {
-
-       console.log(this.state.titulo);
-
-        return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
-            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Condominio</ModalHeader>
-            <ModalBody>
-                <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
-                    <FormGroup>
-                        <Input type="text" name="nombreCondominio" id="" placeholder="Nombre de la comunidad"
-                               value={this.props.idRecord ? this.state.nombreCondominio : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="dominio" id="" placeholder="Ruta de dominio"
-                               value={this.props.idRecord ? this.state.dominio : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <label>DIRECCION</label>
-                        <Input type="text" name="calle" id="" placeholder="Calle"
-                               value={this.props.idRecord ? this.state.calle : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="numeroExterior" id="" placeholder="No. Exterior"
-                               value={this.props.idRecord ? this.state.numeroExterior : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="entre1" id="" placeholder="Entre calle 1"
-                               value={this.props.idRecord ? this.state.entre1 : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="entre2" id="" placeholder="Entre calle 2"
-                               value={this.props.idRecord ? this.state.entre2 : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="cp" id="" placeholder="Codigo Postal: 45054"
-                               value={this.props.idRecord ? this.state.cp : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="ciudad" id="" placeholder="Ciudad"
-                               value={this.props.idRecord ? this.state.ciudad : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="municipio" id="" placeholder="Municipio"
-                               value={this.props.idRecord ? this.state.municipio : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="estado" id="" placeholder="Estado"
-                               value={this.props.idRecord ? this.state.estado : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="pais" id="" placeholder="Pais"
-                               value={this.props.idRecord ? this.state.pais : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-=======
     };
 
     render() {
@@ -210,20 +126,13 @@ export default class ModalCondominio extends React.Component{
                                 </Label>
                             </FormGroup>
                         </Col>
->>>>>>> Stashed changes
                     </FormGroup>
                 </Form>
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-<<<<<<< Updated upstream
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
-            </ModalFooter>
-
-=======
                 <Button onClick={this.state.idRecord ? (e) => updateRecord(e,this.state) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
             </ModalFooter>
->>>>>>> Stashed changes
         </Modal>);
     }
 
