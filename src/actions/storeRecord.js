@@ -6,7 +6,6 @@ export const storeRecord = (payload, resource) => {
 
     return dispatch => {
 
-        console.log(payload);
         fetch(`${api_url}${resource}`, {
             method: 'POST',
             headers: {
@@ -15,7 +14,9 @@ export const storeRecord = (payload, resource) => {
             },
             body:stringifyData(payload)
         }).then((res) => res.json())
-            .then((data) =>  console.log(data))
+            .then((data) =>  {
+                window.location.reload();
+            })
             .catch((err)=>console.log(err));
     };
 };

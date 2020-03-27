@@ -5,6 +5,7 @@ export const deleteRecord = (idRecord,resource) => {
     return fetch(`${api_url}${resource}/${idRecord}`, {
         method: 'DELETE',
     }).then(
-        response => (response.json())
+        () => {window.location.reload()}
+        //response => (response.json())
     )
 };

@@ -40,9 +40,10 @@ export default class AnunciosTable extends React.Component {
     }
 
     //Change "titulo" if necessary
+    //Change ID
     actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => this.prepareEditModal(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => this.prepareEditModal(row.idAnuncio)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idAnuncio, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -91,11 +92,11 @@ export default class AnunciosTable extends React.Component {
             text: 'Fecha de modificacion',
             sort: true,
         },{
-            dataField: 'id_visibilidad',
+            dataField: 'idTipoVisibilidad',
             text: 'Visible para',
             sort: true,
         },{
-            dataField: 'id_importancia',
+            dataField: 'idTipoImportancia',
             text: 'Tipo de importancia',
             sort: true,
         },{
