@@ -12,6 +12,7 @@ import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
 import ModalRecord from "../modals/ModalVisitante";
+import ModalVehiculo from "../modals/ModalVehiculo";
 
 //Change
 const RESOURCE = 'visitantes'; //API
@@ -40,7 +41,8 @@ export default class VisitanteTable extends React.Component {
     }
 
     //Change "titulo" if necessary
-    actionsFormatter = (cell, row) => (<div>
+    actionsFormatter = (cell, row) => (
+        <div>
             <Button type="Button" onClick={() => this.prepareEditModal(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
             <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>

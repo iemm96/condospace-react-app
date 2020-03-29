@@ -20,7 +20,7 @@ export default class ModalAnuncio extends React.Component{
 
     async componentDidMount() {
         try {
-            idVisitante = await fetchRecords('tiposImportancia');
+            idVisitante = await fetchRecords('visitantes');
         }catch (error) {
             console.log(error);
         }
@@ -63,10 +63,10 @@ export default class ModalAnuncio extends React.Component{
 
     render() {
 
-        let idVisitante = [];
+        let optionsidVisitante = [];
 
-        idVisitante.map((val) => {
-            optionsidVisitante.push({value:val.id,label:val.idVisitante,name:'id_visitante'});
+        optionsidVisitante.map((val) => {
+            optionsidVisitante.push({value:val.id,label:val.idVisitante,name:'idVisitante'});
         });
 
         console.log(this.state.titulo);
@@ -104,8 +104,8 @@ export default class ModalAnuncio extends React.Component{
                         <Col>
                             <FormGroup>
                                 <label>Visitante</label>
-                                <Select options={optionsVisitante}
-                                        name="id_visitante"
+                                <Select options={optionsidVisitante}
+                                        name="idVisitante"
                                         onChange={event => this.handleInputChange(event)}>
                                 </Select>
                             </FormGroup>

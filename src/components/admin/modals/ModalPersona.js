@@ -19,7 +19,7 @@ export default class ModalPersona extends React.Component{
     }
     async componentWillReceiveProps(nextProps) {
         this.setState({
-            id:nextProps.idRecord
+            idPersona:nextProps.idRecord
         });
 
         if(nextProps.idRecord) {

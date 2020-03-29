@@ -40,7 +40,7 @@ const SideBar = props => (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/areasComunes'}>
+            <NavLink tag={Link} to={'/admin/areas'}>
               <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Areas
             </NavLink>
           </NavItem>

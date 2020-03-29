@@ -14,7 +14,7 @@ export default class ModalUsuario extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            id:this.props.idRecord
+            idPersona:this.props.idRecord
         }
     }
     async componentWillReceiveProps(nextProps) {
@@ -86,7 +86,7 @@ export default class ModalUsuario extends React.Component{
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" name="password" id="" placeholder="Password"
+                        <Input type="password" name="password" id="" placeholder="Password"
                                value={this.props.idRecord ? this.state.password : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>

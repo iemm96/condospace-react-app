@@ -12,7 +12,7 @@ import { options } from "../../../constants/tables_options";
 import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 
 //Change
-import ModalRecord from "../modals/ModalAreasComunes";
+import ModalRecord from "../modals/ModalArea";
 
 //Change
 const RESOURCE = 'areas'; //API
@@ -21,7 +21,7 @@ const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
 
-export default class AreasComunesTable extends React.Component {
+export default class AreaTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -97,8 +97,6 @@ export default class AreasComunesTable extends React.Component {
             isDummyField: true,
             csvExport: false,
             formatter: this.actionsFormatter,
-        },{
-            
         }];
 
          const contentTable = ({ paginationProps, paginationTableProps }) => (

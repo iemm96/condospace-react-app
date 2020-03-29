@@ -16,7 +16,7 @@ import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 import ModalRecord from "../modals/ModalUsuario";
 
 //Change
-const RESOURCE = 'usuarios'; //API
+const RESOURCE = 'personas'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Usuario';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
@@ -43,8 +43,8 @@ export default class UsuarioTable extends React.Component {
 
     //Change "titulo" if necessary
     actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => this.prepareEditModal(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => this.prepareEditModal(row.idPersona)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idPersona, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -57,8 +57,8 @@ export default class UsuarioTable extends React.Component {
             .deleteModal ? this.setState({deleteModal: false}) : this.setState({deleteModal: true});
     };
 
-    prepareDeleteModal = (id,title) => {
-        this.setState({idRecord: id, title: title});
+    prepareDeleteModal = (idPersona,title) => {
+        this.setState({idRecord: idPersona, title: title});
 
         this.toggleDeleteModal();
     };

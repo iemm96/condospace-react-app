@@ -9,7 +9,7 @@ import NuevoEvento from "./modals/NuevoEvento";
 import AnunciosTable from "./tables/AnunciosTable";
 import EventosTable from "./tables/EventosTable";
 import FinanzasTable from "./tables/FinanzasTable";
-import AreasComunesTable from "./tables/AreasComunesTable";
+import AreasComunesTable from "./tables/AreaTable";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
 //import AreasComunesTable from "./tables/AreasComunesTable"; 
