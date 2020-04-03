@@ -8,39 +8,62 @@ import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
 let tipoUnidad = [];
-let idPersona = [];
-let idCondominio = [];
+let personas = [];
+let condominios = [];
+let optionsTipoUnidad = [];
+let optionsPersona = [];
+let optionsCondominio = [];
 
-export default class ModalAnuncio extends React.Component{
+export default class ModalUnidad extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            id:this.props.idRecord
         }
     }
 
     async componentDidMount() {
         try {
-            idCondominio = await fetchRecords('id_Condominio');
+            condominios = await fetchRecords('condominios');
         }catch (error) {
             console.log(error);
         }
         try {
-            idPersona = await fetchRecords('id_Persona');
+            personas = await fetchRecords('personas');
         }catch (error) {
             console.log(error);
         }
         try {
-            tipoUnidad = await fetchRecords('tipo_Unidad');
+            tipoUnidad = await fetchRecords('tipoUnidad');
         }catch (error) {
             console.log(error);
+        }
+        condominios.map((val) => {
+            optionsCondominio.push({value:val.idCondominio,label:val.nombreCondominio,name:'idCondominio'});
+        });
+
+        personas.map((val) => {
+            optionsPersona.push({value:val.idPersona,label:val.nombre,name:'idPersona'});
+        });
+
+        tipoUnidad.map((val) => {
+            optionsTipoUnidad.push({value:val.idTipoUnidad,label:val.nombre,name:'tipoUnidad'});
+        });
+        console.log('idRecord ',this.props.idRecord);
+        if(this.props.idRecord) {
+            let recordData = await fetchRecord(this.props.idRecord,this.props.resource);
+            this.setState({...recordData});
         }
     }
 
+
+
+
+
+
     async componentWillReceiveProps(nextProps) {
         this.setState({
-            id:nextProps.idRecord
+            idUnidad:nextProps.idRecord
         });
 
         if(nextProps.idRecord) {
@@ -75,69 +98,51 @@ export default class ModalAnuncio extends React.Component{
 
     render() {
 
-        let tipoUnidad = [];
-        let idPersona = [];
-        let idCondominio = [];
-
-        idCondominio.map((val) => {
-            optionsidCondominio.push({value:val.id,label:val.idConsominio,name:'id_Condominio'});
-        });
-
-        idPersona.map((val) => {
-            optionsidPersona.push({value:val.id,label:val.idPersona,name:'id_Persona'});
-        });
-
-        tipoUnidad.map((val) => {
-            optionstipoUnidad.push({value:val.id,label:val.tipoUnidad,name:'tipo_Unidad'});
-        });
-
-        console.log(this.state.titulo);
-
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
-            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Anuncio</ModalHeader>
+            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Unidad</ModalHeader>
             <ModalBody>
                 <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
                     <FormGroup>
                         <Input type="text" name="nombre" id="" placeholder="Nombre"
-                               value={this.props.idRecord ? this.state.titulo : undefined}
+                               value={this.props.idRecord ? this.state.nombre : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
                         <Input type="text" name="calle" id="" placeholder="Calle"
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                               value={this.props.idRecord ? this.state.calle : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
                         <Input type="text" name="noExterior" id="" placeholder="Numero Exterior"
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                               value={this.props.idRecord ? this.state.noExterior : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
                         <Input type="text" name="noInterior" id="" placeholder="Numero Interior"
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                               value={this.props.idRecord ? this.state.noInterior : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" name="entre!" id="" placeholder="Entre Calle "
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                        <Input type="text" name="entre1" id="" placeholder="Entre Calle "
+                               value={this.props.idRecord ? this.state.entre1 : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" name="entre2" id="" placeholder="Entre Calle"
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                        <Input type="text" name="entre2" id="" placeholder="y Calle"
+                               value={this.props.idRecord ? this.state.entre2 : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
                         <Input type="text" name="mts2" id="" placeholder="Metros Cuadrados"
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                               value={this.props.idRecord ? this.state.mts2 : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <Row form>
                         <Col>
                             <FormGroup>
                                 <label>Tipo de Unidad</label>
-                                <Select options={optionstipoUnidad}
-                                        name="tipo_unidad"
+                                <Select options={optionsTipoUnidad}
+                                        name="tipoUnidad"
                                         onChange={event => this.handleInputChange(event)}>
                                 </Select>
                             </FormGroup>
@@ -147,8 +152,8 @@ export default class ModalAnuncio extends React.Component{
                         <Col>
                             <FormGroup>
                                 <label>Persona</label>
-                                <Select options={optionsidPersona}
-                                        name="id_Persona"
+                                <Select options={optionsPersona}
+                                        name="idPersona"
                                         onChange={event => this.handleInputChange(event)}>
                                 </Select>
                             </FormGroup>
@@ -158,8 +163,8 @@ export default class ModalAnuncio extends React.Component{
                         <Col>
                             <FormGroup>
                                 <label>Codominio</label>
-                                <Select options={optionsidCondominio}
-                                        name="id_Condominio"
+                                <Select options={optionsCondominio}
+                                        name="idCondominio"
                                         onChange={event => this.handleInputChange(event)}>
                                 </Select>
                             </FormGroup>
@@ -169,7 +174,7 @@ export default class ModalAnuncio extends React.Component{
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Unidad</Button>
+                <Button onClick={this.props.idRecord ? updateRecord(this.state,this.props.resource,this.props.idRecord) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Unidad</Button>
             </ModalFooter>
         </Modal>);
     }

@@ -14,13 +14,12 @@ export default class ModalAnuncio extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            id:this.props.idRecord
         }
     }
 
     async componentDidMount() {
         try {
-            idCondominio = await fetchRecords('id_Condominio');
+            idCondominio = await fetchRecords('condominios');
         }catch (error) {
             console.log(error);
         }
@@ -28,7 +27,7 @@ export default class ModalAnuncio extends React.Component{
 
     async componentWillReceiveProps(nextProps) {
         this.setState({
-            id:nextProps.idRecord
+            idCondominio:nextProps.idRecord
         });
 
         if(nextProps.idRecord) {
@@ -66,7 +65,7 @@ export default class ModalAnuncio extends React.Component{
         let optionsidCondominio = [];
 
         idCondominio.map((val) => {
-            optionsidCondominio.push({value:val.id,label:val.idConsominio,name:'id_condominio'});
+            optionsidCondominio.push({value:val.id,label:val.idCondominio,name:'idCondominio'});
         });
 
         console.log(this.state.titulo);
@@ -109,7 +108,7 @@ export default class ModalAnuncio extends React.Component{
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
+                <Button onClick={this.props.idRecord ? updateRecord(this.state,this.props.resource,this.props.idRecord) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
             </ModalFooter>
         </Modal>);
     }

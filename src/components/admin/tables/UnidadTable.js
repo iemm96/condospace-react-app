@@ -11,16 +11,16 @@ import {Buscador} from '../buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
-import ModalRecord from "../modals/ModalCuota";
+import ModalRecord from "../modals/ModalUnidad";
 
 //Change
-const RESOURCE = 'Cuotas'; //API
-const NEW_BUTTON_TEXT = 'Nueva Cuota';
+const RESOURCE = 'unidades'; //API
+const NEW_BUTTON_TEXT = 'Nueva Unidad';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
 
-export default class CuotaTable extends React.Component {
+export default class UnidadTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -41,8 +41,8 @@ export default class CuotaTable extends React.Component {
 
     //Change "titulo" if necessary
     actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => this.prepareEditModal(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => this.prepareEditModal(row.idUnidad)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idUnidad, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -79,15 +79,15 @@ export default class CuotaTable extends React.Component {
             text: 'Nombre',
             sort: true,
         },{
-            dataField: 'Calle',
+            dataField: 'calle',
             text: 'Calle',
             sort: true,
         },{
-            dataField: 'NoExterior',
+            dataField: 'noExterior',
             text: 'Numero Exterior',
             sort: true,
         },{
-            dataField: 'NoInterior',
+            dataField: 'noInterior',
             text: 'Numero Interior',
             sort: true,
         },{

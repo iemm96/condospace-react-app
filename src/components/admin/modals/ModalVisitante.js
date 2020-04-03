@@ -8,6 +8,7 @@ import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
 let unidades = [];
+let optionsUnidades = [];
 export default class ModalVisitante extends React.Component{
 
     constructor(props) {
@@ -23,6 +24,9 @@ export default class ModalVisitante extends React.Component{
         }catch (error) {
             console.log(error);
         }
+        unidades.map((val) => {
+            optionsUnidades.push({value:val.id,label:val.unidad,name:'idUnidad'});
+        });
     }
     async componentWillReceiveProps(nextProps) {
         this.setState({
@@ -60,14 +64,6 @@ export default class ModalVisitante extends React.Component{
     }
 
     render() {
-
-        let optionsUnidades = [];
-
-        unidades.map((val) => {
-            optionsUnidades.push({value:val.id,label:val.unidad,name:'idUnidad'});
-        });
-
-        console.log(this.state.titulo);
 
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
             <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Visitante</ModalHeader>
@@ -135,7 +131,7 @@ export default class ModalVisitante extends React.Component{
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Visitante</Button>
+                <Button onClick={this.props.idRecord ? updateRecord(this.state,this.props.resource,this.props.idRecord) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Visitante</Button>
             </ModalFooter>
         </Modal>);
     }
