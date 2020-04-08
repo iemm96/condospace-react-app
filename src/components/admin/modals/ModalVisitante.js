@@ -25,12 +25,17 @@ export default class ModalVisitante extends React.Component{
             console.log(error);
         }
         unidades.map((val) => {
-            optionsUnidades.push({value:val.id,label:val.unidad,name:'idUnidad'});
+            optionsUnidades.push({value:val.idUnidad,label:val.nombre,name:'idUnidad'});
         });
+        console.log('idRecord ',this.props.idRecord);
+        if(this.props.idRecord) {
+            let recordData = await fetchRecord(this.props.idRecord,this.props.resource);
+            this.setState({...recordData});
+        }
     }
     async componentWillReceiveProps(nextProps) {
         this.setState({
-            id:nextProps.idRecord
+            idVisitante:nextProps.idRecord
         });
 
         if(nextProps.idRecord) {
@@ -47,6 +52,7 @@ export default class ModalVisitante extends React.Component{
 
         console.log(event);
         let target;
+        console.log(event.name);
 
         if(target = event.target) {
             const value = target.value;
@@ -64,6 +70,11 @@ export default class ModalVisitante extends React.Component{
     }
 
     render() {
+        const optionsVisitante = [
+            { value: 1, label: 'Servicio' },
+            { value: 2, label: 'Personal' }
+
+        ];
 
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
             <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Visitante</ModalHeader>
@@ -73,13 +84,15 @@ export default class ModalVisitante extends React.Component{
                         <Col>
                             <FormGroup>
                                 <label>Tipo de Visitante</label>
-                                <Select onChange={event => this.handleInputChange(event)}>
-                                    <option value="0">Servicio</option>
-                                    <option value="1">Personal</option>
+                                <Select options={optionsVisitante}
+                                        name="tipoVisitante"
+                                        onChange={event => this.handleInputChange(event)}>
                                 </Select>
                             </FormGroup>
                         </Col>
                     </Row>
+
+
                     <FormGroup>
                         <Input type="text" name="nombre" id="" placeholder="Nombre"
                                value={this.props.idRecord ? this.state.nombre : undefined}
@@ -91,14 +104,14 @@ export default class ModalVisitante extends React.Component{
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" name="detalles" id="" placeholder="Motivo de la visita"
-                               value={this.props.idRecord ? this.state.detalles : undefined}
+                        <Input type="text" name="detalle" id="" placeholder="Motivo de la visita"
+                               value={this.props.idRecord ? this.state.detalle : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
 
                     <FormGroup>
-                        <Input type="text" name="identificacion" id="" placeholder="Numero de identificacion"
-                               value={this.props.idRecord ? this.state.identificacion : undefined}
+                        <Input type="text" name="noIdentificacion" id="" placeholder="Numero de identificacion"
+                               value={this.props.idRecord ? this.state.noIdentificacion : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
