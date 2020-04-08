@@ -92,7 +92,7 @@ export default class ModalArea extends React.Component{
                     </FormGroup>*/}
                     <FormGroup>
                         <Input type="number" name="idCondominio" id="" placeholder="Condominio"
-                               value={this.props.idRecord ? this.state.mensaje : undefined}
+                               value={this.props.idRecord ? this.state.idCond : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <Row form>

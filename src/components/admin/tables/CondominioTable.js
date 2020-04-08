@@ -43,8 +43,8 @@ export default class CondominioTable extends React.Component {
 
     //Change "titulo" if necessary
     actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => this.prepareEditModal(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => this.prepareEditModal(row.idCondominio)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idCondominio, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
