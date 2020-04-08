@@ -13,7 +13,7 @@ import Vehiculo from "../components/admin/sections/Vehiculo";
 import Visitante from "../components/admin/sections/Visitante";
 import Cuenta from "../components/admin/sections/Cuenta";
 import Condominio from "../components/admin/sections/Condominio";
-import Usuario from "../components/admin/sections/Usuario";
+import Persona from "../components/admin/sections/Persona";
 
 
 const AppRoutes = () =>
@@ -29,7 +29,7 @@ const AppRoutes = () =>
             <Route path="/admin/cuentas" component={Cuenta}/>
             <Route path="/admin/cuotas" component={Cuota}/>
             <Route path="/admin/unidades" component={Unidad}/>
-            <Route path="/admin/usuarios" component={Usuario}/>
+            <Route path="/admin/personas" component={Persona}/>
             <Route path="/admin/vehiculos" component={Vehiculo}/>
             <Route path="/admin/visitantes" component={Visitante}/>
             <Route path="/" component={Login}/>

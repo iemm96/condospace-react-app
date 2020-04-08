@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import {Col, Row, TabContent, TabPane,Container} from "reactstrap";
 import Header from "./../common/Header";
 import {withRouter} from 'react-router-dom';
-import UsuarioTable from "../tables/UsuarioTable";
+import PersonaTable from "../tables/PersonaTable";
 const CommonHeader = withRouter(props => <Header {...props}/>);
 
-const Usuario = ( ) => (
+const Persona = ( ) => (
     <div>
         <CommonHeader/>
         <div className="dashboard-content animate fadeInUp one">
@@ -13,7 +13,7 @@ const Usuario = ( ) => (
                 <Row className="pt-5 justify-content-center">
                     <Col className="col-11">
                         <div>
-                            <UsuarioTable toggleModal={() => this.toggleModal(1)}/>
+                            <PersonaTable toggleModal={() => this.toggleModal(1)}/>
                         </div>
                     </Col>
                 </Row>
@@ -22,4 +22,4 @@ const Usuario = ( ) => (
     </div>
 );
 
-export default Usuario;
+export default Persona;

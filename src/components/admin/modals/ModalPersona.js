@@ -7,6 +7,10 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
+let condominios = [];
+let tiposUsuarios = [];
+let optionsidCondominio = [];
+let optionsidRolUsuario = [];
 
 
 export default class ModalPersona extends React.Component{
@@ -14,9 +18,36 @@ export default class ModalPersona extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            id:this.props.idRecord
         }
     }
+
+    async componentDidMount() {
+        try {
+            condominios = await fetchRecords('condominios');
+        } catch (error) {
+            console.log(error);
+        }
+
+        try {
+            tiposUsuarios = await fetchRecords('tipoUsuarios');
+        } catch (error) {
+            console.log(error);
+        }
+
+        condominios.map((val) => {
+            optionsidCondominio.push({value: val.idCondominio, label: val.nombreCondominio, name: 'idCondominio'});
+        });
+
+        tiposUsuarios.map((val) => {
+            optionsidRolUsuario.push({value: val.idRolUsuario, label: val.nombre, name: 'tipoUsuario'});
+        });
+        console.log('idRecord ',this.props.idRecord);
+        if(this.props.idRecord) {
+            let recordData = await fetchRecord(this.props.idRecord,this.props.resource);
+            this.setState({...recordData});
+        }
+    }
+
     async componentWillReceiveProps(nextProps) {
         this.setState({
             idPersona:nextProps.idRecord
@@ -59,7 +90,7 @@ export default class ModalPersona extends React.Component{
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
             <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Usuario</ModalHeader>
             <ModalBody>
-                <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
+                <Form id="form" >
                     <FormGroup>
                         <Input type="text" name="nombre" id="" placeholder="Nombre"
                                value={this.props.idRecord ? this.state.nombre : undefined}
@@ -86,15 +117,44 @@ export default class ModalPersona extends React.Component{
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" name="password" id="" placeholder="Password"
+                        <Input type="password" name="password" id="" placeholder="Password"
                                value={this.props.idRecord ? this.state.password : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
+                    <Row form>
+                        <Col>
+                            <FormGroup>
+                                <label>Codominio</label>
+                                <Select options={optionsidCondominio}
+                                        name="idCondominio"
+                                        value={optionsidCondominio.find(op => {
+                                            return op.value == this.state.idCondominio
+                                        })}
+                                        onChange={event => this.handleInputChange(event)}>
+                                </Select>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row form>
+                        <Col>
+                            <FormGroup>
+                                <label>Tipo de Usuario</label>
+                                <Select options={optionsidRolUsuario}
+                                        name="tipoUsuario"
+                                        value={optionsidRolUsuario.find(op => {
+                                            return op.value == this.state.tipoUsuario
+                                        })}
+                                        onChange={event => this.handleInputChange(event)}>
+                                </Select>
+
+                            </FormGroup>
+                        </Col>
+                    </Row>
                 </Form>
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
+                <Button onClick={this.props.idRecord ? updateRecord(this.state,this.props.resource,this.props.idRecord) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Persona</Button>
             </ModalFooter>
 
         </Modal>);

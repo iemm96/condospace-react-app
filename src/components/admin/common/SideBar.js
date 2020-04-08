@@ -65,8 +65,8 @@ const SideBar = props => (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/usuarios'}>
-              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Usuario
+            <NavLink tag={Link} to={'/admin/personas'}>
+              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Persona
             </NavLink>
           </NavItem>
           <NavItem>
