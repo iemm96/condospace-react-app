@@ -14,7 +14,7 @@ import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 import ModalRecord from "../modals/ModalCuenta";
 
 //Change
-const RESOURCE = 'Cuentas'; //API
+const RESOURCE = 'cuentas'; //API
 const NEW_BUTTON_TEXT = 'Nueva Cuenta';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 

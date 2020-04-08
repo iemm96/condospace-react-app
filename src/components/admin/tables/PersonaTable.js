@@ -16,8 +16,8 @@ import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 import ModalRecord from "../modals/ModalPersona";
 
 //Change
-const RESOURCE = 'Persona'; //API
-const NEW_BUTTON_TEXT = 'Nuevo Usuario';
+const RESOURCE = 'personas'; //API
+const NEW_BUTTON_TEXT = 'Nueva Persona';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
@@ -43,8 +43,8 @@ export default class PersonaTable extends React.Component {
 
     //Change "titulo" if necessary
     actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => this.prepareEditModal(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => this.prepareEditModal(row.idPersona)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idPersona, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -57,8 +57,8 @@ export default class PersonaTable extends React.Component {
             .deleteModal ? this.setState({deleteModal: false}) : this.setState({deleteModal: true});
     };
 
-    prepareDeleteModal = (id,title) => {
-        this.setState({idRecord: id, title: title});
+    prepareDeleteModal = (idPersona,title) => {
+        this.setState({idRecord: idPersona, title: title});
 
         this.toggleDeleteModal();
     };
@@ -126,7 +126,7 @@ export default class PersonaTable extends React.Component {
                     resource={RESOURCE}
                 />
                 <ToolkitProvider
-                    keyField="id"
+                    keyField="idPersona"
                     columns={ columns }
                     data={ this.state.records }
                     search>

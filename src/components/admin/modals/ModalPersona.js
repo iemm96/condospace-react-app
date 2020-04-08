@@ -14,9 +14,13 @@ export default class ModalPersona extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            id:this.props.idRecord
         }
     }
+
+    async componentDidMount() {
+
+    }
+
     async componentWillReceiveProps(nextProps) {
         this.setState({
             idPersona:nextProps.idRecord
@@ -86,7 +90,7 @@ export default class ModalPersona extends React.Component{
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" name="password" id="" placeholder="Password"
+                        <Input type="password" name="password" id="" placeholder="Password"
                                value={this.props.idRecord ? this.state.password : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
@@ -94,7 +98,7 @@ export default class ModalPersona extends React.Component{
             </ModalBody>
             <ModalFooter>
                 <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
+                <Button onClick={this.state.idRecord ? (e) => updateRecord(e,this.state) : storeRecord(this.state,this.props.resource)} type="button" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Persona</Button>
             </ModalFooter>
 
         </Modal>);

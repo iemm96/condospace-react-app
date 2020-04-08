@@ -105,7 +105,7 @@ export default class Header extends React.Component {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" href="/admin/areasComunes"
+                            <NavLink className="nav-link" href="/admin/areas"
                                      className={this.props.location === '/admin/areas' ? 'active' : ''}>Áreas Comunes
                             </NavLink>
                         </li>
@@ -115,8 +115,8 @@ export default class Header extends React.Component {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" href="/admin/usuarios"
-                                     className={this.props.location === '/admin/usuarios' ? 'active' : ''}>Usuarios
+                            <NavLink className="nav-link" href="/admin/personas"
+                                     className={this.props.location === '/admin/personas' ? 'active' : ''}>Usuarios
                             </NavLink>
                         </li>
                     </ul>

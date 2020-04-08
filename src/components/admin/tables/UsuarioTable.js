@@ -17,7 +17,7 @@ import ModalRecord from "../modals/ModalUsuario";
 
 //Change
 const RESOURCE = 'personas'; //API
-const NEW_BUTTON_TEXT = 'Nuevo Usuario';
+const NEW_BUTTON_TEXT = 'Nuevo Persona';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
