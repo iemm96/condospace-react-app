@@ -9,7 +9,7 @@ import {storeRecord} from "../../../actions/storeRecord";
 
 let idVisitante = [];
 
-export default class ModalAnuncio extends React.Component{
+export default class ModalVehiculo extends React.Component{
 
     constructor(props) {
         super(props);

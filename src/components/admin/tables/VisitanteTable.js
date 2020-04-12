@@ -12,15 +12,15 @@ import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
 import ModalRecord from "../modals/ModalVisitante";
-import ModalVehiculo from "../modals/ModalVehiculo";
-
+import ModalRecordVehiculo from "../modals/ModalVisitante";
 //Change
+const RESOURCE1 = 'vehiculos'; //API
 const RESOURCE = 'visitantes'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Visitante';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
-
+let recordsVehiculo = [];
 export default class VisitanteTable extends React.Component {
 
     constructor(props) {
@@ -35,9 +35,13 @@ export default class VisitanteTable extends React.Component {
         try {
             records = await fetchRecords(RESOURCE);
             this.setState({records:records});
+            recordsVehiculo = await fetchRecords(RESOURCE1);
+            this.setState({records:recordsVehiculo});
+
         }catch (error) {
             console.log(error);
         }
+
     }
 
     //Change "titulo" if necessary
@@ -45,11 +49,16 @@ export default class VisitanteTable extends React.Component {
         <div>
             <Button type="Button" onClick={() => this.prepareEditModal(row.idVisitante)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
             <Button type="Button" onClick={() => this.prepareDeleteModal(row.idVisitante, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => this.prepareNewModalVehiculo(row.idVisitante)} className="btn btn-success"><FontAwesomeIcon icon={faEdit} /></Button>
+
         </div>
     );
 
     toggleModal = () => {
         this.state.recordModal ? this.setState({recordModal: false}) : this.setState({recordModal: true});
+    };
+    toggleModalVehiculo = () => {
+        this.state.recordModalVehiculo ? this.setState({recordModalVehiculo: false}) : this.setState({recordModalVehiculo: true});
     };
 
     toggleDeleteModal = () => {
@@ -72,6 +81,11 @@ export default class VisitanteTable extends React.Component {
         this.setState({idRecord: false});
 
         this.toggleModal();
+    };
+    prepareNewModalVehiculo = (id) => {
+        this.setState({idRecord: id});
+
+        this.toggleModalVehiculo();
     };
 
     render() {
@@ -123,6 +137,12 @@ export default class VisitanteTable extends React.Component {
                      toggleModal={this.toggleModal}
                      recordModal={this.state.recordModal}
                      resource={RESOURCE}
+                 />
+                 <ModalRecordVehiculo
+                     idRecord={this.state.idRecord}
+                     toggleModalVehiculo={this.toggleModalVehiculo}
+                     recordModalVehiculo={this.state.recordModalVehiculo}
+                     resource={RESOURCE1}
                  />
                  <DeleteRecordModal
                      toggleDeleteModal={this.toggleDeleteModal}
