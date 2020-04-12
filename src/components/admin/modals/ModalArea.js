@@ -7,7 +7,7 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 
-let idCondominio = [];
+let condominios = [];
 let optionsidCondominio = [];
 
 export default class ModalArea extends React.Component{
@@ -21,15 +21,20 @@ export default class ModalArea extends React.Component{
 
     async componentDidMount() {
         try {
-            idCondominio = await fetchRecords('condominios');
+            condominios = await fetchRecords('condominios');
         }catch (error) {
             console.log(error);
         }
 
-
-        optionsidCondominio.map((val) => {
-            optionsidCondominio.push({value:val.id,label:val.idCondominio,name:'idCondominio'});
+        condominios.map((val) => {
+            optionsidCondominio.push({value:val.idCondominio,label: val.nombreCondominio,name:'idCondominio'});
         });
+
+        console.log('idRecord ',this.props.idRecord);
+        if(this.props.idRecord) {
+            let recordData = await fetchRecord(this.props.idRecord,this.props.resource);
+            this.setState({...recordData});
+        }
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -85,22 +90,25 @@ export default class ModalArea extends React.Component{
                                value={this.props.idRecord ? this.state.descripcion : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
-                    {/*<FormGroup>
+                    <FormGroup>
                         <Input type="text" name="area" id="" placeholder="Area"
                                value={this.props.idRecord ? this.state.area : undefined}
                                onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>*/}
-                    <FormGroup>
+                    </FormGroup>
+                    {/*<FormGroup>
                         <Input type="number" name="idCondominio" id="" placeholder="Condominio"
                                value={this.props.idRecord ? this.state.idCond : undefined}
                                onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
+                    </FormGroup>*/}
                     <Row form>
                         <Col>
                             <FormGroup>
-                                <label>Codominio</label>
+                                <label>Condominio</label>
                                 <Select options={optionsidCondominio}
                                         name="idCondominio"
+                                        value={optionsidCondominio.find(op => {
+                                            return op.value == this.state.idCondominio
+                                        })}
                                         onChange={event => this.handleInputChange(event)}>
                                 </Select>
                             </FormGroup>

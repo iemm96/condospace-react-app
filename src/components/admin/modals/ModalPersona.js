@@ -124,7 +124,7 @@ export default class ModalPersona extends React.Component{
                     <Row form>
                         <Col>
                             <FormGroup>
-                                <label>Codominio</label>
+                                <label>Condominio</label>
                                 <Select options={optionsidCondominio}
                                         name="idCondominio"
                                         value={optionsidCondominio.find(op => {

@@ -77,8 +77,8 @@ export default class CondominioTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'nombre',
-            text: 'Nombre Condominio',
+            dataField: 'nombreCondominio',
+            text: 'Nombre',
             sort: true,
         },{
             dataField: 'dominio',
@@ -101,7 +101,7 @@ export default class CondominioTable extends React.Component {
             text: 'Entre calle 2',
             sort: true,
         },{
-            dataField: 'codigoPostal',
+            dataField: 'cp',
             text: 'Codigo Postal',
             sort: true,
         },{

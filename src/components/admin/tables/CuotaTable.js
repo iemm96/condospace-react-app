@@ -42,7 +42,7 @@ export default class CuotaTable extends React.Component {
     //Change "titulo" if necessary
     actionsFormatter = (cell, row) => (<div>
             <Button type="Button" onClick={() => this.prepareEditModal(row.idCuota)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idCuota, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -97,10 +97,6 @@ export default class CuotaTable extends React.Component {
         },{
             dataField: 'tipoCuota',
             text: 'Tipo de Cuota',
-            sort: true,
-        },{
-            dataField: 'idCondominio',
-            text: 'Condominio',
             sort: true,
         },{
             dataField: 'actions',
