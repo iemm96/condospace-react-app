@@ -1,5 +1,23 @@
 import React, {useState} from 'react';
-import {Row, Col, Button, NavLink, TabContent, TabPane, UncontrolledDropdown, Label, Collapse, NavbarToggler, Navbar} from "reactstrap";
+import {
+    Card,
+    CardBody,
+    CardTitle,
+    CardSubtitle,
+    Container,
+    Row,
+    Col,
+    Button,
+    NavLink,
+    TabContent,
+    TabPane,
+    UncontrolledDropdown,
+    Label,
+    Collapse,
+    NavbarToggler,
+    Navbar,
+} from "reactstrap";
+
 import BootstrapTable from 'react-bootstrap-table-next';
 import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
@@ -14,124 +32,7 @@ import AreasComunesTable from "./tables/AreaTable";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faCheck, faTrash, faBars} from '@fortawesome/free-solid-svg-icons'
 import SideBar from "./common/SideBar";
-
-
-var anuncios = [{
-    id: 1,
-    titulo: "Cambios en áreas comunes",
-    descripcion: "Les informamos que a partir del día...",
-    visible: "Todos",
-}, {
-    id: 2,
-    titulo: "Aumento de cuota de mantenimiento",
-    descripcion: "Apreciables colonos...",
-    visible: "Todos",
-}];
-
-const columnas = [{
-    dataField: 'titulo',
-    text: 'Título'
-},
-{
-    dataField: 'descripcion',
-    text: 'Descripción'
-},
-{
-    dataField: 'visible',
-    text: 'Visible para'
-},{
-    dataField: 'price',
-    text: 'Acciones'
-}];
-
-var eventos = [{
-    id: 1,
-    titulo: "Posada",
-    fecha:  "25 de Enero, 8:00pm",
-    descripcion: "Posada de la colonia",
-    lugar: "Terraza",
-    visible: "Todos",
-}, {
-    id: 2,
-    titulo: "Reservacion Casa 14",
-    fecha:  "28 de Enero, 8:00pm",
-    descripcion: "Reservacion por vecino",
-    lugar: "Alberca",
-    visible: "Todos",
-}];
-
-const columnasEventos = [{
-    dataField: 'titulo',
-    text: 'Título'
-    },
-    {
-    dataField: 'fecha',
-    text: 'Fecha y Hora'
-    },
-    {
-        dataField: 'descripcion',
-        text: 'Descripción'
-    },
-    {
-        dataField: 'lugar',
-        text: 'Lugar'
-    },{
-        dataField: 'price',
-        text: 'Acciones'
-    }];
-
-
-const columnasFinanzas = [
-        {
-            dataField: 'fecha',
-            text: 'Fecha '
-        },
-        {
-        dataField: 'concepto',
-        text: 'Concepto'
-        },
-        {
-            dataField: 'categoria',
-            text: 'Categoria'
-        },
-        {
-            dataField: 'cargo',
-            text: 'Cargo'
-        },{
-            dataField: 'recargos',
-            text: 'Recargos'
-        },
-        {
-            dataField: 'total',
-            text: 'Total '
-        },
-    ];
-    const columnasAreasComunes = [
-        {
-            dataField: 'fecha',
-            text: 'Fecha '
-        },
-        {
-            dataField: 'concepto',
-            text: 'Concepto'
-        },
-        {
-            dataField: 'categoria',
-            text: 'Categoria'
-        },
-        {
-            dataField: 'cargo',
-            text: 'Cargo'
-        },
-        {
-            dataField: 'recargos',
-            text: 'Recargos'
-        },
-        {
-            dataField: 'total',
-            text: 'Total '
-        },
-    ];
+import {fetchRecords} from "../../actions/fetchRecords";
 
 export default class AdminDashboard extends React.Component{
 
@@ -147,11 +48,21 @@ export default class AdminDashboard extends React.Component{
             modalAnuncio: false,
             modalFinanzas: false,
             modalAreasComunes:false,
-            isOpenSidebar:false
+            isOpenSidebar:false,
+            condominios: []
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+
+        try {
+            const arrayCondominios = await fetchRecords('condominiosUnidades');
+            //const jsonCondominios = await arrayCondominios.json();
+            this.setState({ condominios: arrayCondominios })
+        }catch (error) {
+            console.log(error);
+        }
+
 
         let self = this;
         var elements = document.querySelectorAll('[data-toggle="sticky-onscroll"]');
@@ -222,9 +133,9 @@ export default class AdminDashboard extends React.Component{
 
     render() {
 
+
         return (
             <div>
-                <SideBar toggle={this.toggleSidebar} isOpen={this.state.isOpenSidebar}/>
                 <div className="mt-3">
 
                     <header className="main-header ">
@@ -238,43 +149,7 @@ export default class AdminDashboard extends React.Component{
 
                                 <Collapse isOpen={this.state.isOpen} className="navbar-collapse justify-content-center" id="navbarSupportedContent" navbar>
 
-                                    <ul className="navbar-nav">
-
-                                        <li className="nav-item">
-                                            <NavLink className="nav-link" href="/admin/anuncios"
-                                                     className={2 === 1 ? 'active' : ''}>Anuncios
-                                            </NavLink>
-                                        </li>
-                                        <li className="nav-item">
-                                            <NavLink className="nav-link" href="#"
-                                                     className={this.state.activeTab === 2 ? 'active' : ''}>Eventos
-                                            </NavLink>
-                                        </li>
-                                        <li className="nav-item">
-                                            <NavLink className="nav-link" href="#"
-                                                     onClick={() => {this.toggle(3)}}
-                                                     className={this.state.activeTab === 3 ? 'active' : ''}>Finanzas
-                                            </NavLink>
-                                        </li>
-                                        <li className="nav-item">
-                                            <NavLink className="nav-link" href="#"
-                                                     onClick={() => {this.toggle(4)}}
-                                                     className={this.state.activeTab === 4 ? 'active' : ''}>Áreas Comunes
-                                            </NavLink>
-                                        </li>
-                                        <li className="nav-item">
-                                            <NavLink className="nav-link" href="#"
-                                                     onClick={() => {this.toggle(5)}}
-                                                     className={this.state.activeTab === 5 ? 'active' : ''}>Condominios y Unidades
-                                            </NavLink>
-                                        </li>
-                                        <li className="nav-item">
-                                            <NavLink className="nav-link" href="#"
-                                                     onClick={() => {this.toggle(6)}}
-                                                     className={this.state.activeTab === 6 ? 'active' : ''}>Usuarios
-                                            </NavLink>
-                                        </li>
-                                    </ul>
+                           
                                     <UncontrolledDropdown className="d-sm-none">
                                         <img src={require('./../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
                                         <DropdownToggle caret>
@@ -302,46 +177,36 @@ export default class AdminDashboard extends React.Component{
                         </Navbar>
                     </header>
 
-
                     <div className="dashboard-content animate fadeInUp one">
-                        <TabContent activeTab={this.state.activeTab} className="text-center">
-                            <TabPane className={this.state.activeTab === 1 ? 'active' : ''} tabId="1">
-                                <Row className="pt-5 justify-content-center">
-                                    <Col className="col-11">
-                                        <div>
-                                            <AnunciosTable toggleModal={() => this.toggleModal(1)}/>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </TabPane>
-                            <TabPane className={this.state.activeTab === 2 ? 'active' : ''} tabId="2">
-                                <Row className="justify-content-center">
-                                    <Col className="col-11">
-                                        <div>
-                                            <EventosTable toggleModal={() => this.toggleModal(1)}/>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </TabPane>
-                            <TabPane className={this.state.activeTab === 3 ? 'active' : ''} tabId="3">
-                                <Row className="justify-content-center">
-                                    <Col className="col-11">
-                                        <div>
-                                            <FinanzasTable toggleModal={() => this.toggleModal(1)}/>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </TabPane>
-                            <TabPane className={this.state.activeTab === 4 ? 'active' : ''} tabId="4">
-                                <Row className="justify-content-center">
-                                    <Col className="col-11">
-                                        <div>
-                                            <AreasComunesTable toggleModal={() => this.toggleModal(1)}/>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </TabPane>
-                        </TabContent>
+                        <SideBar toggle={this.toggleSidebar} isOpen={this.state.isOpenSidebar}/>
+
+                        <Container>
+                            <div className="row pt-5 justify-content-end">
+                                <div className="col-3" className="justify-content-end">
+                                    <Button className="actionButton ">Nuevo Condominio</Button>
+                                </div>
+                            </div>
+                            <Row className="mt-1">
+                                {
+                                     this.state.condominios.map((value,index) => {
+                                        return (
+                                        <Col xs="4">
+                                            <Card>
+                                                <CardBody className="text-center">
+                                                    <CardTitle>
+                                                    <h3>
+                                                        {value.nombreCondominio}
+                                                    </h3>
+                                                    </CardTitle>
+                                                    <CardSubtitle>{value.unidades.length == '1' ? `${value.unidades.length} Unidad` : `${value.unidades.length} Unidades`}</CardSubtitle>
+                                                    <Button className="mt-2 actionButton">Seleccionar</Button>
+                                                </CardBody>
+                                            </Card>
+                                        </Col>)
+                                    })
+                                }
+                            </Row>
+                        </Container>
                     </div>
                 </div>
             </div>

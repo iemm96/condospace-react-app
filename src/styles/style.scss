@@ -206,8 +206,8 @@ div.card .card-header {
 
 .header-dashboard {
   z-index: 1000;
-  background: linear-gradient(60deg, #bd2e9d, #de3c4b);
-  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(156, 39, 176, 0.6);
+  background: linear-gradient(60deg, #68D6FC, #4C68BB);
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(76, 104, 187, 0.6);
 
   padding: 1rem 15px;
   margin-left: 60px;
@@ -218,7 +218,7 @@ div.card .card-header {
 }
 
 .dashboard-content {
-  border-radius: 5px;
+  border-radius: 20px;
   margin-top: -30px;
   margin-left: 30px;
   margin-right: 30px;
@@ -286,6 +286,8 @@ div.login {
     border-color: $aquaColor;
   }
 
+  //Buttons
+
   button[type="submit"] {
     background: none;
     display: block;
@@ -313,6 +315,24 @@ div.login {
     }
   }
 }
+
+.actionButton{
+  background-color: #4C68BB !important;
+  border-radius: 60px !important;
+  outline: none;
+  transition: 0.25s;
+
+  &:hover {
+    background: linear-gradient(120deg,#4C76BB,#4C68BB);
+    box-shadow: 4px 4px 2px -1px rgba(0,0,0,0.25);
+    text-align: center;
+    outline: none;
+    border-radius: 60px;
+    color: white;
+    transition: 0.25s;
+  }
+}
+
 
 .card-nav-tabs .card-header {
   margin-top: -30px!important;
@@ -409,23 +429,26 @@ footer p a:hover {
 .sidebar {
   min-width: 250px;
   max-width: 250px;
-  height: 100%;
   background: #182b3a;
   color: #fff;
-  margin-left: -250px;
+  opacity: 0;
   transition: all 0.5s;
   z-index: 2000;
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: 35px;
+  left: 10px;
+  height: 755px;
+  border-radius: 20px;
 }
 
 .sidebar.is-open {
-  margin-left: 0;
+  opacity: 100;
   transition: .5s;
 }
 
 
 .sidebar-header {
+  border-radius: 20px 20px 0 0;
   background: #011627;
 }
 
