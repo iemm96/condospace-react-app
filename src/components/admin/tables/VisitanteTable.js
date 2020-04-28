@@ -12,7 +12,7 @@ import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
 import ModalRecord from "../modals/ModalVisitante";
-import ModalRecordVehiculo from "../modals/ModalVisitante";
+import ModalRecordVehiculo from "../modals/ModalVehiculo";
 //Change
 const RESOURCE1 = 'vehiculos'; //API
 const RESOURCE = 'visitantes'; //API
