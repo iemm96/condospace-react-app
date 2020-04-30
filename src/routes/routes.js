@@ -32,6 +32,7 @@ const AppRoutes = () =>
             <Route path="/admin/personas" component={Persona}/>
             <Route path="/admin/vehiculos" component={Vehiculo}/>
             <Route path="/admin/visitantes" component={Visitante}/>
+            <Route path="/condominio/:idCondominio" component={Condominio}/>
             <Route path="/" component={Login}/>
         </Switch>
     </BrowserRouter>;

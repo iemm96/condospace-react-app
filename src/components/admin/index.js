@@ -33,6 +33,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faCheck, faTrash, faBars} from '@fortawesome/free-solid-svg-icons'
 import SideBar from "./common/SideBar";
 import {fetchRecords} from "../../actions/fetchRecords";
+import ModalCondominio from './modals/ModalCondominio';
 
 export default class AdminDashboard extends React.Component{
 
@@ -104,31 +105,12 @@ export default class AdminDashboard extends React.Component{
         }
     }
 
-    toggleModal = ( modal ) => {
+    toggleModal = () => {
+        this.state.recordModal ? this.setState({recordModal: false}) : this.setState({recordModal: true});
+    };
 
-        switch (modal) {
-            case 1: {
-                this.state.modalAnuncio ? this.setState({modalAnuncio: false}) : this.setState({modalAnuncio: true});
-
-                break;
-            }
-            case 2:{
-                this.state.modalEvento ? this.setState({modalEvento: false}) : this.setState({modalEvento: true});
-                break;
-            }
-            case 3: {
-                this.state.modalFinanzas ? this.setState({modalFinanzas: false}) : this.setState({modalFinanzas: true});
-                break;
-            }
-            case 4: {
-                this.state.modalAreasComunes ? this.setState({modalAreasComunes: false}) : this.setState({modalAreasComunes: true});
-                break;
-            }
-
-            default: {
-
-            }
-        }
+    redirectCondominio = (condominio) => {
+        window.location.href = `/condominio/${condominio}`;
     };
 
     render() {
@@ -180,10 +162,17 @@ export default class AdminDashboard extends React.Component{
                     <div className="dashboard-content animate fadeInUp one">
                         <SideBar toggle={this.toggleSidebar} isOpen={this.state.isOpenSidebar}/>
 
+                        
+                        <ModalCondominio
+                            idRecord={this.state.idRecord}
+                            toggleModal={this.toggleModal}
+                            recordModal={this.state.recordModal}
+                            resource={'condominios'}
+                        />
                         <Container>
                             <div className="row pt-5 justify-content-end">
                                 <div className="col-3" className="justify-content-end">
-                                    <Button className="actionButton ">Nuevo Condominio</Button>
+                                    <Button onClick={() => this.toggleModal()} className="actionButton ">Nuevo Condominio</Button>
                                 </div>
                             </div>
                             <Row className="mt-1">
@@ -199,7 +188,7 @@ export default class AdminDashboard extends React.Component{
                                                     </h3>
                                                     </CardTitle>
                                                     <CardSubtitle>{value.unidades.length == '1' ? `${value.unidades.length} Unidad` : `${value.unidades.length} Unidades`}</CardSubtitle>
-                                                    <Button className="mt-2 actionButton">Seleccionar</Button>
+                                                    <Button className="mt-2 actionButton" onClick={() => this.redirectCondominio(value.idCondominio)}>Seleccionar</Button>
                                                 </CardBody>
                                             </Card>
                                         </Col>)
