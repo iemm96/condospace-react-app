@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {fetchRecords} from "../../../actions/fetchRecords";
 import Skeleton from 'react-loading-skeleton';
-import {Buscador} from '../buscador';
+import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change

@@ -1,11 +1,24 @@
 import React from 'react';
 import './styles/style.scss';
+import {login} from "./actions/login";
+import {handleLoginSuccess} from "./actions/login";
+import { RouteComponentProps } from 'react-router-dom';
+import {FormGroup, Input, Label} from "reactstrap";
 
 const ApiUrl = React.createContext('https://api-letygym.nucleodev.com/');
 
 export default class Login extends React.Component{
 
     static contextType = ApiUrl;
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            remember:null
+        };
+
+        this.submitForm = this.submitForm.bind(this);
+    }
 
     componentDidMount() {
         /*
@@ -17,31 +30,6 @@ export default class Login extends React.Component{
     }
 
 
-    /*
-    render() {
-        return (
-            <div className="center">
-            <div className="container-fluid h-100">
-                <div className="row justify-content-center align-items-center h-100">
-                    <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <form action="">
-                            <div className="form-group">
-                                <input _ngcontent-c0="" className="form-control form-control-lg"
-                                       placeholder="User email" type="text"/>
-                            </div>
-                            <div className="form-group">
-                                <input className="form-control form-control-lg" placeholder="Password" type="password"/>
-                            </div>
-                            <div className="form-group">
-                                <button className="btn btn-info btn-lg btn-block">Sign In</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            </div>
-        );
-    }*/
 
     render() {
         return (
@@ -60,6 +48,13 @@ export default class Login extends React.Component{
                                            name="password"
                                            placeholder="Password" onChange={this.clearInput}/>
                                 </div>
+                                <FormGroup check>
+                                    <Label check>
+                                        <Input type="checkbox" name="remember" value="1" id=""
+                                               onChange={event => this.handleInputChange(event)}/>{' '}
+                                        Recuérdame
+                                    </Label>
+                                </FormGroup>
                                 <div className="error-box" style={{display: undefined}}>
 
                                 </div>
@@ -72,7 +67,31 @@ export default class Login extends React.Component{
         );
     }
 
-    submitForm(e) {
+    handleInputChange = event => {
+
+        console.log(event.target);
+        let target;
+
+        if(target = event.target) {
+            const value = target.checked;
+            const name = target.name;
+            this.setState({
+                [name]:value
+            });
+
+            console.log(this.state.remember);
+
+        }else{
+            const name = event.name;
+            const value = event.value;
+            this.setState({
+                [name]:value
+            })
+        }
+
+    }
+
+    async submitForm(e) {
 
         e.preventDefault();
         var btnIngresar = document.getElementById('btnIngresar').firstChild;
@@ -87,6 +106,14 @@ export default class Login extends React.Component{
 
         btnIngresar.data = 'Ingresando';
 
+        const response = await login({username:inputEmail.value,password:inputPassword.value});
+
+        if(response) {
+            //this.props.history.push('/admin/index');
+            handleLoginSuccess(response,this.state.remember);
+
+        }
+        console.log(response);
 
         /*
         // get a callback when the server responds
@@ -107,27 +134,27 @@ export default class Login extends React.Component{
             console.log(xhr.success)
         });
         // open the request with the verb and the url
-        xhr.open('POST', this.context)
+        xhr.open('POST', this.context);
         // send the request
-        xhr.send()*/
+        xhr.send();
 
-        /*
+
         if(inputPassword.innerText === '') {
             inputPassword.classList.add('bounce');
         }
 
         if(inputEmail.innerText === '') {
             inputEmail.classList.add('bounce');
-        }*/
+        }
 
-        //btnIngresar.innerText = 'Ingresar';
+        btnIngresar.innerText = 'Ingresar';
 
 
         setTimeout(function () {
             // and call `resolve` on the deferred object, once you're done
             window.location.href = '/admin/index';
 
-        }, 500);
+        }, 500);*/
 
     }
 

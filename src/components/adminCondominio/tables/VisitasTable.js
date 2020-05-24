@@ -1,27 +1,27 @@
 import React from "react";
-import ToolkitProvider, {Search} from "react-bootstrap-table2-toolkit";
+import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {PaginationListStandalone, PaginationProvider} from "react-bootstrap-table2-paginator";
-import {Button, Col, TabPane} from "reactstrap";
+import {Button, Col} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import { fetchRecords } from "../../../actions/fetchRecords";
+import {fetchRecords} from "../../../actions/fetchRecords";
 import Skeleton from 'react-loading-skeleton';
-import { Buscador } from './../common/buscador';
-import { options } from "../../../constants/tables_options";
-import { DeleteRecordModal } from "../modals/DeleteRecordModal";
-
+import {Buscador} from './../common/buscador';
+import {options} from "../../../constants/tables_options";
+import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
-import ModalRecord from "../modals/ModalArea";
-
+import ModalRecord from "../modals/ModalVisitante";
+import ModalRecordVehiculo from "../modals/ModalVehiculo";
 //Change
-const RESOURCE = 'areas'; //API
-const NEW_BUTTON_TEXT = 'Nueva Area';
+const RESOURCE1 = 'vehiculos'; //API
+const RESOURCE = 'visitantes'; //API
+const NEW_BUTTON_TEXT = 'Nuevo Visitante';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
-
-export default class AreaTable extends React.Component {
+let recordsVehiculo = [];
+export default class VisitasTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -35,20 +35,30 @@ export default class AreaTable extends React.Component {
         try {
             records = await fetchRecords(RESOURCE);
             this.setState({records:records});
+            recordsVehiculo = await fetchRecords(RESOURCE1);
+            this.setState({records:recordsVehiculo});
+
         }catch (error) {
             console.log(error);
         }
+
     }
 
     //Change "titulo" if necessary
-    actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => this.prepareEditModal(row.idAreas)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idAreas, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+    actionsFormatter = (cell, row) => (
+        <div>
+            <Button type="Button" onClick={() => this.prepareEditModal(row.idVisitante)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idVisitante, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => this.prepareNewModalVehiculo(row.idVisitante)} className="btn btn-success"><FontAwesomeIcon icon={faEdit} /></Button>
+
         </div>
     );
 
     toggleModal = () => {
         this.state.recordModal ? this.setState({recordModal: false}) : this.setState({recordModal: true});
+    };
+    toggleModalVehiculo = () => {
+        this.state.recordModalVehiculo ? this.setState({recordModalVehiculo: false}) : this.setState({recordModalVehiculo: true});
     };
 
     toggleDeleteModal = () => {
@@ -72,6 +82,11 @@ export default class AreaTable extends React.Component {
 
         this.toggleModal();
     };
+    prepareNewModalVehiculo = (id) => {
+        this.setState({idRecord: id});
+
+        this.toggleModalVehiculo();
+    };
 
     render() {
 
@@ -80,16 +95,32 @@ export default class AreaTable extends React.Component {
             text: 'Nombre',
             sort: true,
         },{
-            dataField: 'descripcion',
-            text: 'Descripcion',
+            dataField: 'apellidos',
+            text: 'Apellidos',
             sort: true,
         },{
-            dataField: 'area',
-            text: 'Area',
+            dataField: 'detalles',
+            text: 'detalles',
             sort: true,
         },{
-            dataField: 'idCondominio',
-            text: 'Condominio',
+            dataField: 'noIdentificacion',
+            text: 'Numero de Identificacion',
+            sort: true,
+        },{
+            dataField: 'fechaLlegada',
+            text: 'Fecha de Llegada',
+            sort: true,
+        },{
+            dataField: 'fechaSalida',
+            text: 'Fecha de Salida',
+            sort: true,
+        },{
+            dataField: 'noVisitantes',
+            text: 'Numero de visitantes',
+            sort: true,
+        },{
+            dataField: 'tipoVisitane',
+            text: 'Tipo de Visitante',
             sort: true,
         },{
             dataField: 'actions',
@@ -106,6 +137,12 @@ export default class AreaTable extends React.Component {
                      toggleModal={this.toggleModal}
                      recordModal={this.state.recordModal}
                      resource={RESOURCE}
+                 />
+                 <ModalRecordVehiculo
+                     idRecord={this.state.idRecord}
+                     toggleModalVehiculo={this.toggleModalVehiculo}
+                     recordModalVehiculo={this.state.recordModalVehiculo}
+                     resource={RESOURCE1}
                  />
                  <DeleteRecordModal
                      toggleDeleteModal={this.toggleDeleteModal}
