@@ -23,6 +23,8 @@ import EventosTable from "../components/adminCondominio/tables/EventosTable";
 import VisitasTable from "../components/adminCondominio/tables/VisitasTable";
 import AreaTable from "../components/adminCondominio/tables/AreaTable";
 import UsuarioTable from "../components/adminCondominio/tables/UsuarioTable";
+import CuotaTable from "../components/adminCondominio/tables/CuotaTable";
+import CuentaTable from "../components/admin/tables/CuentaTable";
 
 const AppRoutes = () =>
     <BrowserRouter>
@@ -36,6 +38,8 @@ const AppRoutes = () =>
                     <Route path="/:condominio/visitas" component={VisitasTable} />
                     <Route path="/:condominio/areas" component={AreaTable} />
                     <Route path="/:condominio/usuarios" component={UsuarioTable} />
+                    <Route path="/:condominio/cuotas" component={CuotaTable} />
+                    <Route path="/:condominio/cuentas" component={CuentaTable} />
                 </AdminCondominioDashboard >
             </Route>
 
