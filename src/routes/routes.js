@@ -24,7 +24,7 @@ import VisitasTable from "../components/adminCondominio/tables/VisitasTable";
 import AreaTable from "../components/adminCondominio/tables/AreaTable";
 import UsuarioTable from "../components/adminCondominio/tables/UsuarioTable";
 import CuotaTable from "../components/adminCondominio/tables/CuotaTable";
-import CuentaTable from "../components/admin/tables/CuentaTable";
+import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
 
 const AppRoutes = () =>
     <BrowserRouter>
@@ -43,20 +43,7 @@ const AppRoutes = () =>
                 </AdminCondominioDashboard >
             </Route>
 
-
             <Route path="/admin/index" component={AdminDashboard}/>
-            <Route path="/admin/anuncios" component={Anuncios}/>
-            <Route path="/admin/eventos" component={Eventos}/>
-            <Route path="/admin/finanzas" component={Finanzas}/>
-            <Route path="/admin/areas" component={Area}/>
-            <Route path="/admin/categorias" component={Categoria}/>
-            <Route path="/admin/condominios" component={Condominio}/>
-            <Route path="/admin/cuentas" component={Cuenta}/>
-            <Route path="/admin/cuotas" component={Cuota}/>
-            <Route path="/admin/unidades" component={Unidad}/>
-            <Route path="/admin/personas" component={Persona}/>
-            <Route path="/admin/vehiculos" component={Vehiculo}/>
-            <Route path="/admin/visitantes" component={Visitante}/>
             <Route path="/condominio/:idCondominio" component={Condominio}/>
             <Route path="/" component={Login}/>
         </Switch>
