@@ -87,32 +87,8 @@ export default class UnidadTable extends React.Component {
             text: 'Numero Exterior',
             sort: true,
         },{
-            dataField: 'noInterior',
-            text: 'Numero Interior',
-            sort: true,
-        },{
-            dataField: 'entre1',
-            text: 'Entre Calle 1',
-            sort: true,
-        },{
-            dataField: 'entre2',
-            text: 'Entre Calle 2',
-            sort: true,
-        },{
-            dataField: 'mts2',
-            text: 'Metros Cuadrados',
-            sort: true,
-        },{
             dataField: 'tipoUnidad',
             text: 'tipo de Unidad',
-            sort: true,
-        },{
-            dataField: 'idPersona',
-            text: 'Persona',
-            sort: true,
-        },{
-            dataField: 'idCondominio',
-            text: 'Condominio',
             sort: true,
         },{
             dataField: 'actions',
