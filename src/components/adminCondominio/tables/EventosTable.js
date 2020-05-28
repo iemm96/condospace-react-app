@@ -76,38 +76,28 @@ export default class EventosTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'titulo',
-            text: 'Título',
+            dataField: 'nombre',
+            text: 'Evento',
             sort: true,
         },{
             dataField: 'fecha',
             text: 'Fecha y Hora',
             sort: true,
         },{
-            dataField: 'descripcion',
-            text: 'Visible para',
+            dataField: 'status',
+            text: 'Status',
             sort: true,
         },
         {
-            dataField: 'aprobado',
-            text: 'Aprobado',
+            dataField: 'tipoVisibilidad',
+            text: 'Visible para',
             sort: true,
         },{
-                dataField: 'created_at',
-                text: 'Fecha de Creacion',
-                sort: true,
-            },{
-                dataField: 'update_at',
-                text: 'Fecha de modificacion',
-                sort: true,
-            },{
             dataField: 'actions',
             text: 'Acciones',
             isDummyField: true,
             csvExport: false,
             formatter: this.actionsFormatter,
-        },{
-
         }];
 
          const contentTable = ({ paginationProps, paginationTableProps }) => (

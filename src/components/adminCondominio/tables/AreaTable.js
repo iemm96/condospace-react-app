@@ -77,19 +77,15 @@ export default class AreaTable extends React.Component {
 
         const columns = [{
             dataField: 'nombre',
-            text: 'Nombre',
+            text: 'Área',
             sort: true,
         },{
-            dataField: 'descripcion',
-            text: 'Descripcion',
+            dataField: 'tipo',
+            text: 'Tipo',
             sort: true,
         },{
-            dataField: 'area',
-            text: 'Area',
-            sort: true,
-        },{
-            dataField: 'idCondominio',
-            text: 'Condominio',
+            dataField: 'disponiblePara',
+            text: 'Disponible para',
             sort: true,
         },{
             dataField: 'actions',
