@@ -75,10 +75,6 @@ export default class CuentaTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'nombre',
-            text: 'Nombre',
-            sort: true,
-        },{
             dataField: 'cuenta',
             text: 'Cuenta',
             sort: true,
@@ -87,20 +83,8 @@ export default class CuentaTable extends React.Component {
             text: 'Clabe',
             sort: true,
         },{
-            dataField: 'swift',
-            text: 'Swift',
-            sort: true,
-        },{
-            dataField: 'sucursal',
-            text: 'Sucursal',
-            sort: true,
-        },{
             dataField: 'tipoBanco',
             text: 'Tipo de Banco',
-            sort: true,
-        },{
-            dataField: 'idCondominio',
-            text: 'Condominio',
             sort: true,
         },{
             dataField: 'actions',

@@ -79,24 +79,20 @@ export default class CuotaTable extends React.Component {
             text: 'Nombre',
             sort: true,
         },{
-            dataField: 'fechaIni',
-            text: 'Fecha de Inicio',
-            sort: true,
-        },{
-            dataField: 'fechaFin',
-            text: 'Fecha Fin',
-            sort: true,
-        },{
             dataField: 'monto',
             text: 'Monto',
+            sort: true,
+        },{
+            dataField: 'tipoCuota',
+            text: 'Tipo de Cuota',
             sort: true,
         },{
             dataField: 'periodo',
             text: 'Periodo',
             sort: true,
         },{
-            dataField: 'tipoCuota',
-            text: 'Tipo de Cuota',
+            dataField: 'fechaFin',
+            text: 'Fecha Fin',
             sort: true,
         },{
             dataField: 'actions',

@@ -84,48 +84,8 @@ export default class FinanzasTable extends React.Component {
             text: 'Descripcion',
             sort: true,
         },{
-            dataField: 'ingresooEgreso',
-            text: 'Ingreso o Egreso',
-            sort: true,
-        },{
             dataField: 'Monto',
             text: 'Monto',
-            sort: true,
-        },{
-            dataField: 'Saldo',
-            text: 'Saldo',
-            sort: true,
-        },{
-            dataField: 'Moneda',
-            text: 'Moneda',
-            sort: true,
-        },{
-            dataField: 'FormaPago',
-            text: 'Forma de pago',
-            sort: true,
-        },{
-            dataField: 'Referencia',
-            text: 'Referencia',
-            sort: true,
-        },{
-            dataField: 'idCuenta',
-            text: 'Cuenta',
-            sort: true,
-        },{
-            dataField: 'idPersona',
-            text: 'Persona',
-            sort: true,
-        },{
-            dataField: 'idCategoria',
-            text: 'Categoria',
-            sort: true,
-        },{
-            dataField: 'created_at',
-            text: 'Fecha de Creacion',
-            sort: true,
-        },{
-            dataField: 'update_at',
-            text: 'Fecha de modificacion',
             sort: true,
         },{
             dataField: 'actions',
