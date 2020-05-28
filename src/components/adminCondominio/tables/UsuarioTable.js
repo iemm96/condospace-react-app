@@ -82,24 +82,12 @@ export default class UsuarioTable extends React.Component {
             text: 'Nombre',
             sort: true,
         },{
-            dataField: 'apellidos',
-            text: 'Apellidos',
-            sort: true,
-        },{
-            dataField: 'telefono',
-            text: 'Telefono',
-            sort: true,
-        },{
-            dataField: 'celular',
-            text: 'Celular',
-            sort: true,
-        },{
             dataField: 'email',
-            text: 'Correo Electronico',
+            text: 'Email',
             sort: true,
         },{
-            dataField: 'password',
-            text: 'Password',
+            dataField: 'tipoUsuario',
+            text: 'Tipos',
             sort: true,
         },{
             dataField: 'actions',

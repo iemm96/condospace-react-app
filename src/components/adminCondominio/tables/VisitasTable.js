@@ -95,32 +95,24 @@ export default class VisitasTable extends React.Component {
             text: 'Nombre',
             sort: true,
         },{
-            dataField: 'apellidos',
-            text: 'Apellidos',
-            sort: true,
-        },{
-            dataField: 'detalles',
-            text: 'detalles',
+            dataField: 'idUnidad',
+            text: 'Unidad',
             sort: true,
         },{
             dataField: 'noIdentificacion',
-            text: 'Numero de Identificacion',
+            text: 'Identificación',
             sort: true,
         },{
             dataField: 'fechaLlegada',
-            text: 'Fecha de Llegada',
+            text: 'Entrada',
             sort: true,
         },{
             dataField: 'fechaSalida',
-            text: 'Fecha de Salida',
+            text: 'Salida',
             sort: true,
         },{
-            dataField: 'noVisitantes',
-            text: 'Numero de visitantes',
-            sort: true,
-        },{
-            dataField: 'tipoVisitane',
-            text: 'Tipo de Visitante',
+            dataField: 'placas',
+            text: 'Placas',
             sort: true,
         },{
             dataField: 'actions',
