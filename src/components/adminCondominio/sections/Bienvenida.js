@@ -63,7 +63,6 @@ export default class Bienvenida extends React.Component{
     updatePasword = () => {
         const authToken = CookieService.get('access_token');
 
-        debugger;
         fetch(`${api_url}updateUserPassword`, {
             method: 'POST',
             headers: {

@@ -4,19 +4,16 @@ const api_url = url_base;
 
 export const storeRecord = (payload, resource) => {
 
-    return dispatch => {
-
-        fetch(`${api_url}${resource}`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json, text-plain, */*",
-            },
-            body:stringifyData(payload)
-        }).then((res) => res.json())
-            .then((data) =>  {
-                window.location.reload();
-            })
-            .catch((err)=>console.log(err));
-    };
+    fetch(`${api_url}${resource}`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json, text-plain, */*",
+        },
+        body:stringifyData(payload)
+    }).then((res) => res.json())
+        .then((data) =>  {
+            window.location.reload();
+        })
+        .catch((err)=>console.log(err));
 };

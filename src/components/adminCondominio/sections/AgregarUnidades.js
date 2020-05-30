@@ -9,169 +9,190 @@ import {storeRecord} from "../../../actions/storeRecord";
 import stringifyData from "../../../services/stringifyData";
 import {url_base} from "../../../constants/api_url";
 import CookieService from "../../../services/CookieService";
+import {useUsuario} from "../../../context/usuario-context";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import Skeleton from 'react-loading-skeleton';
+
 const api_url = url_base;
 
+export const AgregarUnidades = (props) => {
+    const {cargandoUsuario,idCondominio} = useUsuario();
+    const { register, handleSubmit, watch, errors } = useForm();
 
-let tiposImportancia = [];
-let tiposVisibilidad = [];
-
-export default class AgregarUnidades extends React.Component{
-
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
+    const onSubmit =  data => {
+        data.idCondominio = idCondominio;
+        console.log(data);
+        storeRecord(data,'addUnidades');
     }
 
-
-    async componentDidMount() {
-
-    }
-
-    async componentWillReceiveProps(nextProps) {
-        this.setState({
-            idCondominio:nextProps.idRecord
-        });
-
-        if(nextProps.idRecord) {
-            try {
-                let recordData = await fetchRecord(nextProps.idRecord,this.props.resource);
-                this.setState({...recordData});
-            }catch (error) {
-                console.log(error);
-            }
-        }
-    }
-
-    handleInputChange = event => {
-
-        let target;
-
-        if(target = event.target) {
-            const value = target.value;
-            const name = target.name;
-            this.setState({
-                [name]:value
-            });
-        }else{
-            const name = event.name;
-            const value = event.value;
-            this.setState({
-                [name]:value
-            })
-        }
-    };
-
-    agregarUnidades = () => {
-        const authToken = CookieService.get('access_token');
-
-        fetch(`${api_url}addUnidades`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json, text-plain, */*",
-                "Authorization": 'Bearer ' + authToken,
-            },
-            body:stringifyData(this.state)
-        }).then((res) => res.json())
-            .then((data) =>  {
-               window.location.href = `/${this.props.match.params.condominio}/unidades`;
-            })
-            .catch((err)=>console.log(err));
-    }
-
-    render() {
-
-        console.log('here');
-
+    if(cargandoUsuario) {
         return(
-            <div>
-                <Row className="text-center">
-                    <Col >
-                        <h4>Nombre del condominio</h4>
-                        <p>Agrega las unidades de tu condominio</p>
-                    </Col>
-                </Row>
-                <Row className="justify-content-center">
-                    <Col>
-                        <Form id="form">
-                            <Row>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <Label>*¿Cuántas unidades deseas agregar?</Label>
-                                        <Input type="number"
-                                               name="unidades"
-                                               min="1"
-                                               max="1000"
-                                               onChange={event => this.handleInputChange(event)}/>
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col sm={6}>
-
-                                    <FormGroup>
-                                        <Label for="">¿Pertenecen a una misma calle?</Label>
-                                        <div>
-                                            <CustomInput onChange={event => this.handleInputChange(event)} type="radio" id="exampleCustomRadio3" value="1" name="pertenecen" label="Si" />
-                                            <CustomInput onChange={event => this.handleInputChange(event)} type="radio" id="exampleCustomRadio4" value="0" name="pertenecen" label="No" />
+            <Row className="">
+                <Col>
+                    <Row className="justify-content-center">
+                        <Col sm={8}>
+                            <h1 style={{fontSize: 60}}>{<Skeleton />}</h1>
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-center">
+                        <Col sm={8}>
+                            <div>
+                                <Row>
+                                    <Col sm={6}>
+                                        <div style={{fontSize: 50}} >
+                                            {<Skeleton/>}
                                         </div>
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col sm={6}>
-                                    <FormGroup>
-                                        <Label>*Nombre de la calle</Label>
-                                        <Input type="text"
-                                               name="calle"
-                                               onChange={event => this.handleInputChange(event)}/>
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <Label for="exampleCustomSelect">*Tipo de Unidades</Label>
-                                        <CustomInput
-                                            type="select"
-                                            id="exampleCustomSelect"
-                                            onChange={event => this.handleInputChange(event)}
-                                            name="tipoUnidades">
-                                            <option value="">Selecciona el tipo de unidades...</option>
-                                            <option value="Casa">Casas</option>
-                                            <option value="Departamento">Departamentos</option>
-                                        </CustomInput>
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col sm={8}>
-                                    <FormGroup>
-                                        <Label for="">¿Deseas que las unidades se guarden como Departamento 1, Departamento 2…?</Label>
-                                        <div id="UncontrolledTooltipExample">
-                                            <CustomInput type="radio" onChange={event => this.handleInputChange(event)} value="1" id="radioNombre" name="guardarComo" label="Si" />
-                                            <CustomInput type="radio" onChange={event => this.handleInputChange(event)} value="0" id="radioNombre2" name="guardarComo" label="No" />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={3}>
+                                        <div style={{fontSize: 50}} >
+                                            {<Skeleton/>}
                                         </div>
-                                        <UncontrolledTooltip placement="right" target="UncontrolledTooltipExample">
-                                            Las unidades se guardarán como Unidad 1, Unidad 2…
-                                        </UncontrolledTooltip>
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col className="justify-content-between">
-                                    <Button className="neutralButton" onClick={() => this.props.toggleModal()}>Omitir</Button>
-                                    <Button className="confirmButton" onClick={this.agregarUnidades} type="button">Guardar y continuar</Button>
-                                </Col>
-                            </Row>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={8}>
+                                        <div style={{fontSize: 50}} >
+                                            {<Skeleton/>}
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={6}>
+                                        <div style={{fontSize: 50}} >
+                                            {<Skeleton/>}
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={10}>
+                                        <div style={{fontSize: 50}} >
+                                            {<Skeleton/>}
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row className="">
+                                    <Col className="d-flex justify-content-around">
+                                        <div style={{fontSize: 50}} >
+                                            {<Skeleton/>}
+                                        </div>
 
-                        </Form>
-                    </Col>
-                </Row>
-            </div>
+                                    </Col>
+                                </Row>
+
+                            </div>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+
         );
-    };
+    }else{
+        return(
+            <Row className="">
+                <Col>
+                    <Row className="text-center">
+                        <Col>
+                            <h4>Nombre del condominio</h4>
+                            <p>Agrega las unidades de tu condominio</p>
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-center">
+                        <Col sm={8}>
+                            <form id="form" onSubmit={handleSubmit(onSubmit)}>
+                                <Row>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <Label>*¿Cuántas unidades deseas agregar?</Label>
+                                            <input type="number"
+                                                   name="unidades"
+                                                   min="1"
+                                                   max="1000"
+                                                   className="form-control"
+                                                   ref={register({ required: true })}
+                                            />
+                                            {errors.unidades && <small>Ingresa un número de 1 a 1000</small>}
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={8}>
+                                        <FormGroup>
+                                            <Label for="">¿Pertenecen a una misma calle?</Label>
+                                            <div>
+                                                <input type="radio" id="radioButtonSi" value="1" name="pertenecen" label="Si" ref={register({ required: true })}/>
+                                                <label htmlFor="radioButtonSi">Si</label>
+                                                <input type="radio" id="radioButtonNo" value="0" name="pertenecen" label="No" ref={register({ required: true })}/>
+                                                <label htmlFor="radioButtonNo">No</label>
+                                            </div>
+                                            {errors.pertenecen && <small>Selecciona una respuesta</small>}
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={8}>
+                                        <FormGroup>
+                                            <Label>*Nombre de la calle</Label>
+                                            <input className="form-control"
+                                                   type="text"
+                                                   name="calle"
+                                                   ref={register({ required: true })}
+                                                   />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <Label for="exampleCustomSelect">*Tipo de Unidades</Label>
+                                            <select
+                                                className="form-control"
+                                                type="select"
+                                                id="exampleCustomSelect"
+                                                ref={register({ required: true })}
+                                                name="tipoUnidades">
+                                                <option value="">Selecciona el tipo de unidades...</option>
+                                                <option value="Casa">Casas</option>
+                                                <option value="Departamento">Departamentos</option>
+                                            </select>
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={10}>
+                                        <FormGroup>
+                                            <Label for="">¿Deseas que las unidades se guarden como Departamento 1, Departamento 2…?</Label>
+                                            <div  id="UncontrolledTooltipExample">
+                                                <input type="radio" id="radioNombreSi" value="1" name="guardarComo" label="Si" ref={register({ required: true })}/>
+                                                <label htmlFor="radioNombreSi">Si</label>
+                                                <input type="radio" id="radioNombreNo" value="0" name="guardarComo" label="No" ref={register({ required: true })}/>
+                                                <label htmlFor="radioNombreNo">No</label>
+                                            </div>
+                                            <UncontrolledTooltip placement="right" target="UncontrolledTooltipExample">
+                                                Las unidades se guardarán como Unidad 1, Unidad 2…
+                                            </UncontrolledTooltip>
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row className="">
+                                    <Col className="d-flex justify-content-around">
+                                        <Button className="neutralButton" onClick={() => this.props.toggleModal()}>Omitir</Button>
+                                        <Button className="confirmButton"  type="submit">Guardar y continuar</Button>
+                                    </Col>
+                                </Row>
+
+                            </form>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
 
 
-};
+        );
+    }
+
+}
+
+

@@ -7,6 +7,7 @@ const UsuarioContext = React.createContext();
 
 export function UsuarioProvider (props) {
     const [usuario,setUsuario] = useState(null);
+    const [idCondominio,setIdCondominio] = useState(null);
     const [cargandoUsuario,setCargandoUsuario] = useState(true);
 
     useEffect(() => {
@@ -20,6 +21,7 @@ export function UsuarioProvider (props) {
             try {
                 const response = await getUser(authToken);
                 setUsuario(response);
+                setIdCondominio(response.user.idCondominio);
                 setCargandoUsuario(false);
             }catch (e) {
                 console.log(e);
@@ -33,6 +35,7 @@ export function UsuarioProvider (props) {
         return ({
             usuario,
             cargandoUsuario,
+            idCondominio
         });
     },[usuario,cargandoUsuario]);
 
