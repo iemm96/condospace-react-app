@@ -22,7 +22,9 @@ import Login from "../Login";
 import Bienvenida from "../components/adminCondominio/sections/Bienvenida";
 import axios from "axios";
 import {url_base} from "../constants/api_url";
-import AgregarUnidades from "../components/adminCondominio/sections/AgregarUnidades";
+import {AgregarUnidades} from "../components/adminCondominio/sections/AgregarUnidades";
+import {UsuarioProvider} from "../context/usuario-context";
+
 const api_url = url_base;
 
 const AppRoutes = () => {
@@ -63,15 +65,18 @@ const AppRoutes = () => {
     }
 
     return (
-    <BrowserRouter>
-        <Switch>
-            <Route path="/admin/login" component={AdminLogin}/>
-            <Route path="/:condominio/login" component={Login} exact/>
+        <UsuarioProvider>
+            <BrowserRouter>
+                <Switch>
+                    <Route path="/admin/login" component={AdminLogin}/>
+                    <Route path="/:condominio/login" component={Login} exact/>
 
-            {routesAdmin}
-            {routesAdminCondominio}
-        </Switch>
-    </BrowserRouter>);
+                    {routesAdmin}
+                    {routesAdminCondominio}
+                </Switch>
+            </BrowserRouter>
+        </UsuarioProvider>
+    );
 };
 
 export default AppRoutes;
