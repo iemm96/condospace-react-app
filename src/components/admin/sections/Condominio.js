@@ -53,13 +53,13 @@ export default class Condominio extends React.Component{
         console.log(this.props.match.params.idCondominio);
 
         
-        try {
+        /*try {
             const arrayCondominio = await fetchRecord(this.props.match.params.idCondominio,'condominios');
             //const jsonCondominios = await arrayCondominios.json();
             //this.setState({ condominios: arrayCondominios })
         }catch (error) {
             console.log(error);
-        }
+        }*/
 
 
         /*
