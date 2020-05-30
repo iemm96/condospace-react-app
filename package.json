@@ -9,15 +9,9 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
-<<<<<<< Updated upstream
-    "datatables.net-dt": "^1.10.20",
-    "node-sass": "^4.14.1",
-    "react": "^16.11.0",
-=======
     "datatables.net-dt": "^1.10.21",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
->>>>>>> Stashed changes
     "react-bootstrap-table": "^4.3.1",
     "react-bootstrap-table-next": "^3.3.5",
     "react-bootstrap-table2-editor": "^1.4.0",
