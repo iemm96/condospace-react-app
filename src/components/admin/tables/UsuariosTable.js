@@ -5,22 +5,22 @@ import paginationFactory, {PaginationListStandalone, PaginationProvider} from "r
 import {Button, Col} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {fetchRecords} from "../../../actions/fetchRecords";
+import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
 import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
-import ModalRecord from "../modals/ModalAnuncio";
+import ModalRecord from "../modals/ModalUsuario";
 
 //Change
-const RESOURCE = 'anuncios'; //API
-const NEW_BUTTON_TEXT = 'Nuevo Anuncio';
+const RESOURCE = 'administradores'; //API
+const NEW_BUTTON_TEXT = 'Nuevo Administrador';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 let records = [];
 
-export default class AnunciosTable extends React.Component {
+export default class UsuariosTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -31,8 +31,10 @@ export default class AnunciosTable extends React.Component {
     }
 
     async componentDidMount() {
+        console.log(this.props.match.params.idCondominio);
+
         try {
-            records = await fetchRecords(RESOURCE);
+            records = await fetchRecordsByParam('administradoresCondominio',this.props.match.params.idCondominio);
             this.setState({records:records});
         }catch (error) {
             console.log(error);
@@ -43,7 +45,7 @@ export default class AnunciosTable extends React.Component {
     //Change ID
     actionsFormatter = (cell, row) => (<div>
             <Button type="Button" onClick={() => this.prepareEditModal(row.idAnuncio)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idAnunciommmmmm, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idAnuncio, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -76,32 +78,12 @@ export default class AnunciosTable extends React.Component {
     render() {
 
         const columns = [{
-            dataField: 'titulo',
-            text: 'Título',
+            dataField: 'name',
+            text: 'Nombre',
             sort: true,
         },{
-            dataField: 'mensaje',
-            text: 'Mensaje',
-            sort: true,
-        },{
-            dataField: 'created_at',
-            text: 'Fecha de Creacion',
-            sort: true,
-        },{
-            dataField: 'update_at',
-            text: 'Fecha de modificacion',
-            sort: true,
-        },{
-            dataField: 'idTipoVisibilidad',
-            text: 'Visible para',
-            sort: true,
-        },{
-            dataField: 'idTipoImportancia',
-            text: 'Tipo de importancia',
-            sort: true,
-        },{
-            dataField: 'notificarEmail',
-            text: 'Notificado via Email',
+            dataField: 'email',
+            text: 'Correo',
             sort: true,
         },{
             dataField: 'actions',
@@ -117,6 +99,7 @@ export default class AnunciosTable extends React.Component {
                      idRecord={this.state.idRecord}
                      toggleModal={this.toggleModal}
                      recordModal={this.state.recordModal}
+                     idCondominio={this.props.match.params.idCondominio}
                      resource={RESOURCE}
                  />
                  <DeleteRecordModal

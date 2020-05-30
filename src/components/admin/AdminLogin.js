@@ -1,12 +1,13 @@
 import React from 'react';
-import {login} from "./actions/login";
-import {handleLoginSuccess} from "./actions/login";
+import styles from './assets/admin.scss';
+import {login} from "./../../actions/login";
+import {handleLoginSuccess} from "./../../actions/login";
 import { RouteComponentProps } from 'react-router-dom';
-import {FormGroup, Input, Label} from "reactstrap";
+import {FormGroup, Input, Label,Form,Row,Col,Button} from "reactstrap";
 
 const ApiUrl = React.createContext('https://api-letygym.nucleodev.com/');
 
-export default class Login extends React.Component{
+export default class AdminLogin extends React.Component{
 
     static contextType = ApiUrl;
 
@@ -31,37 +32,43 @@ export default class Login extends React.Component{
 
 
     render() {
-        return (
-            <div className="row justify-content-center h-100">
-                    <div id="cardLogin" className="login card card-nav-tabs animate fadeInUp one">
-                        <div className="card-body">
-                            <form id="formLogin" className="center" onSubmit={this.submitForm}>
-                                <h3>Bienvenid@ a CondoSpace</h3>
-                                <div className="form-group">
-                                    <input id="inputEmail" type="text" className="input-form" name="username"
-                                           aria-describedby="emailHelp" placeholder="Nombre de Usuario"
-                                           onChange={this.clearInput}/>
-                                </div>
-                                <div className="form-group">
-                                    <input id="inputPassword" type="password" className="input-form"
-                                           name="password"
-                                           placeholder="Password" onChange={this.clearInput}/>
-                                </div>
-                                <FormGroup check>
-                                    <Label check>
-                                        <Input type="checkbox" name="remember" value="1" id=""
-                                               onChange={event => this.handleInputChange(event)}/>{' '}
-                                        Recuérdame
-                                    </Label>
-                                </FormGroup>
-                                <div className="error-box" style={{display: undefined}}>
 
-                                </div>
-                                <button id="btnIngresar" type="submit" className="">Ingresar</button>
-                            </form>
-                        </div>
+        let spinner = <span className="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true"/>;
+        return (
+            <div className="rowLogin row justify-content-center">
+                <div id="cardLogin" className="login card card-nav-tabs animate fadeInUp one">
+                    <div className="card-body">
+                        <form id="formLogin" className="center" onSubmit={this.submitForm}>
+                            <h3>Sistema Administrativo CondoSpace</h3>
+                            <div className="form-group">
+                                <input id="inputEmail" type="text" className="input-form" name="username"
+                                       aria-describedby="emailHelp" placeholder="Nombre de Usuario"
+                                       onChange={this.clearInput}/>
+                            </div>
+                            <div className="form-group">
+                                <input id="inputPassword" type="password" className="input-form"
+                                       name="password"
+                                       placeholder="Password" onChange={this.clearInput}/>
+                            </div>
+                            <div className="form-check">
+                                <input type="checkbox" name="remember" value="1" id=""
+                                       onChange={event => this.handleInputChange(event)} className="form-check-input" id="exampleCheck1"/>
+                                    <label className="form-check-label" htmlFor="exampleCheck1">Recordar mis datos</label>
+                            </div>
+
+                            <div className="error-box" style={{display: undefined}}>
+
+                            </div>
+                            <Button id="btnIngresar" type="submit"  className="actionButton login mt-2">
+                                {this.state.loading ? spinner : ''}
+                                Iniciar Sesión
+                            </Button>
+                        </form>
                     </div>
+                </div>
             </div>
+
 
         );
     }
@@ -92,36 +99,25 @@ export default class Login extends React.Component{
 
     async submitForm(e) {
 
+        this.setState({loading:true});
+
         e.preventDefault();
         var btnIngresar = document.getElementById('btnIngresar').firstChild;
-        var xhr = new XMLHttpRequest();
         var inputEmail = document.getElementById('inputEmail');
         var inputPassword = document.getElementById('inputPassword');
         var cardLogin = document.getElementById('cardLogin');
 
         cardLogin.classList.remove('animate','one','fadeInUp');
 
-        cardLogin.classList.add('fadeOut');
-
         btnIngresar.data = 'Ingresando';
 
         const response = await login({email:inputEmail.value,password:inputPassword.value});
 
         if(response) {
-            handleLoginSuccess(response,this.state.remember);
-            switch (response.user.idTipoUsuario) {
-                case 1: window.location.href = '/admin/index';
-                    break;
-                case 2: {
+            cardLogin.classList.add('fadeOut');
 
-                    if(response.user.bPrimerInicio == 1) {
-                        window.location.href = `/${this.props.match.params.condominio}/bienvenida`;
-                    }else{
-                        window.location.href = `/${this.props.match.params.condominio}/unidades`;
-                    }
-                    break;
-                }
-            }
+            handleLoginSuccess(response,this.state.remember);
+            window.location.href = '/admin/index';
         }
 
 

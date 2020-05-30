@@ -14,7 +14,9 @@ export default class ModalUsuario extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            idPersona:this.props.idRecord
+            idTipoUsuario: 2, //usuario administrador del condominio = 2
+            idCondominio: this.props.idCondominio,
+            password:'admin_condominio'
         }
     }
     async componentWillReceiveProps(nextProps) {
@@ -57,44 +59,46 @@ export default class ModalUsuario extends React.Component{
         console.log(this.state.titulo);
 
         return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
-            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Usuario</ModalHeader>
+            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Nuevo'} Usuario Administrador</ModalHeader>
             <ModalBody>
-                <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
-                    <FormGroup>
-                        <Input type="text" name="nombre" id="" placeholder="Nombre"
-                               value={this.props.idRecord ? this.state.nombre : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="apellidos" id="" placeholder="Apellidos"
-                               value={this.props.idRecord ? this.state.apellidos : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="telefono" id="" placeholder="Telefono"
-                               value={this.props.idRecord ? this.state.telefono : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="celular" id="" placeholder="Celular"
-                               value={this.props.idRecord ? this.state.celular : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="email" id="" placeholder="Email"
-                               value={this.props.idRecord ? this.state.email : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="password" name="password" id="" placeholder="Password"
-                               value={this.props.idRecord ? this.state.password : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
+                <Form id="form">
+                    <Row>
+                        <Col sm={8}>
+                            <FormGroup>
+                                <Label>*Nombre completo</Label>
+                                <Input type="text" name="name" id="" placeholder=""
+                                       value={this.props.idRecord ? this.state.name : undefined}
+                                       onChange={event => this.handleInputChange(event)}/>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={6}>
+                            <FormGroup>
+                                <Label>*Email</Label>
+                                <Input type="text" name="email" id=""
+                                       value={this.props.idRecord ? this.state.email : undefined}
+                                       onChange={event => this.handleInputChange(event)}/>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={6}>
+                            <FormGroup>
+                                <Label>Teléfono</Label>
+                                <Input type="text" name="telefono" id=""
+                                       value={this.props.idRecord ? this.state.telefono : undefined}
+                                       onChange={event => this.handleInputChange(event)}/>
+                            </FormGroup>
+                        </Col>
+                    </Row>
                 </Form>
+                <p className="justify-content-start">La contraseña por defecto es admin_condominio</p>
             </ModalBody>
-            <ModalFooter>
-                <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
+            <p className="center">Los campos marcados con * son obligatorios</p>
+            <ModalFooter className="d-flex justify-content-around">
+                <Button className="neutralButton" onClick={() => this.props.toggleModal()}>Cancelar</Button>
+                <Button className="confirmButton" form="form" onClick={storeRecord(this.state,'register')} color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Usuario</Button>
             </ModalFooter>
 
         </Modal>);

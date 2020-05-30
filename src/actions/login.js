@@ -22,6 +22,8 @@ export const handleLoginSuccess = (response, remember) => {
     if(!remember) {
         const options = {path: '/'};
         CookieService.set('access_token',response.access_token,options);
+        CookieService.set('tipoUsuario', response.user.idTipoUsuario, options);
+
         return true;
     }
 
@@ -31,5 +33,8 @@ export const handleLoginSuccess = (response, remember) => {
     const options = {path: '/', expires: date};
 
     CookieService.set('access_token', response.access_token, options);
+    CookieService.set('tipoUsuario', response.user.idTipoUsuario, options);
+
+
     return true;
 }

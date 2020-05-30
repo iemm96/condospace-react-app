@@ -6,6 +6,7 @@ import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
 import SideBar from "./SideBar";
+import CookieService from "../../../services/CookieService";
 
 export default class Header extends React.Component {
 
@@ -71,11 +72,18 @@ export default class Header extends React.Component {
 
     toggleSidebar = () => (this.setState({isOpenSidebar:!this.state.isOpenSidebar}));
 
+    cerrarSesion = () => {
+        console.log('cerrar');
+        CookieService.remove('access_token');
+        CookieService.remove('tipoUsuario');
+
+        window.location.href = '/condochido/login';
+    }
+
     render(){
         const { condominio } = this.props.match.params;
         return(
             <div className="mt-3">
-                <SideBar toggle={this.toggleSidebar} isOpen={this.state.isOpenSidebar}/>
                 <header className="main-header ">
             <Navbar className="header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar"
                     data-toggle="sticky-onscroll">
@@ -108,7 +116,7 @@ export default class Header extends React.Component {
                             <DropdownMenu>
                                 <DropdownItem>Mis datos de perfil</DropdownItem>
                                 <DropdownItem divider />
-                                <DropdownItem>Cerrar Sesión</DropdownItem>
+                                <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Collapse>
@@ -120,7 +128,7 @@ export default class Header extends React.Component {
                         <DropdownMenu>
                             <DropdownItem>Mis datos de perfil</DropdownItem>
                             <DropdownItem divider />
-                            <DropdownItem>Cerrar Sesión</DropdownItem>
+                            <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                 </div>

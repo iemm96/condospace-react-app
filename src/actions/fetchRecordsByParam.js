@@ -3,12 +3,12 @@ import CookieService from "../services/CookieService";
 import axios from "axios";
 const api_url = url_base;
 
-export const fetchRecords = (resource) => {
+export const fetchRecordsByParam = (resource,param) => {
 
     const authToken = CookieService.get('access_token');
 
     return axios({
-        url:`${api_url}${resource}`,
+        url:`${api_url}${resource}/${param}`,
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -17,6 +17,7 @@ export const fetchRecords = (resource) => {
     }).then(
         (response) => {return response.data},
         (error) => {console.log(error)}
+
     );
 
 };

@@ -4,7 +4,7 @@ import Header from "./common/Header";
 import {withRouter} from 'react-router-dom';
 const CommonHeader = withRouter(props => <Header {...props}/>);
 
-export const AdminCondominioDashboard = ( props ) => (
+export const AdminCondominioDashboard2 = ( props ) => (
     <div>
         <CommonHeader/>
         <div className="dashboard-content animate fadeInUp one">
@@ -12,7 +12,8 @@ export const AdminCondominioDashboard = ( props ) => (
                 <Row className="pt-5 justify-content-center">
                     <Col className="col-11">
                         <div>
-                            { props.children }
+                            { props.evento }
+
                         </div>
                     </Col>
                 </Row>

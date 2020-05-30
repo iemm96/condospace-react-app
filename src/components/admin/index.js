@@ -29,7 +29,7 @@ import { faCheck, faTrash, faBars} from '@fortawesome/free-solid-svg-icons'
 import SideBar from "./common/SideBar";
 import {fetchRecords} from "../../actions/fetchRecords";
 import ModalCondominio from './modals/ModalCondominio';
-
+import CookieService from "../../services/CookieService";
 export default class AdminDashboard extends React.Component{
 
     constructor(props) {
@@ -63,9 +63,6 @@ export default class AdminDashboard extends React.Component{
         let self = this;
         var elements = document.querySelectorAll('[data-toggle="sticky-onscroll"]');
         // Find all data-toggle="sticky-onscroll" elements
-
-        const url = this.props.match.path;
-
 
         [].forEach.call(elements, function(element) {
 
@@ -105,8 +102,16 @@ export default class AdminDashboard extends React.Component{
     };
 
     redirectCondominio = (condominio) => {
-        window.location.href = `/condominio/${condominio}`;
+        window.location.href = `/admin/condominio/${condominio}`;
     };
+
+    cerrarSesion = () => {
+        console.log('cerrar');
+        CookieService.remove('access_token');
+        CookieService.remove('tipoUsuario');
+
+        window.location.href = '/admin/login';
+    }
 
     render() {
 
@@ -135,7 +140,7 @@ export default class AdminDashboard extends React.Component{
                                         <DropdownMenu>
                                             <DropdownItem>Mis datos de perfil</DropdownItem>
                                             <DropdownItem divider />
-                                            <DropdownItem>Cerrar Sesión</DropdownItem>
+                                            <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
                                         </DropdownMenu>
                                     </UncontrolledDropdown>
                                 </Collapse>
@@ -147,7 +152,7 @@ export default class AdminDashboard extends React.Component{
                                     <DropdownMenu>
                                         <DropdownItem>Mis datos de perfil</DropdownItem>
                                         <DropdownItem divider />
-                                        <DropdownItem>Cerrar Sesión</DropdownItem>
+                                        <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
                                     </DropdownMenu>
                                 </UncontrolledDropdown>
                             </div>
@@ -157,39 +162,8 @@ export default class AdminDashboard extends React.Component{
                     <div className="dashboard-content animate fadeInUp one">
                         <SideBar toggle={this.toggleSidebar} isOpen={this.state.isOpenSidebar}/>
 
-                        
-                        <ModalCondominio
-                            idRecord={this.state.idRecord}
-                            toggleModal={this.toggleModal}
-                            recordModal={this.state.recordModal}
-                            resource={'condominios'}
-                        />
-                        <Container>
-                            <div className="row pt-5 justify-content-end">
-                                <div className="col-3" className="justify-content-end">
-                                    <Button onClick={() => this.toggleModal()} className="actionButton ">Nuevo Condominio</Button>
-                                </div>
-                            </div>
-                            <Row className="mt-1">
-                                {
-                                     this.state.condominios.map((value,index) => {
-                                        return (
-                                        <Col xs="4">
-                                            <Card>
-                                                <CardBody className="text-center">
-                                                    <CardTitle>
-                                                    <h3>
-                                                        {value.nombreCondominio}
-                                                    </h3>
-                                                    </CardTitle>
-                                                    <CardSubtitle>{value.unidades.length == '1' ? `${value.unidades.length} Unidad` : `${value.unidades.length} Unidades`}</CardSubtitle>
-                                                    <Button className="mt-2 actionButton" onClick={() => this.redirectCondominio(value.idCondominio)}>Seleccionar</Button>
-                                                </CardBody>
-                                            </Card>
-                                        </Col>)
-                                    })
-                                }
-                            </Row>
+                        <Container className="pt-5">
+                                {this.props.children}
                         </Container>
                     </div>
                 </div>
