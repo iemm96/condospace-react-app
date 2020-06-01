@@ -1,17 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import AdminLogin from "../components/admin/AdminLogin";
+import {AdminLogin} from "../components/admin/AdminLogin";
 import AdminDashboard from "../components/admin";
-import Condominio from "../components/admin/sections/Condominio";
 import {DashboardContainerWithRouter} from "../components/adminCondominio/DashboardContainer";
-import {AdminCondominioDashboard2} from "../components/adminCondominio/AdminCondominioDashboard2";
 
 import AnunciosTable from "./../components/adminCondominio/tables/AnunciosTable";
 import UnidadTable from "../components/adminCondominio/tables/UnidadTable";
 import FinanzasTable from "../components/adminCondominio/tables/FinanzasTable";
 import EventosTable from "../components/adminCondominio/tables/EventosTable";
 import VisitasTable from "../components/adminCondominio/tables/VisitasTable";
-import AreaTable from "../components/adminCondominio/tables/AreaTable";
 import UsuarioTable from "../components/adminCondominio/tables/UsuarioTable";
 import CuotaTable from "../components/adminCondominio/tables/CuotaTable";
 import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
@@ -20,12 +17,10 @@ import CondominioList from "../components/adminCondominio/lists/CondominioList";
 import UsuariosTable from "../components/admin/tables/UsuariosTable";
 import Login from "../Login";
 import Bienvenida from "../components/adminCondominio/sections/Bienvenida";
-import axios from "axios";
-import {url_base} from "../constants/api_url";
 import {AgregarUnidades} from "../components/adminCondominio/sections/AgregarUnidades";
 import {UsuarioProvider} from "../context/usuario-context";
-
-const api_url = url_base;
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
 const AppRoutes = () => {
     const tipoUsuario = CookieService.get('tipoUsuario');
@@ -65,17 +60,20 @@ const AppRoutes = () => {
     }
 
     return (
-        <UsuarioProvider>
-            <BrowserRouter>
-                <Switch>
-                    <Route path="/admin/login" component={AdminLogin}/>
-                    <Route path="/:condominio/login" component={Login} exact/>
+        <div className="app-container">
+            <ReactNotification/>
+            <UsuarioProvider>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path="/admin/login" component={AdminLogin}/>
+                        <Route path="/:condominio/login" component={Login} exact/>
 
-                    {routesAdmin}
-                    {routesAdminCondominio}
-                </Switch>
-            </BrowserRouter>
-        </UsuarioProvider>
+                        {routesAdmin}
+                        {routesAdminCondominio}
+                    </Switch>
+                </BrowserRouter>
+            </UsuarioProvider>
+        </div>
     );
 };
 
