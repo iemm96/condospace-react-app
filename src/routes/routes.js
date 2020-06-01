@@ -15,12 +15,14 @@ import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
 import CookieService from "../services/CookieService";
 import CondominioList from "../components/adminCondominio/lists/CondominioList";
 import UsuariosTable from "../components/admin/tables/UsuariosTable";
-import Login from "../Login";
+import {UserLogin} from "../UserLogin";
 import Bienvenida from "../components/adminCondominio/sections/Bienvenida";
 import {AgregarUnidades} from "../components/adminCondominio/sections/AgregarUnidades";
 import {UsuarioProvider} from "../context/usuario-context";
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
+
+const NoMatchPage = () => {  return (    <h3>404 - Not found</h3>  );};
 
 const AppRoutes = () => {
     const tipoUsuario = CookieService.get('tipoUsuario');
@@ -66,10 +68,12 @@ const AppRoutes = () => {
                 <BrowserRouter>
                     <Switch>
                         <Route path="/admin/login" component={AdminLogin}/>
-                        <Route path="/:condominio/login" component={Login} exact/>
+                        <Route path="/:condominio/login" component={UserLogin} exact/>
 
                         {routesAdmin}
                         {routesAdminCondominio}
+                        <Route path="/error" component={NoMatchPage} />
+                        <Route component={NoMatchPage} />
                     </Switch>
                 </BrowserRouter>
             </UsuarioProvider>
