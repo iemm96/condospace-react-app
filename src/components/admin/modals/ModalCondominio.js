@@ -5,13 +5,46 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
+import {store} from "react-notifications-component";
 
 export const ModalCondominio = (props) => {
     const { register, handleSubmit, watch, errors } = useForm();
 
-    const onSubmit =  data => {
+    const onSubmit = async data => {
         console.log(data);
-        storeRecord(data,'condominios');
+        try {
+            const response = await storeRecord(data,'condominios');
+
+            store.addNotification({
+                title: "Correcto",
+                message: "Se ha creado un nuevo condominio",
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                }
+            });
+            props.toggleModal();
+
+        }catch (e) {
+            store.addNotification({
+                title: "Ocurrió un error al agregar el condominio",
+                message: "Revisa tu conexión a internet",
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                }
+            });
+        }
     }
 
     return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
