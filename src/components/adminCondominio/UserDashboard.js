@@ -5,14 +5,19 @@ import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 import {url_base} from "../../constants/api_url";
 import CookieService from "../../services/CookieService";
+import {useUsuario} from "../../context/usuario-context";
 const api_url = url_base;
 
 const CommonHeader = withRouter(props => <Header {...props}/>);
 
 const UserDashboard = (props) => {
+    const {usuario,setCargandoUsuario,errorPassword,setUsuario,getUser} = useUsuario();
     const authToken = CookieService.get('access_token');
 
     useEffect(async () => {
+        console.log('usuario '+ usuario.access_token);
+
+
         const result = await axios({
             url:`${api_url}user`,
             method: 'GET',
@@ -21,9 +26,12 @@ const UserDashboard = (props) => {
                 "Authorization": 'Bearer ' + authToken,
             },
         }).then(
-            (response) => {return response.data},
+            (response) => {
+                return response.data
+            },
             (error) => {console.log(error)}
         );
+
 
         if(result['condominio'] !== props.match.params.condominio) {
             window.location.href = `/${result['condominio']}/login`;

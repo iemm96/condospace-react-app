@@ -42,13 +42,15 @@ export default class ModalUnidad extends React.Component{
             optionsCondominio.push({value:val.idCondominio,label:val.nombreCondominio,name:'idCondominio'});
         });
 
+        /*
         personas.map((val) => {
             optionsPersona.push({value:val.idPersona,label:val.nombre,name:'idPersona'});
         });
 
         tipoUnidad.map((val) => {
             optionsTipoUnidad.push({value:val.idTipoUnidad,label:val.nombre,name:'tipoUnidad'});
-        });
+        });*/
+
         console.log('idRecord ',this.props.idRecord);
         if(this.props.idRecord) {
             let recordData = await fetchRecord(this.props.idRecord,this.props.resource);

@@ -5,15 +5,56 @@ import {storeRecord} from "../../../actions/storeRecord";
 import {useUsuario} from "../../../context/usuario-context";
 import { useForm } from "react-hook-form";
 import Skeleton from 'react-loading-skeleton';
+import {store} from "react-notifications-component";
 
-export const AgregarUnidades = () => {
-    const {cargandoUsuario,idCondominio,idVisita} = useUsuario();
+export const AgregarUnidades = (props) => {
+    const {cargandoUsuario,idCondominio,setNotificacion} = useUsuario();
     const { register, handleSubmit, watch, errors } = useForm();
 
-    const onSubmit =  data => {
+    const onSubmit = async data => {
         data.idCondominio = idCondominio;
         console.log(data);
-        storeRecord(data,'addUnidades');
+
+        try {
+            const response = await storeRecord(data,'addUnidades');
+
+            /*
+            if(response) {
+                setNotificacion({
+                    title: "Correcto",
+                    message: "Se ha creado un nuevo condominio",
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+
+            }*/
+
+            window.location.href = `/${props.match.params.condominio}/unidades`;
+
+        }catch (e) {
+            console.log(e);
+            store.addNotification({
+                title: "Ocurrió un error al agregar el condominio",
+                message: "Revisa tu conexión a internet",
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                }
+            });
+        }
+
     }
 
     if(cargandoUsuario) {

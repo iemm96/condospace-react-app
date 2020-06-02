@@ -41,21 +41,7 @@ const AppRoutes = () => {
     }
 
     if(tipoUsuario == 2) {
-        routesAdminCondominio = <Route path="/:condominio">
-            <DashboardContainerWithRouter>
-                <Route path="/:condominio/anuncios" components={AnunciosTable} />
-                <Route path="/:condominio/unidades" component={UnidadTable} />
-                <Route path="/:condominio/agregarUnidades" component={AgregarUnidades} />
-                <Route path="/:condominio/bienvenida" component={Bienvenida} />
-                <Route path="/:condominio/finanzas" component={FinanzasTable} />
-                <Route path="/:condominio/eventos" component={EventosTable} />
-                <Route path="/:condominio/visitas" component={VisitasTable} />
-                <Route path="/:condominio/usuarios" component={UsuarioTable} />
-                <Route path="/:condominio/cuotas" component={CuotaTable} />
-                <Route path="/:condominio/cuentas" component={CuentaTable} />
-
-            </DashboardContainerWithRouter >
-        </Route>;
+        routesAdminCondominio = '';
     }
 
     return (
@@ -68,7 +54,20 @@ const AppRoutes = () => {
                         <Route path="/:condominio/login" component={UserLogin} exact/>
 
                         {routesAdmin}
-                        {routesAdminCondominio}
+                        <Route path="/:condominio">
+                            <DashboardContainerWithRouter>
+                                <Route path="/:condominio/anuncios" components={AnunciosTable} />
+                                <Route path="/:condominio/unidades" component={UnidadTable} />
+                                <Route path="/:condominio/agregarUnidades" component={AgregarUnidades} />
+                                <Route path="/:condominio/bienvenida" component={Bienvenida} />
+                                <Route path="/:condominio/finanzas" component={FinanzasTable} />
+                                <Route path="/:condominio/eventos" component={EventosTable} />
+                                <Route path="/:condominio/visitas" component={VisitasTable} />
+                                <Route path="/:condominio/usuarios" component={UsuarioTable} />
+                                <Route path="/:condominio/cuotas" component={CuotaTable} />
+                                <Route path="/:condominio/cuentas" component={CuentaTable} />
+                            </DashboardContainerWithRouter >
+                        </Route>
                         <Route path="/error" component={NoMatchPage} />
                         <Route component={NoMatchPage} />
                     </Switch>

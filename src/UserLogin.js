@@ -9,27 +9,10 @@ import CookieService from "./services/CookieService";
 const expiresAt = 60 * 24;
 
 export const UserLogin = (props) => {
-    const {cargandoUsuario,idCondominio,setIdCondominio,setTipoUsuario} = useUsuario();
+    const {usuario,idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUser} = useUsuario();
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
-    const {errorUser,errorPassword,setUsuario} = useUsuario();
     const { register, handleSubmit, errors } = useForm();
     const condominio  = props.match.params.condominio;
-
-
-    /*
-    useEffect( async () => {
-        try {
-            const result = await validaCondominio(condominio);
-            if(!result) {
-                window.location.href = '/error';
-                return;
-            }
-
-            setIdCondominio(result);
-        }catch (e) {
-            console.log(e);
-        }
-    },[]);*/
 
     function validaCondominio(condominio) {
         return axios({
@@ -72,6 +55,7 @@ export const UserLogin = (props) => {
         data.idCondominio = idCondominio;
 
         setEsperandoRespuesta(true);
+        console.log('esperando respuesta: ' + esperandoRespuesta);
         axios({
             url:`${url_base}userLogin`,
             method: 'POST',
@@ -83,9 +67,17 @@ export const UserLogin = (props) => {
         }).then(
             (response) => {
                 console.log(response.data);
-                setUsuario(response.data);
+                setUser(response.data);
                 const tipoUsuario = response.data.user.idTipoUsuario;
                 setTipoUsuario(tipoUsuario);
+
+                let date = new Date();
+
+                date.setTime(date.getTime() + (expiresAt * 60 * 1000));
+                const options = {path: '/', expires: date};
+
+                CookieService.set('tipoUsuario', response.data.user.idTipoUsuario, options);
+                CookieService.set('access_token', response.data.access_token, options);
 
                 if(tipoUsuario == 2) {
 

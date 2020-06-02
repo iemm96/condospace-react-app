@@ -11,7 +11,7 @@ import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
-import ModalRecord from "../modals/ModalUsuario";
+import {ModalUsuario} from "../modals/ModalUsuario";
 
 //Change
 const RESOURCE = 'administradores'; //API
@@ -41,8 +41,11 @@ export default class UsuariosTable extends React.Component {
         }
     }
 
-    //Change "titulo" if necessary
-    //Change ID
+    updateUsuarios = async () => {
+        records = await fetchRecordsByParam('administradoresCondominio',this.props.match.params.idCondominio);
+        this.setState({records:records});
+    };
+
     actionsFormatter = (cell, row) => (<div>
             <Button type="Button" onClick={() => this.prepareEditModal(row.idAnuncio)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
             <Button type="Button" onClick={() => this.prepareDeleteModal(row.idAnuncio, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
@@ -95,12 +98,13 @@ export default class UsuariosTable extends React.Component {
 
          const contentTable = ({ paginationProps, paginationTableProps }) => (
              <div>
-                 <ModalRecord
+                 <ModalUsuario
                      idRecord={this.state.idRecord}
                      toggleModal={this.toggleModal}
                      recordModal={this.state.recordModal}
                      idCondominio={this.props.match.params.idCondominio}
                      resource={RESOURCE}
+                     update={this.updateUsuarios}
                  />
                  <DeleteRecordModal
                      toggleDeleteModal={this.toggleDeleteModal}
