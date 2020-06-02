@@ -13,7 +13,7 @@ import UsuarioTable from "../components/adminCondominio/tables/UsuarioTable";
 import CuotaTable from "../components/adminCondominio/tables/CuotaTable";
 import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
 import CookieService from "../services/CookieService";
-import CondominioList from "../components/adminCondominio/lists/CondominioList";
+import {CondominioList} from "../components/adminCondominio/lists/CondominioList";
 import UsuariosTable from "../components/admin/tables/UsuariosTable";
 import {UserLogin} from "../UserLogin";
 import Bienvenida from "../components/adminCondominio/sections/Bienvenida";

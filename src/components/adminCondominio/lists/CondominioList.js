@@ -1,82 +1,72 @@
-import React from 'react';
+import React, {useState, useEffect,useReducer} from 'react';
 import {ModalCondominio} from "../../admin/modals/ModalCondominio";
 import {Button, Card, CardBody, CardSubtitle, CardTitle, Col, Container, Row} from "reactstrap";
 import {fetchRecords} from "../../../actions/fetchRecords";
 
-export default class CondominioList extends React.Component {
+export const CondominioList = () => {
+    const [controlModal,setControlModal] = useState(null);
+    const [condominios,setCondominios] = useState(null);
+    const [, updateState] = React.useState();
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            setActiveTab: 1,
-            activeTab: 1,
-            dropDownValue: 'Select action',
-            dropdownOpen: false,
-            modalEvento: false,
-            modalAnuncio: false,
-            modalFinanzas: false,
-            modalAreasComunes:false,
-            isOpenSidebar:false,
-            condominios: []
-        }
+    const fetchCondominios2 = async () => {
+        const arrayCondominios = await fetchRecords('condominiosUnidades');
+        setCondominios(arrayCondominios);
     }
 
-    async componentDidMount() {
-        try {
+    useEffect(() => {   async function fetchCondominios() {
+        // You can await here
+        if(!condominios) {
             const arrayCondominios = await fetchRecords('condominiosUnidades');
-            this.setState({ condominios: arrayCondominios })
-        }catch (error) {
-            console.log(error);
+            setCondominios(arrayCondominios);
         }
+
+    }   fetchCondominios(); }, []);
+
+    const toggleModal = async () => {
+        setControlModal(!controlModal);
+
+    };
+
+    const updateCondominios = async () => {
+        const arrayCondominios = await fetchRecords('condominiosUnidades');
+        setCondominios(arrayCondominios);
     }
 
-    toggleModal = () => {
-        this.state.recordModal ? this.setState({recordModal: false}) : this.setState({recordModal: true});
-    };
-
-    redirectCondominio = (condominio) => {
-        window.location.href = `/admin/condominio/${condominio}`;
-    };
-
-    render() {
-        return(
-            <div>
-                <ModalCondominio
-                    idRecord={this.state.idRecord}
-                    toggleModal={this.toggleModal}
-                    recordModal={this.state.recordModal}
-                    resource={'condominios'}
-                />
-                <div className="row justify-content-end">
-                    <div className="col-3">
-                        <Button onClick={() => this.toggleModal()} className="actionButton ">Nuevo Condominio</Button>
-                    </div>
+    return(
+        <div>
+            <ModalCondominio
+                toggleModal={toggleModal}
+                recordModal={controlModal}
+                update={updateCondominios}
+            />
+            <div className="row justify-content-end">
+                <div className="col-3">
+                    <Button onClick={() => toggleModal()} className="actionButton ">Nuevo Condominio</Button>
                 </div>
-
-                <Row className="mt-1">
-                    {
-                        this.state.condominios.map((value,index) => {
-                            return (
-                                <Col xs="4">
-                                    <Card>
-                                        <CardBody className="text-center">
-                                            <CardTitle>
-                                                <h3>
-                                                    {value.nombreCondominio}
-                                                </h3>
-                                            </CardTitle>
-                                            <CardSubtitle>{value.unidades.length == '1' ? `${value.unidades.length} Unidad` : `${value.unidades.length} Unidades`}</CardSubtitle>
-                                            <Button className="mt-2 actionButton" onClick={() => this.redirectCondominio(value.idCondominio)}>Seleccionar</Button>
-                                        </CardBody>
-                                    </Card>
-                                </Col>)
-                        })
-                    }
-                </Row>
             </div>
-        );
-    }
 
+            <Row className="mt-1">
+                {condominios != null ?
+                    condominios.map((value,index) => {
+                        return (
+                            <Col xs="4">
+                                <Card>
+                                    <CardBody className="text-center">
+                                        <CardTitle>
+                                            <h3>
+                                                {value.nombreCondominio}
+                                            </h3>
+                                        </CardTitle>
+                                        <CardSubtitle>{value.unidades.length == '1' ? `${value.unidades.length} Unidad` : `${value.unidades.length} Unidades`}</CardSubtitle>
+                                        <Button className="mt-2 actionButton" onClick={() => this.redirectCondominio(value.idCondominio)}>Seleccionar</Button>
+                                    </CardBody>
+                                </Card>
+                            </Col>)
+                    }) : ''
+                }
+            </Row>
+        </div>
+    );
 
-};
+}

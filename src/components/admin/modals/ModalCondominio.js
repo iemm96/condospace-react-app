@@ -29,8 +29,9 @@ export const ModalCondominio = (props) => {
                 }
             });
             props.toggleModal();
-
+            props.update();
         }catch (e) {
+            console.log(e);
             store.addNotification({
                 title: "Ocurrió un error al agregar el condominio",
                 message: "Revisa tu conexión a internet",
