@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {CustomInput,UncontrolledTooltip, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
 import Select from "react-select";
-
-import {fetchRecords} from "../../../actions/fetchRecords";
-import {fetchRecord} from "../../../actions/fetchRecord";
-import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
-import stringifyData from "../../../services/stringifyData";
-import {url_base} from "../../../constants/api_url";
-import CookieService from "../../../services/CookieService";
 import {useUsuario} from "../../../context/usuario-context";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import Skeleton from 'react-loading-skeleton';
 
-const api_url = url_base;
-
-export const AgregarUnidades = (props) => {
+export const AgregarUnidades = () => {
     const {cargandoUsuario,idCondominio} = useUsuario();
     const { register, handleSubmit, watch, errors } = useForm();
 
@@ -87,7 +77,6 @@ export const AgregarUnidades = (props) => {
                     </Row>
                 </Col>
             </Row>
-
         );
     }else{
         return(
@@ -103,7 +92,7 @@ export const AgregarUnidades = (props) => {
                         <Col sm={8}>
                             <form id="form" onSubmit={handleSubmit(onSubmit)}>
                                 <Row>
-                                    <Col sm={6}>
+                                    <Col sm={4}>
                                         <FormGroup>
                                             <Label>*¿Cuántas unidades deseas agregar?</Label>
                                             <input type="number"
@@ -121,11 +110,11 @@ export const AgregarUnidades = (props) => {
                                     <Col sm={8}>
                                         <FormGroup>
                                             <Label for="">¿Pertenecen a una misma calle?</Label>
-                                            <div>
-                                                <input type="radio" id="radioButtonSi" value="1" name="pertenecen" label="Si" ref={register({ required: true })}/>
-                                                <label htmlFor="radioButtonSi">Si</label>
-                                                <input type="radio" id="radioButtonNo" value="0" name="pertenecen" label="No" ref={register({ required: true })}/>
-                                                <label htmlFor="radioButtonNo">No</label>
+                                            <div className="custom-control custom-radio">
+                                                <input className="custom-control-input" type="radio" id="radioButtonSi" value="1" name="pertenecen" label="Si" ref={register({ required: true })}/>
+                                                <label className="custom-control-label" htmlFor="radioButtonSi">Si</label>
+                                                <input className="custom-control-input" type="radio" id="radioButtonNo" value="0" name="pertenecen" label="No" ref={register({ required: true })}/>
+                                                <label className="custom-control-label" htmlFor="radioButtonNo">No</label>
                                             </div>
                                             {errors.pertenecen && <small>Selecciona una respuesta</small>}
                                         </FormGroup>
@@ -188,8 +177,6 @@ export const AgregarUnidades = (props) => {
                     </Row>
                 </Col>
             </Row>
-
-
         );
     }
 
