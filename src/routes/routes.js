@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import {AdminLogin} from "../components/admin/AdminLogin";
-import AdminDashboard from "../components/admin";
-import {DashboardContainerWithRouter} from "../components/adminCondominio/DashboardContainer";
+import {AdminDashboardWithRouter} from "../components/admin/AdminDashboard";
+import {DashboardContainerWithRouter} from "../components/adminCondominio/UserDashboard";
 
 import AnunciosTable from "./../components/adminCondominio/tables/AnunciosTable";
 import UnidadTable from "../components/adminCondominio/tables/UnidadTable";
@@ -26,20 +26,17 @@ const NoMatchPage = () => {  return (    <h3>404 - Not found</h3>  );};
 
 const AppRoutes = () => {
     const tipoUsuario = CookieService.get('tipoUsuario');
-    const authToken = CookieService.get('access_token');
 
     let routesAdminCondominio = '';
     let routesAdmin = '';
 
-    console.log(tipoUsuario);
-
     if(tipoUsuario == 1) {
         routesAdmin =
             <Route path="/admin">
-                <AdminDashboard>
+                <AdminDashboardWithRouter>
                     <Route path="/admin/index" component={CondominioList}/>
                     <Route path="/admin/condominio/:idCondominio" component={UsuariosTable}/>
-                </AdminDashboard>
+                </AdminDashboardWithRouter>
             </Route>;
     }
 

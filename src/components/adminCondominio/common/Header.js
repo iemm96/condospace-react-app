@@ -5,7 +5,6 @@ import {faBars} from "@fortawesome/free-solid-svg-icons";
 import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
-import SideBar from "./SideBar";
 import CookieService from "../../../services/CookieService";
 
 export default class Header extends React.Component {

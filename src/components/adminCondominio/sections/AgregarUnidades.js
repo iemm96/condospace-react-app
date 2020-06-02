@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import Skeleton from 'react-loading-skeleton';
 
 export const AgregarUnidades = () => {
-    const {cargandoUsuario,idCondominio} = useUsuario();
+    const {cargandoUsuario,idCondominio,idVisita} = useUsuario();
     const { register, handleSubmit, watch, errors } = useForm();
 
     const onSubmit =  data => {

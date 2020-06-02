@@ -1,5 +1,4 @@
 import React,{useState} from 'react';
-import styles from './assets/admin.scss';
 import {Button} from "reactstrap";
 import {useUsuario} from "../../context/usuario-context";
 import {useForm} from "react-hook-form";
@@ -13,7 +12,7 @@ const expiresAt = 60 * 24;
 export const AdminLogin = () => {
 
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
-    const {errorUser,errorPassword,setUsuario} = useUsuario();
+    const {errorUser,errorPassword,setUsuario,setTipoUsuario} = useUsuario();
     const { register, handleSubmit, errors } = useForm();
 
     const spinner = <span className="spinner-border spinner-border-sm" role="status"
@@ -24,62 +23,63 @@ export const AdminLogin = () => {
         const inputPassword = document.getElementById('inputPassword');
         inputEmail.classList.remove('bounce');
         inputPassword.classList.remove('bounce');
-    }
+    };
 
-    function onSubmit(data) {
+    const onSubmit = (data) => {
         const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
 
         setEsperandoRespuesta(true);
         axios({
-                url:`${url_base}adminLogin`,
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json, text-plain, */*",
-                },
-                data: stringifyData(data)
-            }).then(
-                (response) => {
-                    console.log(response.data);
-                    setUsuario(response.data);
-                    let date = new Date();
+            url:`${url_base}adminLogin`,
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json, text-plain, */*",
+            },
+            data: stringifyData(data)
+        }).then(
+            (response) => {
+                console.log(response.data);
+                setUsuario(response.data);
+                setTipoUsuario(response.data.user.idTipoUsuario);
 
-                    date.setTime(date.getTime() + (expiresAt * 60 * 1000));
-                    const options = {path: '/', expires: date};
+                let date = new Date();
 
-                    CookieService.set('tipoUsuario', response.data.user.idTipoUsuario, options);
+                date.setTime(date.getTime() + (expiresAt * 60 * 1000));
+                const options = {path: '/', expires: date};
 
-                    window.location.href = '/admin/index';
-                    return response.data
-                },
-            ).catch(error => {
-            setEsperandoRespuesta(false);
+                CookieService.set('tipoUsuario', response.data.user.idTipoUsuario, options);
 
-            if (error.response) {
+                window.location.href = '/admin/index';
+                return response.data
+            },
+        ).catch(error => {
+        setEsperandoRespuesta(false);
 
-                    if(error.response.data.type == 'usuario') {
-                        inputEmail.classList.add('bounce');
-                    }
-                    if(error.response.data.type == 'password') {
-                        inputPassword.classList.add('bounce');
-                    }
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the
-                    // browser and an instance of
-                    // http.ClientRequest in node.js
-                    console.log(error.request);
+        if (error.response) {
 
-
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error', error.message);
-
+                if(error.response.data.type == 'usuario') {
+                    inputEmail.classList.add('bounce');
                 }
-            });
+                if(error.response.data.type == 'password') {
+                    inputPassword.classList.add('bounce');
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the
+                // browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
 
-    }
+
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+
+            }
+        });
+    };
 
     return(
         <div className="rowLogin row justify-content-center">

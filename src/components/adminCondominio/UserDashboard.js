@@ -9,11 +9,9 @@ const api_url = url_base;
 
 const CommonHeader = withRouter(props => <Header {...props}/>);
 
-const DashboardContainer = (props) => {
-    const [data, setData] = useState({ hits: [] });
+const UserDashboard = (props) => {
     const authToken = CookieService.get('access_token');
 
-    console.log(authToken);
     useEffect(async () => {
         const result = await axios({
             url:`${api_url}user`,
@@ -30,7 +28,6 @@ const DashboardContainer = (props) => {
         if(result['condominio'] !== props.match.params.condominio) {
             window.location.href = `/${result['condominio']}/login`;
         }
-
     });
 
     return(
@@ -50,5 +47,5 @@ const DashboardContainer = (props) => {
         </div>)
 }
 
-export const DashboardContainerWithRouter = withRouter(DashboardContainer);
+export const DashboardContainerWithRouter = withRouter(UserDashboard);
 

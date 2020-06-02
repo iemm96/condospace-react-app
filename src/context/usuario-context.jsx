@@ -14,27 +14,6 @@ export function UsuarioProvider (props) {
     const [cargandoUsuario,setCargandoUsuario] = useState(true);
     const [cargandoRequest,setCargandoRequest] = useState(false);
 
-    /*
-    useEffect(() => {
-        async function getUserToken() {
-            const authToken = CookieService.get('access_token');
-            if(!authToken) {
-                setCargandoUsuario(false);
-                return;
-            }
-
-            try {
-                const response = await getUser(authToken);
-                setUsuario(response);
-                setIdCondominio(response.user.idCondominio);
-                setCargandoUsuario(false);
-            }catch (e) {
-                return false;
-            }
-        }
-        getUserToken();
-    },[usuario]);*/
-
     const getUser = async () => {
         try {
             const authToken = CookieService.get('access_token');
@@ -48,31 +27,7 @@ export function UsuarioProvider (props) {
         }
     };
 
-    /*
-    useEffect(() => {
-        fetchData()
-            .then((response) => {
-                setUsuario(response);
-                setIdCondominio(response.user.idCondominio);
-                setCargandoUsuario(false);
-            })
-            .catch(error => {
-                console.warn(JSON.stringify(error, null, 2));
-            });
-    }, []);*/
 
-    function validaCondominio(condominio) {
-        return axios({
-            url:`${url_base}getCondominioByName/${condominio}`,
-            method: 'GET',
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then(
-            (response) => {return response.data},
-            (error) => {console.log(error)}
-        );
-    }
 
     const value = useMemo(() => {
         return ({
@@ -84,6 +39,7 @@ export function UsuarioProvider (props) {
             setIdCondominio,
             setTipoUsuario,
             tipoUsuario,
+
         });
     },[usuario,cargandoUsuario,cargandoRequest,setIdCondominio,idCondominio,setUsuario,tipoUsuario,setTipoUsuario]);
 

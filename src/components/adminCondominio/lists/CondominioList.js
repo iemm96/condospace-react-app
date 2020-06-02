@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalCondominio from "../../admin/modals/ModalCondominio";
+import {ModalCondominio} from "../../admin/modals/ModalCondominio";
 import {Button, Card, CardBody, CardSubtitle, CardTitle, Col, Container, Row} from "reactstrap";
 import {fetchRecords} from "../../../actions/fetchRecords";
 
@@ -25,7 +25,6 @@ export default class CondominioList extends React.Component {
     async componentDidMount() {
         try {
             const arrayCondominios = await fetchRecords('condominiosUnidades');
-            //const jsonCondominios = await arrayCondominios.json();
             this.setState({ condominios: arrayCondominios })
         }catch (error) {
             console.log(error);

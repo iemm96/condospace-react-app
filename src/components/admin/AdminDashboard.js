@@ -1,35 +1,49 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {
-    Card,
-    CardBody,
-    CardTitle,
-    CardSubtitle,
     Container,
     Row,
     Col,
-    Button,
-    NavLink,
-    TabContent,
-    TabPane,
-    UncontrolledDropdown,
-    Label,
-    Collapse,
-    NavbarToggler,
-    Navbar,
 } from "reactstrap";
+import {useUsuario} from "./../../context/usuario-context";
+import './assets/admin.scss';
+import {withRouter} from "react-router-dom";
+import {AdminHeader} from "./common/Header";
 
-import BootstrapTable from 'react-bootstrap-table-next';
-import DropdownToggle from "reactstrap/es/DropdownToggle";
-import DropdownMenu from "reactstrap/es/DropdownMenu";
-import DropdownItem from "reactstrap/es/DropdownItem";
-import NuevoEvento from "./modals/NuevoEvento";
+const CommonHeader = withRouter(props => <AdminHeader {...props}/>);
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faCheck, faTrash, faBars} from '@fortawesome/free-solid-svg-icons'
-import SideBar from "./common/SideBar";
-import {fetchRecords} from "../../actions/fetchRecords";
-import ModalCondominio from './modals/ModalCondominio';
-import CookieService from "../../services/CookieService";
+export const AdminDashboardWithRouter = (props) => {
+    const {errorUser,errorPassword,usuario,tipoUsuario} = useUsuario();
+
+    /*
+    useEffect( () => {
+        console.log(tipoUsuario);
+        console.log(usuario);
+        debugger;
+        if(tipoUsuario !== 1) {
+            window.location.href = '/admin/login';
+        }
+    });*/
+
+    return(
+        <div>
+            <CommonHeader/>
+            <div className="dashboard-content animate fadeInUp one">
+                <Container>
+                    <Row className="pt-5 justify-content-center">
+                        <Col className="col-11">
+                            <div>
+                                {props.children}
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+        </div>)
+}
+
+//export const AdminDashboardWithRouter = withRouter(AdminDashboard);
+
+/*
 export default class AdminDashboard extends React.Component{
 
     constructor(props) {
@@ -130,8 +144,6 @@ export default class AdminDashboard extends React.Component{
                                 <NavLink className="navbar-brand" to="#">CondoSpace</NavLink>
 
                                 <Collapse isOpen={this.state.isOpen} className="navbar-collapse justify-content-center" id="navbarSupportedContent" navbar>
-
-                           
                                     <UncontrolledDropdown className="d-sm-none">
                                         <img src={require('./../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
                                         <DropdownToggle caret>
@@ -196,3 +208,4 @@ export default class AdminDashboard extends React.Component{
     }
 
 };
+*/
