@@ -12,6 +12,6 @@ export default class CookieService {
     };
 
     static remove = (key) => {
-        cookie.remove(key);
+        cookie.remove(key,{ path: '/' });
     };
 }

@@ -6,6 +6,7 @@ import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
 import SideBar from "./SideBar";
+import CookieService from "../../../services/CookieService";
 
 export const AdminHeader = (props) => {
     const [isOpenSidebar,setIsOpenSidebar] = useState(null);
@@ -48,6 +49,14 @@ export const AdminHeader = (props) => {
             stickyWrapper.style.height = 'auto';
         }
     };
+
+    const cerrarSesion = () => {
+        console.log('cerrar');
+        CookieService.remove('access_token');
+        CookieService.remove('tipoUsuario');
+
+        window.location.href = '/admin/login';
+    }
 
     const toggleSidebar = () => (setIsOpenSidebar(!isOpenSidebar));
     
@@ -106,7 +115,7 @@ export const AdminHeader = (props) => {
                         <DropdownMenu>
                             <DropdownItem>Mis datos de perfil</DropdownItem>
                             <DropdownItem divider />
-                            <DropdownItem>Cerrar Sesión</DropdownItem>
+                            <DropdownItem onClick={cerrarSesion}>Cerrar Sesión</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                 </Collapse>
@@ -118,7 +127,7 @@ export const AdminHeader = (props) => {
                     <DropdownMenu>
                         <DropdownItem>Mis datos de perfil</DropdownItem>
                         <DropdownItem divider />
-                        <DropdownItem>Cerrar Sesión</DropdownItem>
+                        <DropdownItem onClick={cerrarSesion}>Cerrar Sesión</DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </div>
