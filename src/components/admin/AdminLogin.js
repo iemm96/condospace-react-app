@@ -1,9 +1,6 @@
 import React,{useState} from 'react';
 import styles from './assets/admin.scss';
-import login from "./../../actions/login";
-import {handleLoginSuccess} from "./../../actions/login";
-import { RouteComponentProps } from 'react-router-dom';
-import {FormGroup, Input, Label,Form,Row,Col,Button} from "reactstrap";
+import {Button} from "reactstrap";
 import {useUsuario} from "../../context/usuario-context";
 import {useForm} from "react-hook-form";
 import axios from "axios";
@@ -16,8 +13,8 @@ const expiresAt = 60 * 24;
 export const AdminLogin = () => {
 
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
-    const {cargandoRequest,adminLogin,errorUser,errorPassword,setUsuario} = useUsuario();
-    const { register, handleSubmit, watch, errors } = useForm();
+    const {errorUser,errorPassword,setUsuario} = useUsuario();
+    const { register, handleSubmit, errors } = useForm();
 
     const spinner = <span className="spinner-border spinner-border-sm" role="status"
                         aria-hidden="true"/>;
@@ -82,42 +79,6 @@ export const AdminLogin = () => {
                 }
             });
 
-    }
-
-    async function onSubmit2(data){
-
-
-        try {
-            const response  = await login(data);
-        }catch (e) {
-        }
-
-
-
-
-
-
-
-
-
-        /*
-        if(response) {
-
-            console.log('response', response);
-            if(response.error === 'usuario') {
-                inputEmail.classList.add('bounce');
-            }
-            if(response.error === 'password') {
-                inputPassword.classList.add('bounce');
-            }
-
-
-
-            cardLogin.classList.add('fadeOut');
-
-            handleLoginSuccess(response,this.state.remember);
-            window.location.href = '/admin/index';
-        }*/
     }
 
     return(
