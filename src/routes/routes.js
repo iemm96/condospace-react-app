@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import {AdminLogin} from "../components/admin/AdminLogin";
+import AdminLogin from "../components/admin/AdminLogin";
 import {AdminDashboardWithRouter} from "../components/admin/AdminDashboard";
 import {DashboardContainerWithRouter} from "../components/adminCondominio/UserDashboard";
 
@@ -15,7 +15,7 @@ import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
 import CookieService from "../services/CookieService";
 import {CondominioList} from "../components/adminCondominio/lists/CondominioList";
 import UsuariosTable from "../components/admin/tables/UsuariosTable";
-import {UserLogin} from "../UserLogin";
+import UserLogin from "../UserLogin";
 import Bienvenida from "../components/adminCondominio/sections/Bienvenida";
 import {AgregarUnidades} from "../components/adminCondominio/sections/AgregarUnidades";
 import {UsuarioProvider} from "../context/usuario-context";
@@ -25,24 +25,6 @@ import 'react-notifications-component/dist/theme.css'
 const NoMatchPage = () => {  return (    <h3>404 - Not found</h3>  );};
 
 const AppRoutes = () => {
-    const tipoUsuario = CookieService.get('tipoUsuario');
-
-    let routesAdminCondominio = '';
-    let routesAdmin = '';
-
-    if(tipoUsuario == 1) {
-        routesAdmin =
-            <Route path="/admin">
-                <AdminDashboardWithRouter>
-                    <Route path="/admin/index" component={CondominioList}/>
-                    <Route path="/admin/condominio/:idCondominio" component={UsuariosTable}/>
-                </AdminDashboardWithRouter>
-            </Route>;
-    }
-
-    if(tipoUsuario == 2) {
-        routesAdminCondominio = '';
-    }
 
     return (
         <div className="app-container">
@@ -50,10 +32,15 @@ const AppRoutes = () => {
             <UsuarioProvider>
                 <BrowserRouter>
                     <Switch>
-                        <Route path="/admin/login" component={AdminLogin}/>
-                        <Route path="/:condominio/login" component={UserLogin} exact/>
+                        <Route path="/admin/login" component={() => <AdminLogin/>}/>
+                        <Route path="/:condominio/login" component={() => <UserLogin/>} exact/>
 
-                        {routesAdmin}
+                        <Route path="/admin">
+                            <AdminDashboardWithRouter>
+                                <Route path="/admin/index" component={CondominioList}/>
+                                <Route path="/admin/condominio/:idCondominio" component={UsuariosTable}/>
+                            </AdminDashboardWithRouter>
+                        </Route>
                         <Route path="/:condominio">
                             <DashboardContainerWithRouter>
                                 <Route path="/:condominio/anuncios" components={AnunciosTable} />

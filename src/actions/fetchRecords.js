@@ -3,20 +3,25 @@ import CookieService from "../services/CookieService";
 import axios from "axios";
 const api_url = url_base;
 
-export const fetchRecords = (resource) => {
+export const fetchRecords = async (resource) => {
 
     const authToken = CookieService.get('access_token');
 
-    return axios({
-        url:`${api_url}${resource}`,
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": authToken,
-        },
-    }).then(
-        (response) => {return response.data},
-        (error) => {console.log(error)}
-    );
+    try {
+        const response = await axios({
+            url:`${api_url}${resource}`,
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": authToken,
+            },
+        });
+
+        if(response) {
+            return response.data;
+        }
+    }catch (e) {
+        return e;
+    }
 
 };

@@ -14,30 +14,6 @@ const UserDashboard = (props) => {
     const {usuario,setCargandoUsuario,errorPassword,setUsuario,getUser} = useUsuario();
     const authToken = CookieService.get('access_token');
 
-    useEffect(async () => {
-        console.log('usuario '+ usuario.access_token);
-
-
-        const result = await axios({
-            url:`${api_url}user`,
-            method: 'GET',
-            headers: {
-                "Accept": "application/json",
-                "Authorization": 'Bearer ' + authToken,
-            },
-        }).then(
-            (response) => {
-                return response.data
-            },
-            (error) => {console.log(error)}
-        );
-
-
-        if(result['condominio'] !== props.match.params.condominio) {
-            window.location.href = `/${result['condominio']}/login`;
-        }
-    });
-
     return(
         <div>
             <CommonHeader/>

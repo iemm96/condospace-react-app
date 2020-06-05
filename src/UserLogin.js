@@ -6,13 +6,15 @@ import axios from "axios";
 import stringifyData from "./services/stringifyData";
 import {url_base} from "./constants/api_url";
 import CookieService from "./services/CookieService";
+import { withRouter, Redirect, useHistory} from 'react-router';
 const expiresAt = 60 * 24;
 
-export const UserLogin = (props) => {
-    const {usuario,idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUser} = useUsuario();
+const UserLogin = (props) => {
+    const {usuario,idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUsuario} = useUsuario();
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
     const { register, handleSubmit, errors } = useForm();
     const condominio  = props.match.params.condominio;
+    let history = useHistory();
 
     function validaCondominio(condominio) {
         return axios({
@@ -67,7 +69,7 @@ export const UserLogin = (props) => {
         }).then(
             (response) => {
                 console.log(response.data);
-                setUser(response.data);
+                setUsuario(response.data);
                 const tipoUsuario = response.data.user.idTipoUsuario;
                 setTipoUsuario(tipoUsuario);
 
@@ -76,15 +78,13 @@ export const UserLogin = (props) => {
                 date.setTime(date.getTime() + (expiresAt * 60 * 1000));
                 const options = {path: '/', expires: date};
 
-                CookieService.set('tipoUsuario', response.data.user.idTipoUsuario, options);
                 CookieService.set('access_token', response.data.access_token, options);
 
                 if(tipoUsuario == 2) {
-
                     if(response.data.user.bPrimerInicio) {
-                        window.location.href = `/${condominio}/bienvenida`;
+                        history.push(`/${condominio}/bienvenida`);
                     }else{
-                        window.location.href = `/${condominio}/unidades`;
+                        history.push(`/${condominio}/unidades`);
                     }
                 }
                 return response.data
@@ -164,6 +164,6 @@ export const UserLogin = (props) => {
 
     );
 
-
-
 };
+
+export default withRouter(UserLogin);

@@ -54,12 +54,6 @@ export const ModalUsuario = (props) => {
         }
     }
 
-    
-
-
-
-
-
     return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
             <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Nuevo'} Usuario Administrador</ModalHeader>
             <ModalBody>
