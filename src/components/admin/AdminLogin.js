@@ -6,14 +6,17 @@ import axios from "axios";
 import stringifyData from "../../services/stringifyData";
 import {url_base} from "../../constants/api_url";
 import CookieService from "../../services/CookieService";
+import { withRouter, Redirect, useHistory} from 'react-router';
+
 const expiresAt = 60 * 24;
 
 
-export const AdminLogin = () => {
+const AdminLogin = () => {
 
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
     const {errorUser,errorPassword,setUsuario,setTipoUsuario} = useUsuario();
     const { register, handleSubmit, errors } = useForm();
+    let history = useHistory();
 
     const spinner = <span className="spinner-border spinner-border-sm" role="status"
                         aria-hidden="true"/>;
@@ -49,9 +52,9 @@ export const AdminLogin = () => {
                 date.setTime(date.getTime() + (expiresAt * 60 * 1000));
                 const options = {path: '/', expires: date};
 
-                CookieService.set('tipoUsuario', response.data.user.idTipoUsuario, options);
+                CookieService.set('access_token', response.data.access_token, options);
 
-                window.location.href = '/admin/index';
+                history.push('/admin/index');
                 return response.data
             },
         ).catch(error => {
@@ -127,7 +130,6 @@ export const AdminLogin = () => {
         </div>
 
     );
-
-
-
 };
+
+export default withRouter(AdminLogin);

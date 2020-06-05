@@ -1,39 +1,43 @@
 import React, {useState,useEffect, useMemo} from 'react';
 import CookieService from "../services/CookieService";
-import axios from 'axios';
 import {getUser} from "../actions/getUser";
-import stringifyData from "../services/stringifyData";
-import {url_base} from "./../constants/api_url";
 
 const UsuarioContext = React.createContext();
 
 export function UsuarioProvider (props) {
-    const [usuario,setUsuario] = useState({});
+    const [usuario,setUsuario] = useState(null);
     const [idCondominio,setIdCondominio] = useState(null);
     const [tipoUsuario,setTipoUsuario] = useState(null);
     const [cargandoUsuario,setCargandoUsuario] = useState(false);
     const [cargandoRequest,setCargandoRequest] = useState(false);
     const [notificacion,setNotificacion] = useState(null);
 
-    const getUser = async () => {
-        try {
-            const authToken = CookieService.get('access_token');
-            const response = await getUser(authToken);
-            setUsuario(response);
-            setIdCondominio(response.user.idCondominio);
-            setCargandoUsuario(false);
-            return response.data;
-        } catch (error) {
-            throw error;
+    useEffect(() => {
+
+        async function cargarUsuario() {
+            const accessToken = CookieService.get('access_token');
+
+            //Si el token existe carga el usuario en el contexto
+            if(!accessToken) {
+                setCargandoUsuario(false);
+                return;
+            }
+
+            try{
+                //Se obtiene una respuesta del servidor con los datos del usuario, de existir se setea en el contexto
+                const response = await getUser(accessToken);
+                if(response) {
+                    setUsuario(response);
+                    setIdCondominio(response.user.idCondominio);
+                    setCargandoUsuario(false);
+                }
+            }catch (e) {
+                console.log(e);
+            }
         }
-    };
 
-
-    const setUser = (user) => {
-        console.log(user);
-        setUsuario(user);
-        console.log('usuario ' +usuario);
-    };
+        cargarUsuario();
+    },[]);
 
 
     const value = useMemo(() => {
@@ -46,12 +50,10 @@ export function UsuarioProvider (props) {
             setIdCondominio,
             setTipoUsuario,
             tipoUsuario,
-            setUser:setUser,
-            getUser,
             setCargandoUsuario,
             setNotificacion
         });
-    },[usuario,cargandoUsuario,cargandoRequest,setIdCondominio,idCondominio,tipoUsuario,setTipoUsuario,setUser,setCargandoUsuario,setNotificacion]);
+    },[usuario,cargandoUsuario,cargandoRequest,setIdCondominio,idCondominio,tipoUsuario,setTipoUsuario,setCargandoUsuario,setNotificacion]);
 
     return <UsuarioContext.Provider value={value} {...props}/>
 }
