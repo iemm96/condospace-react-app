@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {PaginationListStandalone, PaginationProvider} from "react-bootstrap-table2-paginator";
@@ -17,146 +17,140 @@ import ModalRecord from "../modals/ModalCuenta";
 const RESOURCE = 'cuentas'; //API
 const NEW_BUTTON_TEXT = 'Nueva Cuenta';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
+const cuentaTable = (props)=>
+{
+    const [records,setRecords] = useState(null);
+    const [modalControl,setModalControl] = useState(false);
+    const [modalDeleteControl,setModalDeleteControl] = useState(false);
+    const [selectedRecordId,setSelectedRecordId] = useState(null);
+    const [selectedRecordTitle,setSelectedRecordTitle] = useState(null);
 
-let records = [];
-
-export default class CuentaTable extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            edit: false
-        };
-    }
-
-    async componentDidMount() {
-        try {
-            records = await fetchRecords(RESOURCE);
-            this.setState({records:records});
-        }catch (error) {
-            console.log(error);
+    useEffect(() => {
+        async function getRecords() {
+            try {
+                const result = await fetchRecords(RESOURCE);
+                setRecords(result);
+            }catch (e) {
+                console.log(e);
+            }
         }
-    }
 
-    //Change "titulo" if necessary
-    actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => this.prepareEditModal(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+        getRecords();
+    },[]);
+
+    const actionsFormatter = (cell, row) => (<div>
+            <Button type="Button" onClick={() => setSelectedRecordId(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
-    toggleModal = () => {
-        this.state.recordModal ? this.setState({recordModal: false}) : this.setState({recordModal: true});
+    const toggleModal = () => {
+        setModalControl(!modalControl);
     };
 
-    toggleDeleteModal = () => {
-        this.state.deleteModal ? this.setState({deleteModal: false}) : this.setState({deleteModal: true});
+    const toggleDeleteModal = () => {
+        setModalDeleteControl(!modalDeleteControl);
     };
 
-    prepareDeleteModal = (id,title) => {
-        this.setState({idRecord: id, title: title});
+    const prepareDeleteModal = (id,title) => {
+        setSelectedRecordId(id);
+        setSelectedRecordTitle(title);
+    }
 
-        this.toggleDeleteModal();
-    };
+    /*
+    *  prepareEditModal = idRecord => {
+        setState({idRecord:idRecord});
 
-    prepareEditModal = idRecord => {
-        this.setState({idRecord:idRecord});
-
-        this.toggleModal();
+        toggleModal();
     };
 
     prepareNewModal = () => {
-        this.setState({idRecord: false});
+        setState({idRecord: false});
 
-        this.toggleModal();
-    };
+        toggleModal();
+    };*/
 
-    render() {
-
-        const columns = [{
-            dataField: 'cuenta',
-            text: 'Cuenta',
-            sort: true,
-        },{
-            dataField: 'clabe',
-            text: 'Clabe',
-            sort: true,
-        },{
-            dataField: 'tipoBanco',
-            text: 'Tipo de Banco',
-            sort: true,
-        },{
-            dataField: 'actions',
-            text: 'Acciones',
-            isDummyField: true,
-            csvExport: false,
-            formatter: this.actionsFormatter,
-        }];
-
-        const contentTable = ({ paginationProps, paginationTableProps }) => (
+    const columns = [{
+        dataField: 'cuenta',
+        text: 'Cuenta',
+        sort: true,
+    },{
+        dataField: 'clabe',
+        text: 'Clabe',
+        sort: true,
+    },{
+        dataField: 'tipoBanco',
+        text: 'Tipo de Banco',
+        sort: true,
+    },{
+        dataField: 'actions',
+        text: 'Acciones',
+        isDummyField: true,
+        csvExport: false,
+        formatter: actionsFormatter,
+    }];
+    const contentTable = ({ paginationProps, paginationTableProps }) => (
+        <div>
+            <ModalRecord
+                idRecord={selectedRecordId}
+                toggleModal={toggleModal}
+                recordModal={modalControl}
+                resource={RESOURCE}
+            />
+            <DeleteRecordModal
+                toggleDeleteModal={toggleDeleteModal}
+                title={selectedRecordTitle}
+                idRecord={setSelectedRecordId}
+                deleteModal={modalDeleteControl}
+                resource={RESOURCE}
+            />
+            <ToolkitProvider
+                keyField="id"
+                columns={ columns }
+                data={ records }
+                search>
+                {
+                    toolkitprops => (
+                        <div>
+                            <Buscador toggleModal={toggleModal}
+                                      buttonText={NEW_BUTTON_TEXT}
+                                      placeholderText={PLACEHOLDER_SEARCH_TEXT}
+                                      { ...toolkitprops.searchProps }
+                            />
+                            <BootstrapTable
+                                hover
+                                { ...toolkitprops.baseProps }
+                                { ...paginationTableProps }
+                            />
+                        </div>
+                    )
+                }
+            </ToolkitProvider>
+            <PaginationListStandalone { ...paginationProps } />
+        </div>
+    );
+    if(records) {
+        return(
             <div>
-                <ModalRecord
-                    idRecord={this.state.idRecord}
-                    toggleModal={this.toggleModal}
-                    recordModal={this.state.recordModal}
-                    resource={RESOURCE}
-                />
-                <DeleteRecordModal
-                    toggleDeleteModal={this.toggleDeleteModal}
-                    title={this.state.title}
-                    idRecord={this.state.idRecord}
-                    deleteModal={this.state.deleteModal}
-                    resource={RESOURCE}
-                />
-                <ToolkitProvider
-                    keyField="id"
-                    columns={ columns }
-                    data={ this.state.records }
-                    search>
-                    {
-                        toolkitprops => (
-                            <div>
-                                <Buscador prepareNewModal={this.prepareNewModal}
-                                          buttonText={NEW_BUTTON_TEXT}
-                                          placeholderText={PLACEHOLDER_SEARCH_TEXT}
-                                          { ...toolkitprops.searchProps }
-                                />
-                                <BootstrapTable
-                                    hover
-                                    { ...toolkitprops.baseProps }
-                                    { ...paginationTableProps }
-                                />
-                            </div>
-                        )
-                    }
-                </ToolkitProvider>
-                <PaginationListStandalone { ...paginationProps } />
+                <Col className="col-3">
+                </Col>
+                <PaginationProvider
+                    pagination={paginationFactory(options(records))}>
+
+                    {contentTable}
+
+                </PaginationProvider>
             </div>
         );
-
-        if(this.state.records) {
-
-            console.log(this.state.idRecord);
-            return(
-                <div>
-                    <Col className="col-3">
-                    </Col>
-                    <PaginationProvider
-                        pagination={paginationFactory(options(records))}>
-
-                        {contentTable}
-
-                    </PaginationProvider>
-                </div>
-            );
-        }else{
-            return(<div style={{ fontSize: 20, lineHeight: 2 }}>
-                <h1>{<Skeleton />}</h1>
-                {<Skeleton count={5} />}
-            </div>);
-        }
-
+    }else{
+        return(<div style={{ fontSize: 20, lineHeight: 2 }}>
+            <h1>{<Skeleton />}</h1>
+            {<Skeleton count={5} />}
+        </div>);
     }
 
-}
+
+
+};
+
+export default  CuentaTable;
