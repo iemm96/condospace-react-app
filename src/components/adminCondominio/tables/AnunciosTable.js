@@ -56,7 +56,7 @@ const AnunciosTable = (props) => {
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
         setSelectedRecordTitle(title);
-    }
+    };
 
     const columns = [{
         dataField: 'titulo',

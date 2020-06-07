@@ -50,7 +50,7 @@ const UnidadTable  = (props) => {
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
         setSelectedRecordTitle(title);
-    }
+    };
 
     const actionsFormatter = (cell, row) => (<div>
             <Button type="Button" onClick={() => setSelectedRecordId(row.idUnidad)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
@@ -100,7 +100,7 @@ const UnidadTable  = (props) => {
             <ToolkitProvider
                 keyField="id"
                 columns={ columns }
-                data={ columns }
+                data={ records }
                 search>
                 {
                     toolkitprops => (
