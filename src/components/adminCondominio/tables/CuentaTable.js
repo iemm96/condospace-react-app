@@ -17,7 +17,7 @@ import ModalRecord from "../modals/ModalCuenta";
 const RESOURCE = 'cuentas'; //API
 const NEW_BUTTON_TEXT = 'Nueva Cuenta';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
-const cuentaTable = (props)=>
+const CuentaTable = (props)=>
 {
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
