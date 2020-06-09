@@ -22,7 +22,7 @@ const ModalTransaccion = (props) => {
     const [recordState, setRecordState] = useState(props);
     const [selectedRecordId,setSelectedRecordId] = useState(props.idRecord);
     const [startDate, setStartDate] = useState(new Date());
-    const [tipoTransaccion,setTipoTransaccion] = useState(null);
+    const [tipoTransaccion,setTipoTransaccion] = useState(false);
     const [tipoUnidad,setTipoUnidad] = useState(null);
     const [tipoCuenta,setTipoCuenta] = useState(null);
     const [tipoFormaPago,setTipoFormaPago] = useState([]);
@@ -40,6 +40,7 @@ const ModalTransaccion = (props) => {
         async function getRecord() {
             try {
                 const resultadoRecord = await fetchRecord(props.idRecord,'transacciones');
+
                 setTipoUnidad(resultadoRecord.idUnidad);
                 setTipoCuenta(resultadoRecord.idCuenta);
                 setTipoFormaPago(resultadoRecord.formaPago);
@@ -47,6 +48,8 @@ const ModalTransaccion = (props) => {
                 setStartDate(new Date(resultadoRecord.fechaCobro));
 
                 setRecord(resultadoRecord);
+                setDisabledButton(false);
+
             }catch (e) {
                 console.log(e);
             }
@@ -116,8 +119,11 @@ const ModalTransaccion = (props) => {
 
     const handleChangeCuenta = (idCuenta) => {
         setTipoCuenta(idCuenta);
-        handleChangeTotal();
     };
+
+    useEffect(() => {
+        handleChangeTotal()
+    },[total,tipoCuenta,tipoTransaccion]);
 
     const handleChangeTotal = () => {
 
@@ -141,14 +147,18 @@ const ModalTransaccion = (props) => {
         if(inputMonto.value > 0){
 
             if(radioIngreso.checked) {
+
+                setTipoTransaccion(1);
                 setTotal(parseInt(cuenta.total) + parseInt(inputMonto.value));
             }else if(radioEgreso.checked) {
+                setTipoTransaccion(0);
 
                 const result = parseInt(cuenta.total) - parseInt(inputMonto.value);
 
                 if(result > 0) {
                     setTotal(result);
                 }else {
+                    setDisabledButton(true);
                     return;
                 }
             }
@@ -329,7 +339,7 @@ const ModalTransaccion = (props) => {
                                        value="1"
                                        className="custom-control-input"
                                        id="radioIngreso"
-                                       defaultChecked={record ? record.esIngreso : false}
+                                       checked={tipoTransaccion === 1}
                                        name="esIngreso"
                                        ref={register}
                                        onChange={handleChangeTotal}
@@ -343,7 +353,7 @@ const ModalTransaccion = (props) => {
                                        id="radioEgreso"
                                        name="esIngreso"
                                        ref={register}
-                                       defaultChecked={record ? record.esIngreso : false}
+                                       checked={tipoTransaccion === 0}
                                        onChange={handleChangeTotal}
                                        />
                                     <label className="custom-control-label" htmlFor="radioEgreso">Egreso</label>
