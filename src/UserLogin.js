@@ -10,7 +10,7 @@ import { withRouter, Redirect, useHistory} from 'react-router';
 const expiresAt = 60 * 24;
 
 const UserLogin = (props) => {
-    const {usuario,idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUsuario} = useUsuario();
+    const {usuario,idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUsuario,setUserLoggedIn} = useUsuario();
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
     const { register, handleSubmit, errors } = useForm();
     const condominio  = props.match.params.condominio;
@@ -79,6 +79,8 @@ const UserLogin = (props) => {
                 const options = {path: '/', expires: date};
 
                 CookieService.set('access_token', response.data.access_token, options);
+
+                setUserLoggedIn(true);
 
                 if(tipoUsuario == 2) {
                     if(response.data.user.bPrimerInicio) {

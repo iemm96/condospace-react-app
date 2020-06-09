@@ -1,6 +1,7 @@
 import React, {useState,useEffect, useMemo} from 'react';
 import CookieService from "../services/CookieService";
 import {getUser} from "../actions/getUser";
+import { withRouter, Redirect, useHistory} from 'react-router';
 
 const UsuarioContext = React.createContext();
 
@@ -9,34 +10,19 @@ export function UsuarioProvider (props) {
     const [idCondominio,setIdCondominio] = useState(null);
     const [tipoUsuario,setTipoUsuario] = useState(null);
     const [cargandoUsuario,setCargandoUsuario] = useState(false);
+    const [userLoggedIn,setUserLoggedIn] = useState(false);
     const [cargandoRequest,setCargandoRequest] = useState(false);
     const [notificacion,setNotificacion] = useState(null);
 
     useEffect(() => {
+        const abortController = new AbortController();
+        const signal = abortController.signal;
 
-        async function cargarUsuario() {
-            const accessToken = CookieService.get('access_token');
 
-            //Si el token existe carga el usuario en el contexto
-            if(!accessToken) {
-                setCargandoUsuario(false);
-                return;
-            }
 
-            try{
-                //Se obtiene una respuesta del servidor con los datos del usuario, de existir se setea en el contexto
-                const response = await getUser(accessToken);
-                if(response) {
-                    setUsuario(response);
-                    setIdCondominio(response.user.idCondominio);
-                    setCargandoUsuario(false);
-                }
-            }catch (e) {
-                console.log(e);
-            }
+        return function cleanup() {
+            abortController.abort();
         }
-
-        cargarUsuario();
     },[]);
 
 
@@ -50,10 +36,12 @@ export function UsuarioProvider (props) {
             setIdCondominio,
             setTipoUsuario,
             tipoUsuario,
+            userLoggedIn,
             setCargandoUsuario,
-            setNotificacion
+            setNotificacion,
+            setUserLoggedIn
         });
-    },[usuario,cargandoUsuario,cargandoRequest,setIdCondominio,idCondominio,tipoUsuario,setTipoUsuario,setCargandoUsuario,setNotificacion]);
+    },[usuario,userLoggedIn,cargandoUsuario,cargandoRequest,setIdCondominio,idCondominio,tipoUsuario,setTipoUsuario,setCargandoUsuario,setNotificacion]);
 
     return <UsuarioContext.Provider value={value} {...props}/>
 }
