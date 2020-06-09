@@ -100,7 +100,7 @@ const ModalUnidad = (props) => {
         </ModalBody>
         <ModalFooter>
             <Button color="secondary" onClick={() => props.toggleModal()}>Cancelar</Button>
-            <Button onClick={props.idRecord ? updateRecord(props.resource,props.idRecord) : storeRecord(props.resource)} type="button" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Unidad</Button>
+            <Button form="form" type="button" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Unidad</Button>
         </ModalFooter>
     </Modal>);
 };
