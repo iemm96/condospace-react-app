@@ -12,6 +12,11 @@ import VisitasTable from "../components/adminCondominio/tables/VisitasTable";
 import UsuarioTable from "../components/adminCondominio/tables/UsuarioTable";
 import CuotaTable from "../components/adminCondominio/tables/CuotaTable";
 import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
+import TransaccionesTable from "../components/adminCondominio/tables/TransaccionesTable";
+
+
+
+
 import CookieService from "../services/CookieService";
 import {CondominioList} from "../components/adminCondominio/lists/CondominioList";
 import UsuariosTable from "../components/admin/tables/UsuariosTable";
@@ -47,7 +52,7 @@ const AppRoutes = () => {
                                 <Route path="/:condominio/unidades" component={UnidadTable} />
                                 <Route path="/:condominio/agregarUnidades" component={AgregarUnidades} />
                                 <Route path="/:condominio/bienvenida" component={Bienvenida} />
-                                <Route path="/:condominio/finanzas" component={FinanzasTable} />
+                                <Route path="/:condominio/transacciones" component={TransaccionesTable} />
                                 <Route path="/:condominio/eventos" component={EventosTable} />
                                 <Route path="/:condominio/visitas" component={VisitasTable} />
                                 <Route path="/:condominio/usuarios" component={UsuarioTable} />

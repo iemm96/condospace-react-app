@@ -359,7 +359,7 @@ div.login {
   outline: none;
   transition: 0.25s;
   height: 45px;
-  width: 180px;
+  min-width: 180px;
 
   &:hover {
     background: linear-gradient(120deg,#4C76BB,#4C68BB);
@@ -452,6 +452,40 @@ div.login {
 
 .nav .nav-item {
   position: relative;
+}
+
+/* ==============
+      Tables
+================= */
+table {
+  border-collapse: collapse;
+  border-radius: 1em;
+  overflow: hidden;
+}
+
+.table td, .table th {
+  border-top: none !important;
+  padding: 1em;
+  vertical-align: middle;
+  border-bottom: 2px solid white !important;
+}
+
+.table-bordered td  {
+  border-right: none !important;
+  border-left: none !important;
+}
+
+.btnAction {
+  background: none !important;
+  color: #011627;
+  border: none;
+  transition: 0.4s;
+
+  &:hover {
+    color: #011627;
+    transition: 0.4s;
+    transform: scale(1.8);
+  }
 }
 
 footer{

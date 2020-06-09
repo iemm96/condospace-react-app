@@ -162,19 +162,22 @@ const TransaccionesTable  = (props) => {
 
     const contentTable = ({ paginationProps, paginationTableProps }) => (
         <div>
-            <ModalRecord
+            {modalControl ? <ModalRecord
                 idRecord={selectedRecordId}
                 toggleModal={toggleModal}
                 recordModal={modalControl}
                 resource={RESOURCE}
                 updateRecords={updateRecords}
-            />
+            /> : ''}
+
             <DeleteRecordModal
                 toggleDeleteModal={toggleDeleteModal}
                 title={selectedRecordTitle}
                 idRecord={selectedRecordId}
                 deleteModal={modalDeleteControl}
                 resource={RESOURCE}
+                updateRecords={updateRecords}
+
             />
             <ToolkitProvider
                 keyField="idTransaccion"

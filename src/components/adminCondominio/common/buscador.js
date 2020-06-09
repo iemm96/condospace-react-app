@@ -18,7 +18,7 @@ export const Buscador = (props) => {
                 />
             </div>
             <div className="col-2">
-                <Button className="actionButton" onClick={() => props.toggleModal()}>{props.buttonText}</Button>
+                <Button className="actionButton" onClick={() => props.prepareNewModal()}>{props.buttonText}</Button>
             </div>
         </Row>
     );

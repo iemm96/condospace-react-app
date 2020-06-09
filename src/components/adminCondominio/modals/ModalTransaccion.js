@@ -20,6 +20,7 @@ const ModalTransaccion = (props) => {
     const { register, handleSubmit } = useForm();
     const { idCondominio } = useUsuario();
     const [recordState, setRecordState] = useState(props);
+    const [selectedRecordId,setSelectedRecordId] = useState(props.idRecord);
     const [startDate, setStartDate] = useState(new Date());
     const [tipoTransaccion,setTipoTransaccion] = useState(null);
     const [tipoUnidad,setTipoUnidad] = useState(null);
@@ -38,7 +39,6 @@ const ModalTransaccion = (props) => {
         //Obtiene los datos del registro
         async function getRecord() {
             try {
-
                 const resultadoRecord = await fetchRecord(props.idRecord,'transacciones');
                 setTipoUnidad(resultadoRecord.idUnidad);
                 setTipoCuenta(resultadoRecord.idCuenta);
@@ -55,7 +55,7 @@ const ModalTransaccion = (props) => {
         if(props.idRecord) {
             getRecord();
         }
-    }, [props]);
+    }, [props.idRecord]);
 
     useEffect(() => {
         async function getUnidades() {
@@ -97,38 +97,22 @@ const ModalTransaccion = (props) => {
         }
 
 
+        const validaRecord = () => {
+            if(!props.idRecord) {
+                setRecord(null);
+            }
+        };
 
         getUnidades();
         getCuentas();
+        validaRecord();
 
-
-    },[record]);
-
-    useEffect(() => {
         return () => {
             console.log("cleaned up");
         };
-    }, []);
 
-    const handleInputChange = event => {
+    },[]);
 
-        console.log(event);
-        let target;
-
-        if(target = event.target) {
-            const value = target.value;
-            const name = target.name;
-            this.setState({
-                [name]:value
-            });
-        }else{
-            const name = event.name;
-            const value = event.value;
-            this.setState({
-                [name]:value
-            })
-        }
-    };
 
     const handleChangeCuenta = (idCuenta) => {
         setTipoCuenta(idCuenta);
@@ -180,14 +164,14 @@ const ModalTransaccion = (props) => {
 
         console.log(startDate);
 
-        let date = format(startDate,'yyyy-i-dd');
+        let date = format(startDate,'yyyy-MM-dd');
         console.log(date);
         console.log('tipoUnidad ',tipoUnidad);
         console.log('tipoFormaPago ',tipoFormaPago);
         console.log('tipoCuenta ',tipoCuenta);
 
-        data.fechaCobro = format(startDate,'yyyy-i-dd');
-        data.fechaHora_transaccion = format(new Date(),'yyyy-i-dd H:i:s');
+        data.fechaCobro = format(startDate,'yyyy-MM-dd');
+        data.fechaHora_transaccion = format(new Date(),'yyyy-MM-dd HH:mm:ss');
         data.idCuenta = tipoCuenta;
         data.formaPago = tipoFormaPago;
         data.idUnidad = tipoUnidad;
@@ -211,6 +195,8 @@ const ModalTransaccion = (props) => {
                             onScreen: true
                         }
                     });
+                    setRecord(null);
+
                     props.toggleModal();
                     props.updateRecords();
                 }
@@ -343,6 +329,7 @@ const ModalTransaccion = (props) => {
                                        value="1"
                                        className="custom-control-input"
                                        id="radioIngreso"
+                                       defaultChecked={record ? record.esIngreso : false}
                                        name="esIngreso"
                                        ref={register}
                                        onChange={handleChangeTotal}
@@ -356,6 +343,7 @@ const ModalTransaccion = (props) => {
                                        id="radioEgreso"
                                        name="esIngreso"
                                        ref={register}
+                                       defaultChecked={record ? record.esIngreso : false}
                                        onChange={handleChangeTotal}
                                        />
                                     <label className="custom-control-label" htmlFor="radioEgreso">Egreso</label>
