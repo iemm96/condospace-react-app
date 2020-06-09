@@ -9,34 +9,25 @@ import {useUsuario} from "../context/usuario-context";
 
 const api_url = url_base;
 
-export const storeRecord = (payload, resource) => {
+export const storeRecord = async (payload, resource) => {
     const authToken = CookieService.get('access_token');
 
-    axios({
-        url:`${api_url}${resource}`,
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json, text-plain, */*",
-            "Authorization": authToken,
-        },
-        data: stringifyData(payload)
-    }).then(
-        (response) => {return response.data},
-    ).catch(error => {
-        if (error.response) {
-            console.log(error.response)
-        } else if (error.request) {
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the
-            // browser and an instance of
-            // http.ClientRequest in node.js
-            console.log(error.request);
+    try {
+         const response = await axios({
+            url:`${api_url}${resource}`,
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json, text-plain, */*",
+                "Authorization": 'Bearer ' + authToken,
+            },
+            data: stringifyData(payload)
+        });
 
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', error.message);
-
-        }
-    });
+         if(response) {
+             return response.data;
+         }
+    }catch (e) {
+        return e;
+    }
 };
