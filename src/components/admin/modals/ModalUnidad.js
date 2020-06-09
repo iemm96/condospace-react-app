@@ -106,7 +106,7 @@ export default class ModalUnidad extends React.Component{
                 <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
                     <FormGroup>
                         <Input type="text" name="nombre" id="" placeholder="Nombre"
-                               value={this.props.idRecord ? this.state.nombre : undefined}
+                               value={this.props.idRecord ? this.state.unidad : undefined}
                                onChange={event => this.handleInputChange(event)}/>
                     </FormGroup>
                     <FormGroup>

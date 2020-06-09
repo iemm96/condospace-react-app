@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
-import Select from "react-select";
+import React from 'react';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Col, Row } from 'reactstrap';
 
-import {fetchRecords} from "../../../actions/fetchRecords";
-import {fetchRecord} from "../../../actions/fetchRecord";
-import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
 import {store} from "react-notifications-component";
 
 export const ModalUsuario = (props) => {
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit } = useForm();
 
     const onSubmit = async data => {
         data.idTipoUsuario = 2;

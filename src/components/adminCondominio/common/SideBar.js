@@ -1,6 +1,14 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faBriefcase, faPaperPlane, faQuestion, faImage, faCopy } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHome,
+  faBriefcase,
+  faPaperPlane,
+  faQuestion,
+  faImage,
+  faCopy,
+  faBell, faCalendarWeek, faCoins, faFileInvoiceDollar, faMoneyCheckAlt, faTree, faDoorOpen, faUser, faCogs
+} from '@fortawesome/free-solid-svg-icons';
 import { NavItem, NavLink, Nav } from 'reactstrap';
 import classNames from 'classnames';
 import {Link} from 'react-router-dom';
@@ -13,65 +21,54 @@ const SideBar = props => (
       </div>
       <div className="side-menu">
         <Nav vertical className="list-unstyled pb-3">
-          <p>Menú</p>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/condominios'}>
-              <FontAwesomeIcon icon={faBriefcase} className="mr-2"/>Condominio
+            <NavLink tag={Link} to={`/${props.condominio}/unidades`}>
+              <FontAwesomeIcon icon={faHome} className="mr-2"/>Unidades
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/anuncios'}>
-              <FontAwesomeIcon icon={faBriefcase} className="mr-2"/>Anuncios
+            <NavLink tag={Link} to={`/${props.condominio}/anuncios`}>
+              <FontAwesomeIcon icon={faBell} className="mr-2"/>Anuncios
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/visitantes'}>
-              <FontAwesomeIcon icon={faBriefcase} className="mr-2"/>Visitas
+            <NavLink tag={Link} to={`/${props.condominio}/transacciones`}>
+              <FontAwesomeIcon icon={faMoneyCheckAlt} className="mr-2"/>Transacciones
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/cuentas'}>
-              <FontAwesomeIcon icon={faImage} className="mr-2"/>Cuentas
+            <NavLink tag={Link} to={`/${props.condominio}/cuotas`}>
+              <FontAwesomeIcon icon={faCoins} className="mr-2"/>Cuotas
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/cuotas'}>
-              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Cuotas
+            <NavLink tag={Link} to={`/${props.condominio}/cuentas`}>
+              <FontAwesomeIcon icon={faFileInvoiceDollar} className="mr-2"/>Cuentas
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/areas'}>
-              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Areas
+            <NavLink tag={Link} to={`/${props.condominio}/eventos`}>
+              <FontAwesomeIcon icon={faCalendarWeek} className="mr-2"/>Eventos
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/categorias'}>
-              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Categoria
+            <NavLink tag={Link} to={`/${props.condominio}/visitas`}>
+              <FontAwesomeIcon icon={faDoorOpen} className="mr-2"/>Visitas
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/eventos'}>
-              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Eventos
+            <NavLink tag={Link} to={`/${props.condominio}/condominios`}>
+              <FontAwesomeIcon icon={faTree} className="mr-2"/>Áreas Comunes
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/finanzas'}>
-              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Finanzas
+            <NavLink tag={Link} to={`/${props.condominio}/usuarios`}>
+              <FontAwesomeIcon icon={faUser} className="mr-2"/>Usuarios
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={'/admin/unidades'}>
-              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Unidad
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink tag={Link} to={'/admin/personas'}>
-              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Persona
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink tag={Link} to={'/admin/vehiculos'}>
-              <FontAwesomeIcon icon={faQuestion} className="mr-2"/>Vehiculo
+            <NavLink tag={Link} to={`/${props.condominio}/configuracion`}>
+              <FontAwesomeIcon icon={faCogs} className="mr-2"/>Configuración
             </NavLink>
           </NavItem>
          </Nav>

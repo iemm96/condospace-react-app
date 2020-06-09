@@ -6,7 +6,7 @@ import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
 import CookieService from "../../../services/CookieService";
-
+import SideBar from "./SideBar";
 export default class Header extends React.Component {
 
     constructor(props) {
@@ -84,55 +84,57 @@ export default class Header extends React.Component {
         return(
             <div className="mt-3">
                 <header className="main-header ">
-            <Navbar className="header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar"
-                    data-toggle="sticky-onscroll">
-                <div className="container">
-                    <Button color="info" className="" onClick={this.toggleSidebar}>
-                        <FontAwesomeIcon icon={faBars}/>
-                    </Button>
-                    <NavLink className="navbar-brand" to="#">CondoSpace</NavLink>
+                    <SideBar condominio={this.props.condominio} isOpen={this.state.isOpenSidebar}/>
 
-                    <Collapse className="navbar-collapse justify-content-start" id="navbarSupportedContent" navbar>
+                    <Navbar className="header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar"
+                            data-toggle="sticky-onscroll">
+                        <div className="container">
+                            <Button color="info" className="" onClick={this.toggleSidebar}>
+                                <FontAwesomeIcon icon={faBars}/>
+                            </Button>
+                            <NavLink className="navbar-brand" to="#">CondoSpace</NavLink>
 
-                        <ul className="navbar-nav">
+                            <Collapse className="navbar-collapse justify-content-start" id="navbarSupportedContent" navbar>
 
-                            <li className="nav-item">
-                                <NavLink className="nav-link" href="/admin/anuncios"
-                                         className={this.props.location === 'admin/anuncios' ? 'active' : ''}>{condominio}
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" href="/admin/eventos"
-                                         className={this.props.location === '/admin/eventos' ? 'active' : ''}>Bienvenida
-                                </NavLink>
-                            </li>
-                        </ul>
-                        <UncontrolledDropdown className="d-sm-none">
-                            <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
-                            <DropdownToggle caret>
-                                Nombre del usuario
-                            </DropdownToggle>
-                            <DropdownMenu>
-                                <DropdownItem>Mis datos de perfil</DropdownItem>
-                                <DropdownItem divider />
-                                <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
-                    </Collapse>
-                    <UncontrolledDropdown className="d-none d-sm-block">
-                        <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
-                        <DropdownToggle caret>
-                            Nombre del usuario
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem>Mis datos de perfil</DropdownItem>
-                            <DropdownItem divider />
-                            <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
-                        </DropdownMenu>
-                    </UncontrolledDropdown>
-                </div>
-            </Navbar>
-        </header>
+                                <ul className="navbar-nav">
+
+                                    <li className="nav-item">
+                                        <NavLink className="nav-link" href="/admin/anuncios"
+                                                 className={this.props.location === 'admin/anuncios' ? 'active' : ''}>{condominio}
+                                        </NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink className="nav-link" href="/admin/eventos"
+                                                 className={this.props.location === '/admin/eventos' ? 'active' : ''}>Bienvenida
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                                <UncontrolledDropdown className="d-sm-none">
+                                    <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
+                                    <DropdownToggle caret>
+                                        Nombre del usuario
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Mis datos de perfil</DropdownItem>
+                                        <DropdownItem divider />
+                                        <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
+                                    </DropdownMenu>
+                                </UncontrolledDropdown>
+                            </Collapse>
+                            <UncontrolledDropdown className="d-none d-sm-block">
+                                <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
+                                <DropdownToggle caret>
+                                    Nombre del usuario
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    <DropdownItem>Mis datos de perfil</DropdownItem>
+                                    <DropdownItem divider />
+                                    <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
+                                </DropdownMenu>
+                            </UncontrolledDropdown>
+                        </div>
+                    </Navbar>
+                </header>
             </div>
         );
     }

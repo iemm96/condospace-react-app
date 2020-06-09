@@ -11,9 +11,9 @@ import {useUsuario} from "../../context/usuario-context";
 import {getUser} from "../../actions/getUser";
 const api_url = url_base;
 
-const CommonHeader = withRouter(props => <Header {...props}/>);
 
 const UserDashboard = (props) => {
+    const CommonHeader = withRouter(props => <Header {...props}/>);
     const {usuario,setCargandoUsuario,errorPassword,setUsuario,setUserLoggedIn,setIdCondominio,userLoggedIn} = useUsuario();
     const authToken = CookieService.get('access_token');
     let history = useHistory();
@@ -56,7 +56,7 @@ const UserDashboard = (props) => {
 
     return(
         <div>
-            <CommonHeader/>
+            <CommonHeader condominio={condominio}/>
             <div className="dashboard-content animate fadeInUp one">
                 <Container>
                     <Row className="pt-5 justify-content-center">
