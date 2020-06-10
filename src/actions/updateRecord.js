@@ -24,7 +24,7 @@ export const updateRecord = async (payload,resource,record) => {
             return response.data;
         }
     }catch (e) {
-        return e;
+        throw e;
     }
 
 };

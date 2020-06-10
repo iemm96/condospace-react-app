@@ -21,7 +21,7 @@ export const fetchRecordsByParam = async (resource,param) => {
             return response.data;
         }
     }catch (e) {
-        return e;
+        throw e;
     }
 
 };

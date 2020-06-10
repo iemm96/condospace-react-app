@@ -28,6 +28,6 @@ export const storeRecord = async (payload, resource) => {
              return response.data;
          }
     }catch (e) {
-        return e;
+        throw e;
     }
 };
