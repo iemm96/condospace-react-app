@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
 import {format} from "date-fns";
 import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
+import {fetchRecords} from "../../../actions/fetchRecords";
 import {useUsuario} from "../../../context/usuario-context";
 import {store} from "react-notifications-component";
 import {fetchRecord} from "../../../actions/fetchRecord";
@@ -17,12 +18,13 @@ registerLocale("es", es);
 
 
 const ModalTransaccion = (props) => {
+    //Importante
     const { register, handleSubmit } = useForm();
     const { idCondominio } = useUsuario();
     const [recordState, setRecordState] = useState(props);
     const [selectedRecordId,setSelectedRecordId] = useState(props.idRecord);
     const [startDate, setStartDate] = useState(new Date());
-    const [tipoTransaccion,setTipoTransaccion] = useState(false);
+    const [tipoTransaccion,setTipoTransaccion] = useState(1);
     const [tipoUnidad,setTipoUnidad] = useState(null);
     const [tipoCuenta,setTipoCuenta] = useState(null);
     const [tipoFormaPago,setTipoFormaPago] = useState([]);
@@ -82,7 +84,7 @@ const ModalTransaccion = (props) => {
         
         async function getCuentas() {
             try {
-                const resultadoCuentas = await fetchRecordsByParam('getCuentasByCondominio',idCondominio);
+                const resultadoCuentas = await fetchRecords(`cuentas/getRecords/${idCondominio}`);
 
                 let opcionesCuentas = [];
 
@@ -289,8 +291,7 @@ const ModalTransaccion = (props) => {
         indicatorSeparator: () => ({
             border: 'none',
         })
-
-    }
+    };
 
     const formasPago = [
         {value:1,label:'Efectivo',name:'formaPago'},
@@ -316,7 +317,7 @@ const ModalTransaccion = (props) => {
                             <input className="form-control" type="number" name="monto" id="inputMonto" placeholder=""
                                    defaultValue={record ? record.monto : undefined}
                                    onChange={handleChangeTotal}
-                                   ref={register}/>
+                                   ref={register({required:true})}/>
                         </FormGroup>
                     </Col>
                 </Row>
@@ -339,7 +340,7 @@ const ModalTransaccion = (props) => {
                                        value="1"
                                        className="custom-control-input"
                                        id="radioIngreso"
-                                       checked={tipoTransaccion === 1}
+                                       defaultChecked={tipoTransaccion === 1}
                                        name="esIngreso"
                                        ref={register}
                                        onChange={handleChangeTotal}
@@ -353,7 +354,7 @@ const ModalTransaccion = (props) => {
                                        id="radioEgreso"
                                        name="esIngreso"
                                        ref={register}
-                                       checked={tipoTransaccion === 0}
+                                       defaultChecked={tipoTransaccion === 0}
                                        onChange={handleChangeTotal}
                                        />
                                     <label className="custom-control-label" htmlFor="radioEgreso">Egreso</label>
