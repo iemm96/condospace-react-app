@@ -10,9 +10,10 @@ import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
+import {useUsuario} from "../../../context/usuario-context";
+
 //Change
 import ModalRecord from "../modals/ModalTransaccion";
-import {useUsuario} from "../../../context/usuario-context";
 
 //Change
 const RESOURCE = 'transacciones'; //API
@@ -69,34 +70,29 @@ const TransaccionesTable  = (props) => {
         dataField: 'folio',
         text: 'Folio',
         sort: true,
-        headerStyle: { backgroundColor: '#011627', color: 'white',borderRadius:'18px 0 0 0'}
     },{
         dataField: 'fechaCobro',
         text: 'Fecha',
         sort: true,
-        headerStyle: { backgroundColor: '#011627', color: 'white'}
     },{
         dataField: 'concepto',
         text: 'Concepto',
         sort: true,
-        headerStyle: { backgroundColor: '#011627', color: 'white'}
     },{
         dataField: 'unidad',
         text: 'Unidad',
         sort: true,
-        headerStyle: { backgroundColor: '#011627', color: 'white'}
     },{
         dataField: 'monto',
         text: 'Monto',
         sort: true,
-        headerStyle: { backgroundColor: '#011627', color: 'white'}
     },{
         dataField: 'actions',
         text: 'Acciones',
         isDummyField: true,
         csvExport: false,
         formatter: actionsFormatter,
-        headerStyle: { backgroundColor: '#011627', color: 'white',borderRadius:'0 18px 0 0', textAlign:'center'}
+        headerStyle: { textAlign:'center'}
     }];
 
     const toggleModal = () => {
@@ -126,7 +122,6 @@ const TransaccionesTable  = (props) => {
     };
     
     const handleExpandButtonClick = (row) => {
-    console.log(expanded);
         if (!expanded.includes(row.idTransaccion)) {
 
             setExpanded([...expanded,row.idTransaccion]);
@@ -142,8 +137,6 @@ const TransaccionesTable  = (props) => {
             setExpanded(expanded.filter(x => x !== row.idTransaccion));
         }
     };
-
-
 
     const expandRow =  {
         renderer: row => (

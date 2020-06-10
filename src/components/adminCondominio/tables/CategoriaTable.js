@@ -98,7 +98,7 @@ const CategoriaTable = (props) => {
                 {
                     toolkitprops => (
                         <div>
-                            <Buscador toggleModal={toggleModal}
+                            <Buscador prepareNewModal={prepareNewModal}
                                       buttonText={NEW_BUTTON_TEXT}
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }

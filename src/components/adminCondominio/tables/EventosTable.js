@@ -56,7 +56,12 @@ const EventosTable = (props) =>
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
         setSelectedRecordTitle(title);
-    }
+    };
+
+    const prepareNewModal = () => {
+        setSelectedRecordId(null);
+        toggleModal();
+    };
 
     const columns = [{
         dataField: 'nombre',
@@ -106,7 +111,7 @@ const EventosTable = (props) =>
                 {
                     toolkitprops => (
                         <div>
-                            <Buscador toggleModal={toggleModal}
+                            <Buscador prepareNewModal={prepareNewModal}
                                       buttonText={NEW_BUTTON_TEXT}
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }

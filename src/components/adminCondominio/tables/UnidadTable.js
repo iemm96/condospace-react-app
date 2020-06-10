@@ -12,6 +12,7 @@ import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
 import ModalRecord from "../modals/ModalUnidad";
+import {useUsuario} from "../../../context/usuario-context";
 
 //Change
 const RESOURCE = 'unidades'; //API
@@ -20,6 +21,7 @@ const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 
 const UnidadTable  = (props) => {
+    const {idCondominio} = useUsuario();
     const [records,setRecords] = useState(null);
     const [selectedRecordId,setSelectedRecordId] = useState(null);
     const [selectedRecordTitle,setSelectedRecordTitle] = useState(null);
@@ -47,13 +49,31 @@ const UnidadTable  = (props) => {
         setModalDeleteControl(!modalDeleteControl);
     };
 
+    const prepareEditModal = (idRecord) => {
+        setSelectedRecordId(idRecord);
+        toggleModal();
+    };
+
+    const prepareNewModal = () => {
+        setSelectedRecordId(null);
+        toggleModal();
+    };
+
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
         setSelectedRecordTitle(title);
     };
 
+    const updateRecords = async () => {
+        console.log('updating');
+        const result = await fetchRecords(`transacciones/getRecords/${idCondominio}`);
+        if(result) {
+            setRecords(result);
+        }
+    };
+
     const actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => setSelectedRecordId(row.idUnidad)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareEditModal(row.idUnidad)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
             <Button type="Button" onClick={() => prepareDeleteModal(row.idUnidad, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
@@ -84,12 +104,13 @@ const UnidadTable  = (props) => {
 
     const contentTable = ({ paginationProps, paginationTableProps }) => (
         <div>
-            <ModalRecord
+            {modalControl ? <ModalRecord
                 idRecord={selectedRecordId}
                 toggleModal={toggleModal}
                 recordModal={modalControl}
                 resource={RESOURCE}
-            />
+                updateRecords={updateRecords}
+            /> : ''}
             <DeleteRecordModal
                 toggleDeleteModal={toggleDeleteModal}
                 title={selectedRecordTitle}
@@ -105,7 +126,7 @@ const UnidadTable  = (props) => {
                 {
                     toolkitprops => (
                         <div>
-                            <Buscador toggleModal={toggleModal}
+                            <Buscador prepareNewModal={prepareNewModal}
                                       buttonText={NEW_BUTTON_TEXT}
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }
