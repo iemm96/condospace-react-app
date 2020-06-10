@@ -113,7 +113,7 @@ export default class Bienvenida extends React.Component{
                                     </FormGroup>
                                 </Col>
                             </Row>
-                            <Button className="confirmButton" onClick={this.updatePasword} type="button">Guardar y contnuar</Button>
+                            <Button className="confirmButton" onClick={this.updatePasword} type="button">Guardar y continuar</Button>
 
                         </Form>
                     </Col>

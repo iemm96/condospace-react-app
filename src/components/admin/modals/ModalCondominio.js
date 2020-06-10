@@ -93,7 +93,7 @@ export const ModalCondominio = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={4}>
+                    <Col sm={6}>
                         <FormGroup>
                             <label>*Número exterior</label>
                             <input class="form-control" type="text"
@@ -103,17 +103,7 @@ export const ModalCondominio = (props) => {
                                    />
                         </FormGroup>
                     </Col>
-                    <Col sm={4}>
-                        <FormGroup>
-                            <label>Número interior</label>
-                            <input class="form-control" type="text"
-                                   name="noInterior"
-                                   ref={register}
-                                   value={props.idRecord ? props.noInterior : undefined}
-                                   />
-                        </FormGroup>
-                    </Col>
-                    <Col sm={4}>
+                    <Col sm={6}>
                         <FormGroup>
                             <label>*Código Postal</label>
                             <FormGroup>

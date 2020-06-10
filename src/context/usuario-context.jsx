@@ -18,13 +18,10 @@ export function UsuarioProvider (props) {
         const abortController = new AbortController();
         const signal = abortController.signal;
 
-
-
         return function cleanup() {
             abortController.abort();
         }
     },[]);
-
 
     const value = useMemo(() => {
         return ({
