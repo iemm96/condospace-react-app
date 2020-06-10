@@ -12,13 +12,14 @@ import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
 import ModalRecord from "../modals/ModalCuenta";
+import {useUsuario} from "../../../context/usuario-context";
 
 //Change
 const RESOURCE = 'cuentas'; //API
 const NEW_BUTTON_TEXT = 'Nueva Cuenta';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
-const CuentaTable = (props)=>
-{
+const CuentaTable = (props) => {
+    const {idCondominio} = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
     const [modalDeleteControl,setModalDeleteControl] = useState(false);
@@ -26,15 +27,15 @@ const CuentaTable = (props)=>
     const [selectedRecordTitle,setSelectedRecordTitle] = useState(null);
 
     useEffect(() => {
+
         async function getRecords() {
             try {
-                const result = await fetchRecords(RESOURCE);
+                const result = await fetchRecords(`cuentas/getRecords/${idCondominio}`);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
             }
         }
-
         getRecords();
     },[]);
 
@@ -55,32 +56,37 @@ const CuentaTable = (props)=>
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
         setSelectedRecordTitle(title);
-    }
+    };
 
-    /*
-    *  prepareEditModal = idRecord => {
-        setState({idRecord:idRecord});
-
+    const prepareNewModal = () => {
+        setSelectedRecordId(null);
         toggleModal();
     };
 
-    prepareNewModal = () => {
-        setState({idRecord: false});
+    const updateRecords = async () => {
+        console.log('updating');
+        const result = await fetchRecords(`cuentas/getRecords/${idCondominio}`);
 
-        toggleModal();
-    };*/
+        if(result) {
+            setRecords(result);
+        }
+    };
 
     const columns = [{
-        dataField: 'cuenta',
+        dataField: 'nombre',
         text: 'Cuenta',
         sort: true,
     },{
-        dataField: 'clabe',
-        text: 'Clabe',
+        dataField: 'noCuenta',
+        text: 'No. Cuenta',
         sort: true,
     },{
         dataField: 'tipoBanco',
-        text: 'Tipo de Banco',
+        text: 'Banco',
+        sort: true,
+    },{
+        dataField: 'total',
+        text: 'Total',
         sort: true,
     },{
         dataField: 'actions',
@@ -91,12 +97,13 @@ const CuentaTable = (props)=>
     }];
     const contentTable = ({ paginationProps, paginationTableProps }) => (
         <div>
-            <ModalRecord
+            {modalControl ? <ModalRecord
                 idRecord={selectedRecordId}
                 toggleModal={toggleModal}
                 recordModal={modalControl}
                 resource={RESOURCE}
-            />
+                updateRecords={updateRecords}
+            /> : ''}
             <DeleteRecordModal
                 toggleDeleteModal={toggleDeleteModal}
                 title={selectedRecordTitle}
@@ -112,13 +119,14 @@ const CuentaTable = (props)=>
                 {
                     toolkitprops => (
                         <div>
-                            <Buscador toggleModal={toggleModal}
+                            <Buscador prepareNewModal={prepareNewModal}
                                       buttonText={NEW_BUTTON_TEXT}
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }
                             />
                             <BootstrapTable
                                 hover
+                                bordered={false}
                                 { ...toolkitprops.baseProps }
                                 { ...paginationTableProps }
                             />
