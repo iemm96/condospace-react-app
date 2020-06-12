@@ -7,7 +7,6 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
-import ModalFinanzas from "./ModalFinanzas";
 
 const ModalEvento = (props) => {
     const {register, handleSubmit, errors} = useForm();

@@ -7,7 +7,6 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
-import ModalFinanzas from "./ModalFinanzas";
 import DatePicker from "react-datepicker/es";
 import {useUsuario} from "../../../context/usuario-context";
 import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
