@@ -47,12 +47,23 @@ const AreaTable  = (props) => {
         </div>
     );
 
+    const prepareEditModal = (idRecord) => {
+        setSelectedRecordId(idRecord);
+        toggleModal();
+    };
+
+
     const toggleModal = () => {
         setModalControl(!modalControl);
     };
 
     const toggleDeleteModal = () => {
         setModalDeleteControl(!modalDeleteControl);
+    };
+
+    const prepareNewModal = () => {
+        setSelectedRecordId(null);
+        toggleModal();
     };
 
     const prepareDeleteModal = (id,title) => {
@@ -104,6 +115,7 @@ const AreaTable  = (props) => {
                     toolkitprops => (
                         <div>
                             <Buscador toggleModal = {toggleModal}
+                                      prepareNewModal={prepareNewModal}
                                       buttonText={NEW_BUTTON_TEXT}
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }

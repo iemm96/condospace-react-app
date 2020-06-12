@@ -57,7 +57,7 @@ const SideBar = props => (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to={`/${props.condominio}/condominios`}>
+            <NavLink tag={Link} to={`/${props.condominio}/areas`}>
               <FontAwesomeIcon icon={faTree} className="mr-2"/>Áreas Comunes
             </NavLink>
           </NavItem>

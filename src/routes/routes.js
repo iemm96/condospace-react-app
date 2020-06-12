@@ -13,10 +13,6 @@ import CuotaTable from "../components/adminCondominio/tables/CuotaTable";
 import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
 import TransaccionesTable from "../components/adminCondominio/tables/TransaccionesTable";
 
-
-
-
-import CookieService from "../services/CookieService";
 import {CondominioList} from "../components/adminCondominio/lists/CondominioList";
 import UsuariosTable from "../components/admin/tables/UsuariosTable";
 import UserLogin from "../UserLogin";
@@ -25,6 +21,7 @@ import {AgregarUnidades} from "../components/adminCondominio/sections/AgregarUni
 import {UsuarioProvider} from "../context/usuario-context";
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
+import AreaTable from "../components/adminCondominio/tables/AreaTable";
 
 const NoMatchPage = () => {  return (    <h3>404 - Not found</h3>  );};
 
@@ -48,7 +45,8 @@ const AppRoutes = () => {
                         <Route path="/:condominio">
                             <DashboardContainerWithRouter>
                                 <Route path="/:condominio/agregarUnidades" component={AgregarUnidades} />
-                                <Route path="/:condominio/anuncios" components={AnunciosTable} />
+                                <Route path="/:condominio/areas" component={AreaTable} />
+                                <Route path="/:condominio/anuncios" component={AnunciosTable} />
                                 <Route path="/:condominio/bienvenida" component={Bienvenida} />
                                 <Route path="/:condominio/cuotas" component={CuotaTable} />
                                 <Route path="/:condominio/cuentas" component={CuentaTable} />
