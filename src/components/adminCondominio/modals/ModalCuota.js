@@ -8,12 +8,13 @@ import {useForm} from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker/es";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
-import {format} from "date-fns";
+import {format, addWeeks, addMonths, addYears} from "date-fns";
 import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
 import {fetchRecords} from "../../../actions/fetchRecords";
 import {useUsuario} from "../../../context/usuario-context";
 import {store} from "react-notifications-component";
 import {fetchRecord} from "../../../actions/fetchRecord";
+
 registerLocale("es", es);
 
 
@@ -24,7 +25,6 @@ const ModalCuota = (props) => {
     const [recordState, setRecordState] = useState(props);
     const [selectedRecordId,setSelectedRecordId] = useState(props.idRecord);
     const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
     const [esRecurrente,setEsRecurrente] = useState(0);
     const [tipoCuota,setTipoCuota] = useState(null);
     const [tipoUnidad,setTipoUnidad] = useState(null);
@@ -35,7 +35,8 @@ const ModalCuota = (props) => {
     const [cuentas,setCuentas] = useState([]);
     const [cuentasTotal,setCuentasTotal] = useState([]);
     const [total,setTotal] = useState(null);
-    const [disabledButton,setDisabledButton] = useState(true);
+    const [fechaPrimerCobro,setFechaPrimerCobro] = useState(null);
+    const [disabledButton,setDisabledButton] = useState(false);
 
     useEffect(() => {
         setRecordState(props);
@@ -43,13 +44,19 @@ const ModalCuota = (props) => {
         //Obtiene los datos del registro
         async function getRecord() {
             try {
-                const resultadoRecord = await fetchRecord(props.idRecord,'transacciones');
+                const resultadoRecord = await fetchRecord(props.idRecord,'cuotas');
 
-                setTipoCuota(resultadoRecord.idUnidad);
+                setTipoCuota(resultadoRecord.tipoCuota);
                 setTipoCuenta(resultadoRecord.idCuenta);
-                setTipoPeriodicidad(resultadoRecord.formaPago);
+                setTipoPeriodicidad(resultadoRecord.idPeriodicidad);
                 setEsRecurrente(resultadoRecord.esRecurrente);
-                setStartDate(new Date(resultadoRecord.fechaCobro));
+                if(resultadoRecord.fechaSigCobro) {
+                    setStartDate(new Date(resultadoRecord.fechaSigCobro));
+                }
+
+                if(resultadoRecord.idUnidad) {
+                    setTipoUnidad(resultadoRecord.idUnidad);
+                }
 
                 setRecord(resultadoRecord);
                 setDisabledButton(false);
@@ -65,26 +72,7 @@ const ModalCuota = (props) => {
     }, [props.idRecord]);
 
     useEffect(() => {
-        async function getUnidades() {
 
-            try {
-                const resultadoUnidades = await fetchRecordsByParam('getUnidadesByCondominio',idCondominio);
-
-                let opcionesUnidades = [];
-                opcionesUnidades.push({value:'todas',label:'Todas las unidades',name:'idUnidad'});
-
-                if(resultadoUnidades) {
-                    resultadoUnidades.map((val) => {
-                        opcionesUnidades.push({value:val.idUnidad,label:val.nombre,name:'idUnidad'});
-                    });
-
-
-                    setUnidades(opcionesUnidades);
-                }
-            }catch (e) {
-                console.log(e);
-            }
-        }
 
         async function getCuentas() {
             try {
@@ -112,7 +100,6 @@ const ModalCuota = (props) => {
             }
         };
 
-        getUnidades();
         getCuentas();
         validaRecord();
 
@@ -129,38 +116,128 @@ const ModalCuota = (props) => {
 
     useEffect(() => {
         handleChangeRecurrente()
-    },[total,tipoCuenta,esRecurrente]);
+    },[total,tipoCuenta,esRecurrente,startDate,fechaPrimerCobro]);
+
+    async function getUnidades() {
+
+        try {
+            const resultadoUnidades = await fetchRecordsByParam('getUnidadesByCondominio',idCondominio);
+
+            let opcionesUnidades = [];
+
+            if(resultadoUnidades) {
+                resultadoUnidades.map((val) => {
+                    opcionesUnidades.push({value:val.idUnidad,label:val.nombre,name:'idUnidad'});
+                });
+
+
+                setUnidades(opcionesUnidades);
+            }
+        }catch (e) {
+            console.log(e);
+        }
+    }
 
     const handleChangeRecurrente = () => {
 
-
-
     };
 
+    const handleChangeTipoCuota = (cuota) => {
+        if(cuota === 1) {
+            getUnidades();
+        }else{
+            setUnidades([]);
+        }
+
+        setTipoCuota(cuota);
+    }
+
+    const handleChangePeriodicidad = (tipoPeriodicidad) => {
+
+        setTipoPeriodicidad(tipoPeriodicidad);
+
+        switch (tipoPeriodicidad) {
+            case 1: {
+                const result = addWeeks(startDate,1);
+
+                setFechaPrimerCobro(result);
+
+                break;
+            }
+            case 2: {
+                const result = addMonths(startDate,1);
+                setFechaPrimerCobro(result);
+
+                break;
+
+            }
+            case 3: {
+                const result = addYears(startDate,1);
+                setFechaPrimerCobro(result);
+
+                break;
+
+            }
+        }
+    }
+
+    const handleChangeFechaInicio = (date) => {
+
+        setStartDate(date);
+        switch (tipoPeriodicidad) {
+            case 1: {
+                const result = addWeeks(date,1);
+
+                setFechaPrimerCobro(result);
+                break;
+            }
+            case 2: {
+                const result = addMonths(date,1);
+                setFechaPrimerCobro(result);
+
+                break;
+
+            }
+            case 3: {
+                const result = addYears(date,1);
+                setFechaPrimerCobro(result);
+
+                break;
+
+            }
+        }
+    }
 
     const onSubmit = async (data) => {
         console.log(data);
 
         data.idCondominio = idCondominio;
 
-        console.log('tipoCuota ',tipoCuota);
-        console.log('tipoPeriodicidad ',tipoPeriodicidad);
-        console.log('tipoCuenta ',tipoCuenta);
 
         data.fechaIni = format(startDate,'yyyy-MM-dd');
-        data.fechaFin = format(endDate,'yyyy-MM-dd');
-        data.idCuenta = tipoCuenta;
+
+        if(fechaPrimerCobro) {
+            data.fechaSigCobro = format(fechaPrimerCobro,'yyyy-MM-dd');
+        }
+
+        data.idUnidad = tipoUnidad;
         data.tipoCuota = tipoCuota;
+        data.esActiva = 1;
+        data.esRecurrente = esRecurrente;
+
+        if(tipoPeriodicidad) {
+            data.idPeriodicidad = tipoPeriodicidad;
+        }
 
         console.log(data);
         if(record) {
 
             try {
-                const response = await updateRecord(data,'transacciones',record.idTransaccion);
+                const response = await updateRecord(data,'cuotas',record.idCuota);
                 if(response) {
                     store.addNotification({
                         title: "Correcto",
-                        message: "Se ha actualizado la transacción",
+                        message: "Se ha actualizado la cuota",
                         type: "success",
                         insert: "top",
                         container: "top-right",
@@ -179,7 +256,7 @@ const ModalCuota = (props) => {
             }catch (e) {
                 console.log(e);
                 store.addNotification({
-                    title: "Ocurrió un error al actualizar la transacción",
+                    title: "Ocurrió un error al actualizar la cuota",
                     message: "Revisa tu conexión a internet",
                     type: "danger",
                     insert: "top",
@@ -196,12 +273,11 @@ const ModalCuota = (props) => {
         }else{
             try {
 
-
-                const response = await storeRecord(data,'addTransaccion');
+                const response = await storeRecord(data,'cuotas');
                 if(response) {
                     store.addNotification({
                         title: "Correcto",
-                        message: "Se ha creado una nueva transacción",
+                        message: "Se ha creado una nueva cuota",
                         type: "success",
                         insert: "top",
                         container: "top-right",
@@ -215,12 +291,10 @@ const ModalCuota = (props) => {
                     props.toggleModal();
                     props.updateRecords();
                 }
-
-
             }catch (e) {
                 console.log(e);
                 store.addNotification({
-                    title: "Ocurrió un error al agregar la transacción",
+                    title: "Ocurrió un error al agregar la cuota",
                     message: "Revisa tu conexión a internet",
                     type: "danger",
                     insert: "top",
@@ -233,8 +307,6 @@ const ModalCuota = (props) => {
                     }
                 });
             }
-
-
         }
 
     };
@@ -257,11 +329,37 @@ const ModalCuota = (props) => {
         })
     };
 
+
+    const selectUnidades = (
+        <Col sm={4} className="animate fadeIn one">
+            <FormGroup>
+                <Label>* Aplica para</Label>
+                <Select styles={customStyles}
+                        options={unidades}
+                        placeholder="Selecciona..."
+                        ref={register}
+                        value={unidades.find(op => {
+                            return op.value === tipoUnidad
+                        })}
+                        onChange={(event) => {setTipoUnidad(event.value)}}
+                />
+            </FormGroup>
+        </Col>
+    );
+
+    const seccionPrimerCobro = (
+        <Row>
+            <Col sm={6}>
+                <p>El primer cobro se hará el día {fechaPrimerCobro ? format(fechaPrimerCobro,'dd/MM/yyyy') : ''}</p>
+            </Col>
+        </Row>
+
+    );
+
     const periodicidad = [
         {value:1,label:'Semana',name:'tipoPeriodicidad'},
-        {value:2,label:'Quincena',name:'tipoPeriodicidad'},
-        {value:3,label:'Mes',name:'tipoPeriodicidad'},
-        {value:4,label:'Año',name:'tipoPeriodicidad'},
+        {value:2,label:'Mes',name:'tipoPeriodicidad'},
+        {value:3,label:'Año',name:'tipoPeriodicidad'},
     ];
 
     const cuotas = [
@@ -274,59 +372,41 @@ const ModalCuota = (props) => {
 
     const seccionRecurrente = (<div className="animate fadeInLoad one">
         <Row>
-            <Col sm={4}>
+            <Col sm={6}>
                 <FormGroup>
                     <Label>* Se repite cada</Label>
                     <Select styles={customStyles}
                             options={periodicidad}
-                            placeholder="Selecciona una opción..."
+                            placeholder="Selecciona..."
                             value={periodicidad.find(op => {
                                 return op.value === tipoPeriodicidad
                             })}
-                            onChange={(event) => {setTipoPeriodicidad(event.value)}}
+                            onChange={(event) => handleChangePeriodicidad(event.value)}
                     />
                 </FormGroup>
             </Col>
         </Row>
         <Row>
-            <Col sm={4}>
+            <Col sm={6}>
                 <FormGroup>
                     <Label>* Fecha de Inicio</Label>
                     <DatePicker
                         locale="es"
                         className="form-control"
-                        minDate={new Date()}
+                        minDate={startDate}
                         name="fechaIni"
                         dateFormat="dd/MMMM/yyyy"
                         selected={startDate}
-                        onChange={date => setStartDate(date)} />
-                </FormGroup>
-            </Col>
-            <Col sm={4}>
-                <FormGroup>
-                    <Label>* Fecha de Fin</Label>
-                    <DatePicker
-                        locale="es"
-                        className="form-control"
-                        name="fechaFin"
-                        minDate={new Date()}
-                        dateFormat="dd/MMMM/yyyy"
-                        selected={endDate}
-                        onChange={date => setEndDate(date)} />
-                </FormGroup>
-            </Col>
-            <Col sm={4}>
-                <FormGroup>
-                    <Label>Indefinida</Label>
-                    <input type="checkbox"
-                           name="esIndefinida"
-                           ref={register}/>
+                        onChange={date => handleChangeFechaInicio(date)}
+                       />
                 </FormGroup>
             </Col>
         </Row>
+        {fechaPrimerCobro ? seccionPrimerCobro : ''}
+
     </div>);
 
-    return(<Modal size="lg" isOpen={props.recordModal} toggle={() => props.toggleModal()}>
+    return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
         <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Cuota</ModalHeader>
         <ModalBody>
             <Form id="form" onSubmit={handleSubmit(onSubmit)}>
@@ -335,7 +415,7 @@ const ModalCuota = (props) => {
                         <FormGroup>
                             <Label>* Nombre</Label>
                             <input className="form-control" type="text" name="nombre" id="" placeholder=""
-                                   defaultValue={record ? record.concepto : undefined}
+                                   defaultValue={record ? record.nombre : undefined}
                                    ref={register({required:true})}/>
                         </FormGroup>
                     </Col>
@@ -360,38 +440,24 @@ const ModalCuota = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={4}>
+                    <Col sm={6}>
                         <FormGroup>
                             <Label>* Tipo</Label>
                             <Select styles={customStyles}
                                     options={cuotas}
-                                    placeholder="Selecciona una opción..."
+                                    placeholder="Selecciona..."
                                     ref={register}
                                     value={cuotas.find(op => {
                                         return op.value === tipoCuota
                                     })}
-                                    onChange={(event) => {setTipoCuota(event.value)}}
+                                    onChange={(event) => handleChangeTipoCuota(event.value)}
                             />
                         </FormGroup>
                     </Col>
-                    <Col sm={4}>
-                        <FormGroup>
-                            <Label>* Aplica para</Label>
-                            <Select styles={customStyles}
-                                    options={unidades}
-                                    placeholder="Selecciona una opción..."
-                                    ref={register}
-                                    value={unidades.find(op => {
-                                        return op.value === tipoUnidad
-                                    })}
-                                    onChange={(event) => {setTipoUnidad(event.value)}}
-                            />
-                        </FormGroup>
-                    </Col>
-
+                    {unidades.length > 0 ? selectUnidades : ''}
                 </Row>
                 <Row>
-                    <Col sm={8}>
+                    <Col sm={4}>
                         <FormGroup>
                             <label>* ¿Es recurrente?</label>
                             <div className="custom-control custom-radio custom-control-inline">
