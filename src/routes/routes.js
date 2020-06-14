@@ -8,7 +8,7 @@ import AnunciosTable from "./../components/adminCondominio/tables/AnunciosTable"
 import UnidadTable from "../components/adminCondominio/tables/UnidadTable";
 import EventosTable from "../components/adminCondominio/tables/EventosTable";
 import VisitasTable from "../components/adminCondominio/tables/VisitasTable";
-import UsuarioTable from "../components/adminCondominio/tables/UsuarioTable";
+import UsuariosCondominioTable from "../components/adminCondominio/tables/UsuariosCondominioTable";
 import CuotaTable from "../components/adminCondominio/tables/CuotaTable";
 import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
 import TransaccionesTable from "../components/adminCondominio/tables/TransaccionesTable";
@@ -53,7 +53,7 @@ const AppRoutes = () => {
                                 <Route path="/:condominio/eventos" component={EventosTable} />
                                 <Route path="/:condominio/transacciones" component={TransaccionesTable} />
                                 <Route path="/:condominio/unidades" component={UnidadTable} />
-                                <Route path="/:condominio/usuarios" component={UsuarioTable} />
+                                <Route path="/:condominio/usuarios" component={UsuariosCondominioTable} />
                                 <Route path="/:condominio/visitas" component={VisitasTable} />
                             </DashboardContainerWithRouter >
                         </Route>
