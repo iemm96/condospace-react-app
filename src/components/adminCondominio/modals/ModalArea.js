@@ -21,11 +21,12 @@ const ModalArea = (props) => {
     }
 
     return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
-        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Area</ModalHeader>
+        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Registrar'} Area</ModalHeader>
         <ModalBody>
             <Form id="form" onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
-                    <Input className="form-control" type="text" name="nombre" id="" placeholder="Nombre"
+                    <Label>* Nombre </Label>
+                    <Input className="form-control" type="text" name="nombre" id="" placeholder=""
                            value={props.idRecord ? props.nombre : undefined}
                            ref={register({required:true})}/>
                 </FormGroup>

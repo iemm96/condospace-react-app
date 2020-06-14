@@ -21,29 +21,31 @@ const ModalAnuncio = (props) => {
     }
 
     return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
-        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Anuncio</ModalHeader>
+        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Nuevo'} Anuncio</ModalHeader>
         <ModalBody>
             <Form id="form" onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
-                    <input className="form-control" type="text" name="titulo" id="" placeholder="Título"
+                    <Label>* Titulo </Label>
+                    <input className="form-control" type="text" name="titulo" id="" placeholder=""
                            value={props.idRecord ? props.titulo : undefined}
-                           ref={register}/>
+                           ref={register({required:true})}/>
                 </FormGroup>
                 <FormGroup>
-                    <input className="form-control" type="textarea" name="mensaje" id="" placeholder="Descripción"
+                    <Label>* Descripcion </Label>
+                    <input className="form-control" type="textarea" name="mensaje" id="" placeholder=""
                            value={props.idRecord ? props.mensaje : undefined}
-                           ref={register}/>
+                           ref={register({required:true})}/>
                 </FormGroup>
                 <Row form>
                     <Col>
                         <FormGroup>
-                            <label>Visibilidad</label>
+                            <label>* Visibilidad</label>
                             <Select options={optionsVisibilidad}
                                     name="idTipoVisibilidad"
                                     value={optionsVisibilidad.find(op => {
                                         return op.value == props.idTipoVisibilidad
                                     })}
-                                    ref={register}>
+                                    ref={register({required:true})}>
                             </Select>
                         </FormGroup>
                     </Col>
@@ -51,13 +53,13 @@ const ModalAnuncio = (props) => {
                 <Row form>
                     <Col>
                         <FormGroup>
-                            <label>Importancia</label>
+                            <label>* Importancia</label>
                             <Select options={optionsImportancia}
                                     name="idTipoImportancia"
                                     value={optionsImportancia.find(op => {
                                         return op.value == props.idTipoImportancia
                                     })}
-                                    ref={register}>
+                                    ref={register({required:true})}>
                             </Select>
                         </FormGroup>
                     </Col>
@@ -66,16 +68,16 @@ const ModalAnuncio = (props) => {
                     <Col sm={{ size: 10 }}>
                         <FormGroup check>
                             <Label check>
-                                <input className="form-control" type="checkbox" name="notificarEmail"  value="1" id="checkbox2"
-                                       ref={register}
-                                />{' '}
-                                Notificar por correo
+                                Notificar por correo <input className="form-control" type="checkbox" name="notificarEmail"  value="1" id="checkbox2"
+                                       ref={register({required:true})}
+                                />
                             </Label>
                         </FormGroup>
                     </Col>
                 </FormGroup>
             </Form>
         </ModalBody>
+        <p className="center">Los campos marcados con * son obligatorios</p>
         <ModalFooter>
             <Button color="secondary" onClick={() => props.toggleModal()}>Cancelar</Button>
             <Button form="form" type="submit" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
