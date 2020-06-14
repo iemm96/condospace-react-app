@@ -31,7 +31,7 @@ const UnidadTable  = (props) => {
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(RESOURCE);
+                const result = await fetchRecords(`unidades/getRecords/${idCondominio}`);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -66,7 +66,7 @@ const UnidadTable  = (props) => {
 
     const updateRecords = async () => {
         console.log('updating');
-        const result = await fetchRecords(`transacciones/getRecords/${idCondominio}`);
+        const result = await fetchRecords(`unidades/getRecords/${idCondominio}`);
         if(result) {
             setRecords(result);
         }
