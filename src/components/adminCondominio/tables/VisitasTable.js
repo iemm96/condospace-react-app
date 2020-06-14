@@ -1,166 +1,232 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {PaginationListStandalone, PaginationProvider} from "react-bootstrap-table2-paginator";
-import {Button, Col} from "reactstrap";
+import {Button, Col, Spinner} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faEye, faPause, faPlay, faSignOutAlt, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {fetchRecords} from "../../../actions/fetchRecords";
 import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
+import moment from 'moment';
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
-import ModalRecord from "../modals/ModalVisitante";
+import ModalRecord from "../modals/ModalVisitas";
 import ModalRecordVehiculo from "../modals/ModalVehiculo";
+import {useUsuario} from "../../../context/usuario-context";
+import CookieService from "../../../services/CookieService";
+import axios from "axios";
+import {url_base} from "../../../constants/api_url";
+import {updateRecord} from "../../../actions/updateRecord";
 //Change
 const RESOURCE1 = 'vehiculos'; //API
 const RESOURCE = 'visitantes'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Visitante';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
+const api_url = url_base;
 
 let records = [];
 let recordsVehiculo = [];
-export default class VisitasTable extends React.Component {
+const VisitasTable = () => {
 
-    constructor(props) {
-        super(props);
+    const { idCondominio } = useUsuario();
+    const [records,setRecords] = useState(null);
+    const [modalControl,setModalControl] = useState(false);
+    const [modalDeleteControl,setModalDeleteControl] = useState(false);
+    const [selectedRecordId,setSelectedRecordId] = useState(null);
+    const [selectedRecordTitle,setSelectedRecordTitle] = useState(null);
+    const [isLoading,setIsLoading] = useState(false);
+    const [expanded,setExpanded] = useState([]);
 
-        this.state = {
-            edit: false
-        };
-    }
-
-    async componentDidMount() {
-        try {
-            records = await fetchRecords(RESOURCE);
-            this.setState({records:records});
-            recordsVehiculo = await fetchRecords(RESOURCE1);
-            this.setState({records:recordsVehiculo});
-
-        }catch (error) {
-            console.log(error);
+    useEffect(() => {
+        async function getRecords() {
+            try {
+                const result = await fetchRecords(`visitas/getRecords/${idCondominio}`);
+                setRecords(result);
+            }catch (e) {
+                console.log(e);
+            }
         }
 
-    }
+        getRecords();
+    },[]);
 
-    //Change "titulo" if necessary
-    actionsFormatter = (cell, row) => (
-        <div>
-            <Button type="Button" onClick={() => this.prepareEditModal(row.idVisitante)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idVisitante, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
-            <Button type="Button" onClick={() => this.prepareNewModalVehiculo(row.idVisitante)} className="btn btn-success"><FontAwesomeIcon icon={faEdit} /></Button>
+    const finalizarVisita = async (e,visita,row) => {
 
+        setIsLoading(true);
+        try {
+            const response = updateRecord({fechaHora_salida:moment().format('YYYY-MM-DD HH:mm:s')},'visitas',visita);
+
+            if(response) {
+                setIsLoading(false);
+                updateRecords();
+            }
+
+        }catch (e) {
+            console.log(e);
+        }
+    };
+
+    const handleExpandButtonClick = (row) => {
+        if (!expanded.includes(row.idVisita)) {
+
+            setExpanded([...expanded,row.idVisita]);
+        } else {
+            setExpanded(expanded.filter(x => x !== row.idVisita));
+        }
+    };
+    
+    const actionsFormatter = (cell, row) => (<div>
+
+            {row.fechaHora_salida ? '' : <Button type="Button" onClick={(e) => finalizarVisita(e,row.idVisita,row)} className="btn mr-1 btnAction">
+                <FontAwesomeIcon icon={faSignOutAlt}/>
+            </Button> }
+
+            <Button type="Button" onClick={() => handleExpandButtonClick(row)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEye}/></Button>
+
+            <Button type="Button" onClick={() => prepareEditModal(row.idVisita)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareDeleteModal(row.idVisita, row.nombre)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
-    toggleModal = () => {
-        this.state.recordModal ? this.setState({recordModal: false}) : this.setState({recordModal: true});
-    };
-    toggleModalVehiculo = () => {
-        this.state.recordModalVehiculo ? this.setState({recordModalVehiculo: false}) : this.setState({recordModalVehiculo: true});
+    const toggleModal = () => {
+        setModalControl(!modalControl);
     };
 
-    toggleDeleteModal = () => {
-        this.state.deleteModal ? this.setState({deleteModal: false}) : this.setState({deleteModal: true});
+    const toggleDeleteModal = () => {
+        setModalDeleteControl(!modalDeleteControl);
     };
 
-    prepareDeleteModal = (id,title) => {
-        this.setState({idRecord: id, title: title});
-
-        this.toggleDeleteModal();
+    const prepareDeleteModal = (id,title) => {
+        setSelectedRecordId(id);
+        setSelectedRecordTitle(title);
+        toggleDeleteModal();
     };
 
-    prepareEditModal = idRecord => {
-        this.setState({idRecord:idRecord});
-
-        this.toggleModal();
+    const prepareNewModal = () => {
+        setSelectedRecordId(null);
+        toggleModal();
     };
 
-    prepareNewModal = () => {
-        this.setState({idRecord: false});
-
-        this.toggleModal();
-    };
-    prepareNewModalVehiculo = (id) => {
-        this.setState({idRecord: id});
-
-        this.toggleModalVehiculo();
+    const prepareEditModal = (idRecord) => {
+        setSelectedRecordId(idRecord);
+        toggleModal();
     };
 
-    render() {
+    const updateRecords = async () => {
+        console.log('updating');
+        const result = await fetchRecords(`visitas/getRecords/${idCondominio}`);
+        if(result) {
+            setRecords(result);
+        }
+    };
 
-        const columns = [{
-            dataField: 'nombre',
-            text: 'Nombre',
-            sort: true,
-        },{
-            dataField: 'idUnidad',
-            text: 'Unidad',
-            sort: true,
-        },{
-            dataField: 'noIdentificacion',
-            text: 'Identificación',
-            sort: true,
-        },{
-            dataField: 'fechaLlegada',
-            text: 'Entrada',
-            sort: true,
-        },{
-            dataField: 'fechaSalida',
-            text: 'Salida',
-            sort: true,
-        },{
-            dataField: 'placas',
-            text: 'Placas',
-            sort: true,
-        },{
-            dataField: 'actions',
-            text: 'Acciones',
-            isDummyField: true,
-            csvExport: false,
-            formatter: this.actionsFormatter,
-        }];
+    const handleOnExpand = (row, isExpand, rowIndex, e) => {
+        if (isExpand) {
+            setExpanded([...expanded, row.idVisita]);
+        } else {
+            setExpanded(expanded.filter(x => x !== row.idVisita));
+        }
+    };
 
+    const rowStyle = (row, rowIndex) => {
+
+        if(row.fechaHora_salida) {
+            return { backgroundColor: '#A2F8B1' };
+        }else{
+            return { backgroundColor: '#F4F4F6' };
+        }
+    };
+
+    const expandRow =  {
+        renderer: row => (
+            <div>
+                <p><b>Descripción:</b> {row.descripcion}</p>
+                {row.unidad ? <p><b>Unidad:</b> {row.unidad}</p> : ''}
+            </div>
+        ),
+        expanded: expanded,
+        onExpand: handleOnExpand,
+        onlyOneExpanding: true,
+        expandByColumnOnly: true
+    };
+
+    const columns = [{
+        dataField: 'nombre',
+        text: 'Nombre',
+        sort: true,
+    },{
+        dataField: 'unidad',
+        text: 'Unidad',
+        sort: true,
+    },{
+        dataField: 'noIdentificacion',
+        text: 'Identificación',
+        sort: true,
+    },{
+        dataField: 'fechaHora_llegada',
+        text: 'Entrada',
+        sort: true,
+    },{
+        dataField: 'fechaHora_salida',
+        text: 'Salida',
+        sort: true,
+    },{
+        dataField: 'datosVehiculo.placas',
+        text: 'Placas',
+        sort: true,
+    },{
+        dataField: 'actions',
+        text: 'Acciones',
+        isDummyField: true,
+        csvExport: false,
+        formatter: actionsFormatter,
+        headerStyle: { textAlign:'center', width: 206}
+
+    }];
+    
          const contentTable = ({ paginationProps, paginationTableProps }) => (
-             <div>
-                 <ModalRecord
-                     idRecord={this.state.idRecord}
-                     toggleModal={this.toggleModal}
-                     recordModal={this.state.recordModal}
+             <div className="text-center">
+                 {modalControl ? <ModalRecord
+                     idRecord={selectedRecordId}
+                     toggleModal={toggleModal}
+                     recordModal={modalControl}
                      resource={RESOURCE}
-                 />
-                 <ModalRecordVehiculo
-                     idRecord={this.state.idRecord}
-                     toggleModalVehiculo={this.toggleModalVehiculo}
-                     recordModalVehiculo={this.state.recordModalVehiculo}
-                     resource={RESOURCE1}
-                 />
+                     updateRecords={updateRecords}
+                 /> : ''}
                  <DeleteRecordModal
-                     toggleDeleteModal={this.toggleDeleteModal}
-                     title={this.state.title}
-                     idRecord={this.state.idRecord}
-                     deleteModal={this.state.deleteModal}
+                     toggleDeleteModal={toggleDeleteModal}
+                     title={selectedRecordTitle}
+                     idRecord={selectedRecordId}
+                     deleteModal={modalDeleteControl}
                      resource={RESOURCE}
+                     updateRecords={updateRecords}
                  />
                  <ToolkitProvider
                      keyField="id"
                      columns={ columns }
-                     data={ this.state.records }
+                     data={ records }
                      search>
                      {
                          toolkitprops => (
                              <div>
-                                 <Buscador prepareNewModal={this.prepareNewModal}
+                                 <Buscador prepareNewModal={prepareNewModal}
                                            buttonText={NEW_BUTTON_TEXT}
                                            placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                            { ...toolkitprops.searchProps }
                                  />
-                                 <BootstrapTable
-                                     hover
-                                     { ...toolkitprops.baseProps }
-                                     { ...paginationTableProps }
-                                 />
+                                 <div className="mt-5">
+                                     <BootstrapTable
+                                         rowStyle={rowStyle}
+                                         hover
+                                         bordered={false}
+                                         expandRow={ expandRow }
+                                         { ...toolkitprops.baseProps }
+                                         { ...paginationTableProps }
+                                     />
+                                 </div>
+
                              </div>
                          )
                      }
@@ -169,9 +235,8 @@ export default class VisitasTable extends React.Component {
              </div>
          );
 
-         if(this.state.records) {
+         if(records) {
 
-             console.log(this.state.idRecord);
              return(
                  <div>
                      <Col className="col-3">
@@ -191,6 +256,8 @@ export default class VisitasTable extends React.Component {
              </div>);
          }
 
-     }
 
-}
+};
+
+export default VisitasTable;
+

@@ -207,7 +207,6 @@ const ModalTransaccion = (props) => {
                             onScreen: true
                         }
                     });
-                    setRecord(null);
 
                     props.toggleModal();
                     props.updateRecords();
