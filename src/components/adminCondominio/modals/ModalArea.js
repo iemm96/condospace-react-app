@@ -27,7 +27,7 @@ const ModalArea = (props) => {
                 <FormGroup>
                     <Input className="form-control" type="text" name="nombre" id="" placeholder="Nombre"
                            value={props.idRecord ? props.nombre : undefined}
-                           ref={register}/>
+                           ref={register({required:true})}/>
                 </FormGroup>
                 <FormGroup>
                     <Input className="form-control" type="textarea" name="descripcion" id="" placeholder="Descripción"
@@ -53,7 +53,7 @@ const ModalArea = (props) => {
                                     value={optionsidCondominio.find(op => {
                                         return op.value == props.idCondominio
                                     })}
-                                    ref={register}>
+                                    ref={register({required:true})}>
                             </Select>
                         </FormGroup>
                     </Col>
