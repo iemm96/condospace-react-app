@@ -43,7 +43,6 @@ const ModalCuenta = (props) => {
     },[tipoCuenta]);
 
     const onSubmit = async (data) => {
-
         data.idCondominio = idCondominio;
         if(record) {
 
