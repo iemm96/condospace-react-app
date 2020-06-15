@@ -1,34 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Col, Row } from 'reactstrap';
 import Select from "react-select";
 
-import {fetchRecords} from "../../../actions/fetchRecords";
-import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
-import DatePicker from "react-datepicker/es";
 import {useUsuario} from "../../../context/usuario-context";
-import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
 import {store} from "react-notifications-component";
-
-let idCondominio = [];
 
 const ModalCuenta = (props) => {
     const { register, handleSubmit } = useForm();
     const { idCondominio } = useUsuario();
-    const [recordState, setRecordState] = useState(props);
-    const [selectedRecordId,setSelectedRecordId] = useState(props.idRecord);
-    const [startDate, setStartDate] = useState(new Date());
-    const [tipoUnidad,setTipoUnidad] = useState(null);
     const [tipoCuenta,setTipoCuenta] = useState(0);
     const [tipoBanco,setTipoBanco] = useState([]);
     const [record,setRecord] = useState(null);
-    const [unidades,setUnidades] = useState([]);
-    const [cuentas,setCuentas] = useState([]);
-    const [cuentasTotal,setCuentasTotal] = useState([]);
-    const [total,setTotal] = useState(null);
-    const [disabledButton,setDisabledButton] = useState(false);
+    const [disabledButton] = useState(false);
 
     useEffect(() => {
         return () => {

@@ -10,15 +10,13 @@ import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
-//Change
 import ModalRecord from "../modals/ModalCuenta";
 import {useUsuario} from "../../../context/usuario-context";
 
-//Change
 const RESOURCE = 'cuentas'; //API
 const NEW_BUTTON_TEXT = 'Nueva Cuenta';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
-const CuentaTable = (props) => {
+const CuentaTable = () => {
     const {idCondominio} = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);

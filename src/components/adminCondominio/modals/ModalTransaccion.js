@@ -21,8 +21,6 @@ const ModalTransaccion = (props) => {
     //Importante
     const { register, handleSubmit } = useForm();
     const { idCondominio } = useUsuario();
-    const [recordState, setRecordState] = useState(props);
-    const [selectedRecordId,setSelectedRecordId] = useState(props.idRecord);
     const [startDate, setStartDate] = useState(new Date());
     const [tipoTransaccion,setTipoTransaccion] = useState(1);
     const [tipoUnidad,setTipoUnidad] = useState(null);
@@ -31,12 +29,11 @@ const ModalTransaccion = (props) => {
     const [record,setRecord] = useState(null);
     const [unidades,setUnidades] = useState([]);
     const [cuentas,setCuentas] = useState([]);
-    const [cuentasTotal,setCuentasTotal] = useState([]);
+    const [cuentasTotal] = useState([]);
     const [total,setTotal] = useState(null);
     const [disabledButton,setDisabledButton] = useState(true);
 
     useEffect(() => {
-        setRecordState(props);
 
         //Obtiene los datos del registro
         async function getRecord() {
@@ -66,7 +63,7 @@ const ModalTransaccion = (props) => {
         async function getUnidades() {
 
             try {
-                const resultadoUnidades = await fetchRecordsByParam('getUnidadesByCondominio',idCondominio);
+                const resultadoUnidades = await fetchRecords(`unidades/getRecords/${idCondominio}`);
 
                 let opcionesUnidades = [];
 
@@ -167,9 +164,7 @@ const ModalTransaccion = (props) => {
 
             setDisabledButton(false);
         }
-
     };
-
 
     const onSubmit = async (data) => {
         console.log(data);
