@@ -4,7 +4,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {PaginationListStandalone, PaginationProvider} from "react-bootstrap-table2-paginator";
 import {Button, Col, TabPane} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faEye, faPause, faPlay, faSignOutAlt, faTrash} from "@fortawesome/free-solid-svg-icons";
 import { fetchRecords } from "../../../actions/fetchRecords";
 import Skeleton from 'react-loading-skeleton';
 import { Buscador } from './../common/buscador';
@@ -13,6 +13,7 @@ import { DeleteRecordModal } from "../modals/DeleteRecordModal";
 
 //Change
 import ModalRecord from "../modals/ModalEvento";
+import {useUsuario} from "../../../context/usuario-context";
 
 //Change
 const RESOURCE = 'eventos'; //API
@@ -21,16 +22,18 @@ const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 const EventosTable = (props) =>
 {
+    const { idCondominio } = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
     const [modalDeleteControl,setModalDeleteControl] = useState(false);
     const [selectedRecordId,setSelectedRecordId] = useState(null);
     const [selectedRecordTitle,setSelectedRecordTitle] = useState(null);
+    const [expanded,setExpanded] = useState([]);
 
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(RESOURCE);
+                const result = await fetchRecords(`eventos/getRecords/${idCondominio}`);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -41,10 +44,26 @@ const EventosTable = (props) =>
     },[]);
     //Change "titulo" if necessary
     const actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => selectedRecordId(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => handleExpandButtonClick(row)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEye}/></Button>
+            <Button type="Button" onClick={() => prepareEditModal(row.idEvento)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareDeleteModal(row.idEvento, row.nombre)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
+    const handleExpandButtonClick = (row) => {
+        if (!expanded.includes(row.idEvento)) {
+
+            setExpanded([...expanded,row.idEvento]);
+        } else {
+            setExpanded(expanded.filter(x => x !== row.idEvento));
+        }
+    };
+    const updateRecords = async () => {
+        console.log('updating');
+        const result = await fetchRecords(`eventos/getRecords/${idCondominio}`);
+        if(result) {
+            setRecords(result);
+        }
+    };
     const toggleModal = () => {
         setModalControl(!modalControl);
     };
@@ -53,6 +72,10 @@ const EventosTable = (props) =>
         setModalDeleteControl(!modalDeleteControl);
     };
 
+    const prepareEditModal = (idRecord) => {
+        setSelectedRecordId(idRecord);
+        toggleModal();
+    };
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
         setSelectedRecordTitle(title);
@@ -72,21 +95,17 @@ const EventosTable = (props) =>
         text: 'Fecha y Hora',
         sort: true,
     },{
-        dataField: 'status',
-        text: 'Status',
+        dataField: 'idArea',
+        text: 'Lugar',
         sort: true,
-    },
-        {
-            dataField: 'tipoVisibilidad',
-            text: 'Visible para',
-            sort: true,
-        },{
-            dataField: 'actions',
-            text: 'Acciones',
-            isDummyField: true,
-            csvExport: false,
-            formatter: actionsFormatter,
-        }];
+    },{
+    dataField: 'actions',
+    text: 'Acciones',
+    isDummyField: true,
+    csvExport: false,
+    formatter: actionsFormatter,
+    headerStyle: { textAlign:'center', width: 204}
+}];
 
     const contentTable = ({ paginationProps, paginationTableProps }) => (
         <div>
@@ -95,6 +114,7 @@ const EventosTable = (props) =>
                 toggleModal={toggleModal}
                 recordModal={modalControl}
                 resource={RESOURCE}
+                updateRecords={ updateRecords}
             />
             <DeleteRecordModal
                 toggleDeleteModal={toggleDeleteModal}

@@ -18,10 +18,34 @@ const ModalEvento = (props) => {
     const [idArea,setIdArea] = useState([]);
     const [record,setRecord] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
+    const [recordState, setRecordState] = useState(props);
 
     const {register, handleSubmit, errors} = useForm();
     const { usuario,idCondominio } = useUsuario();
 
+    useEffect(() => {
+        setRecordState(props);
+
+        //Obtiene los datos del registro
+        async function getRecord() {
+            try {
+                const resultadoRecord = await fetchRecord(props.idRecord,'eventos');
+
+                setIdArea(resultadoRecord.idArea);
+
+                if(resultadoRecord.fecha) {
+                    setStartDate(new Date(resultadoRecord.fecha));
+                }
+                setRecord(resultadoRecord);
+            }catch (e) {
+                console.log(e);
+            }
+        }
+
+        if(props.idRecord) {
+            getRecord();
+        }
+    }, [props.idRecord]);
 
     useEffect(() => {
         async function getAreas() {
@@ -158,7 +182,7 @@ const ModalEvento = (props) => {
                 <FormGroup>
                     <Label>* Titulo </Label>
                     <input className="form-control" type="text" name="nombre" id="" placeholder="Nombre"
-                           value={props.idRecord ? props.nombre : undefined}
+                           defaultValue={record ? record.nombre : undefined}
                            ref={register}/>
                 </FormGroup>
                 <FormGroup>
@@ -179,7 +203,7 @@ const ModalEvento = (props) => {
                         onChange={date => setStartDate(date)} />
                 </FormGroup>
                 <FormGroup>
-                    <Label>* Area</Label>
+                    <Label>* Lugar</Label>
                     <Select styles={customStyles}
                             options={areas}
                             placeholder="Selecciona ..."
