@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import {Button, Collapse, Navbar, NavLink, UncontrolledDropdown} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
@@ -7,31 +7,25 @@ import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
 import CookieService from "../../../services/CookieService";
 import SideBar from "./SideBar";
-export default class Header extends React.Component {
+import {useUsuario} from "../../../context/usuario-context";
+import {useLocation} from 'react-router-dom';
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            setActiveTab: 1,
-            activeTab: 1,
-            dropDownValue: 'Select action',
-            dropdownOpen: false,
-            modalEvento: false,
-            modalAnuncio: false,
-            modalFinanzas: false,
-            modalAreasComunes:false,
-            isOpenSidebar:false
-        }
-    }
+const Header = (props) => {
+    const { usuario } = useUsuario();
+    const [isOpenSidebar,setIsOpenSidebar] = useState(false);
+    const [titleSection,setTitleSection] = useState(false);
+    const { condominioURL } = props.match.params.condominio;
+    let location = useLocation();
 
-    componentDidMount() {
+    useEffect(() => {
+        let arrUrl = location.pathname.split('/');
+        let secondPath = arrUrl[2];
 
-        let self = this;
+        secondPath = secondPath.charAt(0).toUpperCase() + secondPath.slice(1);
+
+        setTitleSection(secondPath);
+
         var elements = document.querySelectorAll('[data-toggle="sticky-onscroll"]');
-        // Find all data-toggle="sticky-onscroll" elements
-
-        const url = this.props.match.path;
-
 
         [].forEach.call(elements, function(element) {
 
@@ -45,16 +39,15 @@ export default class Header extends React.Component {
 
             // Scroll & resize events
             window.addEventListener('scroll', function () {
-                self.stickyToggle(sticky, stickyWrapper, window);
+                stickyToggle(sticky, stickyWrapper, window);
             });
 
             // On page load
-            self.stickyToggle(sticky, stickyWrapper, window);
+            stickyToggle(sticky, stickyWrapper, window);
         });
+    });
 
-    }
-
-    stickyToggle(sticky, stickyWrapper, scrollElement) {
+    const stickyToggle = (sticky, stickyWrapper, scrollElement) => {
 
         var stickyHeight = sticky.offsetHeight;
         var stickyTop = stickyWrapper.offsetTop;
@@ -69,74 +62,76 @@ export default class Header extends React.Component {
         }
     };
 
-    toggleSidebar = () => (this.setState({isOpenSidebar:!this.state.isOpenSidebar}));
+    const cerrarSesion = () => {
 
-    cerrarSesion = () => {
         console.log('cerrar');
         CookieService.remove('access_token');
         CookieService.remove('tipoUsuario');
+        window.location.href =  `/${condominioURL}/login`;
+    };
 
-        window.location.href = '/condochido/login';
-    }
+    const toggleSidebar = () => (setIsOpenSidebar(!isOpenSidebar));
 
-    render(){
-        const { condominio } = this.props.match.params;
-        return(
-            <div className="mt-3">
-                <header className="main-header ">
-                    <SideBar condominio={this.props.condominio} isOpen={this.state.isOpenSidebar}/>
+    return(<div className="mt-3">
+        <header className="main-header ">
+            <SideBar condominio={props.condominio} isOpen={isOpenSidebar}/>
 
-                    <Navbar className="header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar"
-                            data-toggle="sticky-onscroll">
-                        <div className="container">
-                            <Button color="info" className="" onClick={this.toggleSidebar}>
-                                <FontAwesomeIcon icon={faBars}/>
-                            </Button>
-                            <NavLink className="navbar-brand" to="#">CondoSpace</NavLink>
+            <Navbar className="header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar"
+                    data-toggle="sticky-onscroll">
+                <div className="container">
+                    <Button color="info" className="" onClick={toggleSidebar}>
+                        <FontAwesomeIcon icon={faBars}/>
+                    </Button>
+                    <NavLink className="navbar-brand" to="#" disabled>CondoSpace</NavLink>
 
-                            <Collapse className="navbar-collapse justify-content-start" id="navbarSupportedContent" navbar>
+                    <Collapse className="navbar-collapse justify-content-start" id="navbarSupportedContent" navbar>
 
-                                <ul className="navbar-nav">
+                        <ul className="navbar-nav">
 
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" href="/admin/anuncios"
-                                                 className={this.props.location === 'admin/anuncios' ? 'active' : ''}>{condominio}
-                                        </NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" href="/admin/eventos"
-                                                 className={this.props.location === '/admin/eventos' ? 'active' : ''}>Bienvenida
-                                        </NavLink>
-                                    </li>
-                                </ul>
-                                <UncontrolledDropdown className="d-sm-none">
-                                    <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
-                                    <DropdownToggle caret>
-                                        Nombre del usuario
-                                    </DropdownToggle>
-                                    <DropdownMenu>
-                                        <DropdownItem>Mis datos de perfil</DropdownItem>
-                                        <DropdownItem divider />
-                                        <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
-                                    </DropdownMenu>
-                                </UncontrolledDropdown>
-                            </Collapse>
-                            <UncontrolledDropdown className="d-none d-sm-block">
-                                <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
-                                <DropdownToggle caret>
-                                    Nombre del usuario
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                    <DropdownItem>Mis datos de perfil</DropdownItem>
-                                    <DropdownItem divider />
-                                    <DropdownItem onClick={this.cerrarSesion}>Cerrar Sesión</DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
-                        </div>
-                    </Navbar>
-                </header>
-            </div>
-        );
-    }
-}
+                            <li className="nav-item">
+                                <NavLink className="nav-link" disabled>
+                                    {usuario ? usuario.condominio : ''}
+                                </NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link">
+                                    /
+                                </NavLink>
+                            </li>
+                            <li className="nav-item" >
+                                <NavLink className="nav-link" disabled>
+                                    {titleSection}
+                                </NavLink>
+                            </li>
+                        </ul>
+                        <UncontrolledDropdown className="d-sm-none">
+                            <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
+                            <DropdownToggle caret>
+                                {usuario ? usuario.user.name : ''}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem>Mis datos de perfil</DropdownItem>
+                                <DropdownItem divider />
+                                <DropdownItem onClick={cerrarSesion}>Cerrar Sesión</DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+                    </Collapse>
+                    <UncontrolledDropdown className="d-none d-sm-block">
+                        <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
+                        <DropdownToggle caret>
+                            {usuario ? usuario.user.name : ''}
 
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem>Mis datos de perfil</DropdownItem>
+                            <DropdownItem divider />
+                            <DropdownItem onClick={cerrarSesion}>Cerrar Sesión</DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                </div>
+            </Navbar>
+        </header>
+    </div>)
+};
+
+export default Header
