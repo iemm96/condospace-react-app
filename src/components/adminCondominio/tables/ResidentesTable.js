@@ -38,9 +38,10 @@ const AdminsTable = () => {
         getRecords();
     },[]);
 
-    const actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => setSelectedRecordId(row.id)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => prepareDeleteModal(row.id, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+    const actionsFormatter = (cell, row) => (
+        <div className="text-center">
+            <Button type="Button" onClick={() => setSelectedRecordId(row.id)} className="btn mr-2 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareDeleteModal(row.id, row.titulo)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -89,6 +90,7 @@ const AdminsTable = () => {
         isDummyField: true,
         csvExport: false,
         formatter: actionsFormatter,
+        headerStyle: { textAlign:'center'}
     }];
     const contentTable = ({ paginationProps, paginationTableProps }) => (
         <div>
@@ -119,12 +121,16 @@ const AdminsTable = () => {
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }
                             />
-                            <BootstrapTable
-                                hover
-                                bordered={false}
-                                { ...toolkitprops.baseProps }
-                                { ...paginationTableProps }
-                            />
+                            <div className="mt-5">
+                                <BootstrapTable
+                                    hover
+                                    bordered={false}
+                                    rowStyle={{ backgroundColor: '#ECF7FD' }}
+                                    { ...toolkitprops.baseProps }
+                                    { ...paginationTableProps }
+                                />
+                            </div>
+
                         </div>
                     )
                 }

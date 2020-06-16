@@ -18,13 +18,11 @@ const ModalEvento = (props) => {
     const [idArea,setIdArea] = useState([]);
     const [record,setRecord] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
-    const [setRecordState] = useState(props);
 
     const {register, handleSubmit } = useForm();
     const { usuario,idCondominio } = useUsuario();
 
     useEffect(() => {
-        setRecordState(props);
 
         //Obtiene los datos del registro
         async function getRecord() {

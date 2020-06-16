@@ -14,7 +14,7 @@ const ModalCuenta = (props) => {
     const [tipoCuenta,setTipoCuenta] = useState(0);
     const [tipoBanco,setTipoBanco] = useState([]);
     const [record,setRecord] = useState(null);
-    const [disabledButton] = useState(false);
+    const [disabledButton,setDisabledButton] = useState(false);
 
     useEffect(() => {
         return () => {

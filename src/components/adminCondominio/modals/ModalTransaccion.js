@@ -25,7 +25,7 @@ const ModalTransaccion = (props) => {
     const [record,setRecord] = useState(null);
     const [unidades,setUnidades] = useState([]);
     const [cuentas,setCuentas] = useState([]);
-    const [cuentasTotal] = useState([]);
+    const [cuentasTotal,setCuentasTotal] = useState([]);
     const [total,setTotal] = useState(null);
     const [disabledButton,setDisabledButton] = useState(true);
 

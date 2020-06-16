@@ -143,7 +143,7 @@ const CuotaTable = (props) => {
         }
     };
 
-    const rowStyle = (row, rowIndex) => {
+    const rowStyle = (row) => {
 
         if(row.esActiva === 1) {
             return { backgroundColor: '#A2F8B1' };

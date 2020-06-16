@@ -31,9 +31,8 @@ const ModalCuota = (props) => {
     const [tipoPeriodicidad,setTipoPeriodicidad] = useState([]);
     const [record,setRecord] = useState(null);
     const [unidades,setUnidades] = useState([]);
-    const [setCuentas] = useState([]);
+    const [cuentas,setCuentas] = useState([]);
     const [cuentasTotal] = useState([]);
-    const [total] = useState(null);
     const [fechaPrimerCobro,setFechaPrimerCobro] = useState(null);
     const [disabledButton,setDisabledButton] = useState(false);
 
@@ -115,7 +114,7 @@ const ModalCuota = (props) => {
 
     useEffect(() => {
         handleChangeRecurrente()
-    },[total,tipoCuenta,esRecurrente,startDate,fechaPrimerCobro]);
+    },[tipoCuenta,esRecurrente,startDate,fechaPrimerCobro]);
 
     async function getUnidades() {
 

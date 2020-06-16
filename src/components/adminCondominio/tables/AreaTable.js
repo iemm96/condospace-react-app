@@ -41,9 +41,10 @@ const AreaTable  = (props) => {
 
 
     //Change "titulo" if necessary
-    const actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => prepareEditModal(row.idAreas)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => prepareDeleteModal(row.idAreas, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+    const actionsFormatter = (cell, row) => (
+        <div className="text-center">
+            <Button type="Button" onClick={() => prepareEditModal(row.idAreas)} className="btn mr-2 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareDeleteModal(row.idAreas, row.nombre)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -89,6 +90,7 @@ const AreaTable  = (props) => {
         isDummyField: true,
         csvExport: false,
         formatter: actionsFormatter,
+        headerStyle: { textAlign:'center'}
     }];
 
     const contentTable = ({ paginationProps, paginationTableProps }) => (
@@ -120,11 +122,15 @@ const AreaTable  = (props) => {
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }
                             />
-                            <BootstrapTable
-                                hover
-                                { ...toolkitprops.baseProps }
-                                { ...paginationTableProps }
-                            />
+                            <div className="mt-5">
+                                <BootstrapTable
+                                    hover
+                                    bordered={false}
+                                    rowStyle={{ backgroundColor: '#ECF7FD' }}
+                                    { ...toolkitprops.baseProps }
+                                    { ...paginationTableProps }
+                                />
+                            </div>
                         </div>
                     )
                 }

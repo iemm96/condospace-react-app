@@ -17,7 +17,7 @@ import {useUsuario} from "../../../context/usuario-context";
 import {updateRecord} from "../../../actions/updateRecord";
 //Change
 const RESOURCE = 'visitantes'; //API
-const NEW_BUTTON_TEXT = 'Nuevo Visitante';
+const NEW_BUTTON_TEXT = 'Nueva Visita';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 const VisitasTable = () => {

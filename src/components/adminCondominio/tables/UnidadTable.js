@@ -10,17 +10,15 @@ import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
-//Change
 import ModalRecord from "../modals/ModalUnidad";
 import {useUsuario} from "../../../context/usuario-context";
 
-//Change
 const RESOURCE = 'unidades'; //API
 const NEW_BUTTON_TEXT = 'Nueva Unidad';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 
-const UnidadTable  = (props) => {
+const UnidadTable  = () => {
     const {idCondominio} = useUsuario();
     const [records,setRecords] = useState(null);
     const [selectedRecordId,setSelectedRecordId] = useState(null);
@@ -39,7 +37,7 @@ const UnidadTable  = (props) => {
         }
 
         getRecords();
-    },[])
+    },[]);
 
     const toggleModal = () => {
         setModalControl(!modalControl);
@@ -65,16 +63,15 @@ const UnidadTable  = (props) => {
     };
 
     const updateRecords = async () => {
-        console.log('updating');
         const result = await fetchRecords(`unidades/getRecords/${idCondominio}`);
         if(result) {
             setRecords(result);
         }
     };
 
-    const actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => prepareEditModal(row.idUnidad)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => prepareDeleteModal(row.idUnidad, row.nombre)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+    const actionsFormatter = (cell, row) => (<div className="text-center">
+            <Button type="Button" onClick={() => prepareEditModal(row.idUnidad)} className="btn mr-2 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareDeleteModal(row.idUnidad, row.nombre)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -91,15 +88,12 @@ const UnidadTable  = (props) => {
         text: 'Numero Exterior',
         sort: true,
     },{
-        dataField: 'tipoUnidad',
-        text: 'tipo de Unidad',
-        sort: true,
-    },{
         dataField: 'actions',
         text: 'Acciones',
         isDummyField: true,
         csvExport: false,
         formatter: actionsFormatter,
+        headerStyle: { textAlign:'center'}
     }];
 
     const contentTable = ({ paginationProps, paginationTableProps }) => (
@@ -131,11 +125,17 @@ const UnidadTable  = (props) => {
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }
                             />
-                            <BootstrapTable
-                                hover
-                                { ...toolkitprops.baseProps }
-                                { ...paginationTableProps }
-                            />
+                            <div className="mt-5">
+                                <BootstrapTable
+                                    hover
+                                    bordered={false}
+                                    rowStyle={{ backgroundColor: '#ECF7FD' }}
+
+                                    { ...toolkitprops.baseProps }
+                                    { ...paginationTableProps }
+                                />
+                            </div>
+
                         </div>
                     )
                 }

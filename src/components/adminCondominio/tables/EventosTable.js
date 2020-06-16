@@ -43,8 +43,8 @@ const EventosTable = (props) =>
         getRecords();
     },[]);
     //Change "titulo" if necessary
-    const actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => handleExpandButtonClick(row)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEye}/></Button>
+    const actionsFormatter = (cell, row) => (
+        <div className="text-center">
             <Button type="Button" onClick={() => prepareEditModal(row.idEvento)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
             <Button type="Button" onClick={() => prepareDeleteModal(row.idEvento, row.nombre)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
@@ -95,7 +95,7 @@ const EventosTable = (props) =>
         text: 'Fecha y Hora',
         sort: true,
     },{
-        dataField: 'idArea',
+        dataField: 'area',
         text: 'Lugar',
         sort: true,
     },{
@@ -136,11 +136,16 @@ const EventosTable = (props) =>
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }
                             />
-                            <BootstrapTable
-                                hover
-                                { ...toolkitprops.baseProps }
-                                { ...paginationTableProps }
-                            />
+                            <div className="mt-5">
+                                <BootstrapTable
+                                    hover
+                                    rowStyle={{ backgroundColor: '#ECF7FD' }}
+                                    bordered={false}
+
+                                    { ...toolkitprops.baseProps }
+                                    { ...paginationTableProps }
+                                />
+                            </div>
                         </div>
                     )
                 }

@@ -44,9 +44,10 @@ export default class UsuariosTable extends React.Component {
         this.setState({records:records});
     };
 
-    actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => this.prepareEditModal(row.idAnuncio)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idAnuncio, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+    actionsFormatter = (cell, row) => (
+        <div className="text-center">
+            <Button type="Button" onClick={() => this.prepareEditModal(row.idAnuncio)} className="btn mr-2 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => this.prepareDeleteModal(row.idAnuncio, row.titulo)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -124,11 +125,16 @@ export default class UsuariosTable extends React.Component {
                                            placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                            { ...toolkitprops.searchProps }
                                  />
-                                 <BootstrapTable
-                                     hover
-                                     { ...toolkitprops.baseProps }
-                                     { ...paginationTableProps }
-                                 />
+                                 <div className="mt-5">
+                                     <BootstrapTable
+                                         hover
+                                         bordered={false}
+                                         rowStyle={{ backgroundColor: '#ECF7FD' }}
+                                         { ...toolkitprops.baseProps }
+                                         { ...paginationTableProps }
+                                     />
+                                 </div>
+
                              </div>
                          )
                      }

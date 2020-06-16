@@ -39,9 +39,9 @@ const AnunciosTable = (props) => {
         getRecords();
     },[]);
 
-    const actionsFormatter = (cell, row) => (<div>
-            <Button type="Button" onClick={() => setSelectedRecordId(row.idAnuncio)} className="btn mr-2 btn-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => prepareDeleteModal(row.idAnuncio, row.titulo)} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+    const actionsFormatter = (cell, row) => (<div className="text-center">
+            <Button type="Button" onClick={() => setSelectedRecordId(row.idAnuncio)} className="btn mr-2 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareDeleteModal(row.idAnuncio, row.titulo)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -85,6 +85,7 @@ const AnunciosTable = (props) => {
         isDummyField: true,
         csvExport: false,
         formatter: actionsFormatter,
+        headerStyle: { textAlign:'center'}
     }];
 
     const contentTable = ({ paginationProps, paginationTableProps }) => (
@@ -115,11 +116,17 @@ const AnunciosTable = (props) => {
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }
                             />
-                            <BootstrapTable
-                                hover
-                                { ...toolkitprops.baseProps }
-                                { ...paginationTableProps }
-                            />
+                            <div className="mt-5">
+                                <BootstrapTable
+                                    hover
+                                    bordered={false}
+                                    rowStyle={{ backgroundColor: '#ECF7FD' }}
+
+                                    { ...toolkitprops.baseProps }
+                                    { ...paginationTableProps }
+                                />
+                            </div>
+
                         </div>
                     )
                 }
