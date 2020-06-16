@@ -1,42 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Col, Row } from 'reactstrap';
 import Select from "react-select";
 
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
-import DatePicker, { registerLocale } from "react-datepicker/es";
+import { registerLocale } from "react-datepicker/es";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
-import {format} from "date-fns";
-import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
 import {fetchRecords} from "../../../actions/fetchRecords";
 import {useUsuario} from "../../../context/usuario-context";
 import {store} from "react-notifications-component";
-import {fetchRecord} from "../../../actions/fetchRecord";
 import CreatableSelect from 'react-select/creatable';
 import moment from "moment";
 
 registerLocale("es", es);
 
-let residentes = [];
-let optionsresidentes = [];
-
 const ModalVisitas = (props) => {
 
     const { register, handleSubmit } = useForm();
     const { idCondominio } = useUsuario();
-    const [recordState, setRecordState] = useState(props);
-    const [selectedRecordId,setSelectedRecordId] = useState(props.idRecord);
-    const [startDate, setStartDate] = useState(new Date());
     const [conVehiculo,setConVehiculo] = useState(0);
     const [idResidente,setIdResidente] = useState(null);
-    const [tipoCuenta,setTipoCuenta] = useState(null);
-    const [tipoFormaPago,setTipoFormaPago] = useState([]);
-    const [record,setRecord] = useState(null);
+    const [record] = useState(null);
     const [residentes,setResidentes] = useState([]);
     const [datosResidentes,setDatosResidentes] = useState([]);
-    const [total,setTotal] = useState(null);
     const [disabledButton,setDisabledButton] = useState(true);
 
     const [nuevoVehiculo,setNuevoVehiculo] = useState(null);

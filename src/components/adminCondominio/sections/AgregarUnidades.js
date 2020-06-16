@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {CustomInput,UncontrolledTooltip, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
-import Select from "react-select";
+import React from 'react';
+import {UncontrolledTooltip, Button,  FormGroup, Label, Col, Row } from 'reactstrap';
 import {storeRecord} from "../../../actions/storeRecord";
 import {useUsuario} from "../../../context/usuario-context";
 import { useForm } from "react-hook-form";
@@ -8,33 +7,15 @@ import Skeleton from 'react-loading-skeleton';
 import {store} from "react-notifications-component";
 
 export const AgregarUnidades = (props) => {
-    const {cargandoUsuario,idCondominio,setNotificacion} = useUsuario();
-    const { register, handleSubmit, watch, errors } = useForm();
+    const {cargandoUsuario,idCondominio} = useUsuario();
+    const { register, handleSubmit, errors } = useForm();
 
     const onSubmit = async data => {
         data.idCondominio = idCondominio;
         console.log(data);
 
         try {
-            const response = await storeRecord(data,'addUnidades');
-
-            /*
-            if(response) {
-                setNotificacion({
-                    title: "Correcto",
-                    message: "Se ha creado un nuevo condominio",
-                    type: "success",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 5000,
-                        onScreen: true
-                    }
-                });
-
-            }*/
+            await storeRecord(data,'addUnidades');
 
             window.location.href = `/${props.match.params.condominio}/unidades`;
 

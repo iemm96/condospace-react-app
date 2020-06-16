@@ -1,21 +1,16 @@
-import React, {useState,useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Col, Row,Container} from "reactstrap";
 import Header from "./common/Header";
 import {withRouter} from 'react-router-dom';
 import {useHistory} from 'react-router';
-
-import axios from 'axios';
-import {url_base} from "../../constants/api_url";
 import CookieService from "../../services/CookieService";
 import {useUsuario} from "../../context/usuario-context";
 import {getUser} from "../../actions/getUser";
-const api_url = url_base;
 
 
 const UserDashboard = (props) => {
     const CommonHeader = withRouter(props => <Header {...props}/>);
-    const {usuario,setCargandoUsuario,errorPassword,setUsuario,setUserLoggedIn,setIdCondominio,userLoggedIn} = useUsuario();
-    const authToken = CookieService.get('access_token');
+    const {setCargandoUsuario,setUsuario,setUserLoggedIn,setIdCondominio,userLoggedIn} = useUsuario();
     let history = useHistory();
     const condominio  = props.match.params.condominio;
 

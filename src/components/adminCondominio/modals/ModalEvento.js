@@ -1,5 +1,5 @@
-import React, { useprops, useEffect, useState } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label } from 'reactstrap';
 import Select from "react-select";
 
 import {fetchRecords} from "../../../actions/fetchRecords";
@@ -18,9 +18,9 @@ const ModalEvento = (props) => {
     const [idArea,setIdArea] = useState([]);
     const [record,setRecord] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
-    const [recordState, setRecordState] = useState(props);
+    const [setRecordState] = useState(props);
 
-    const {register, handleSubmit, errors} = useForm();
+    const {register, handleSubmit } = useForm();
     const { usuario,idCondominio } = useUsuario();
 
     useEffect(() => {

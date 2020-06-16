@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {PaginationListStandalone, PaginationProvider} from "react-bootstrap-table2-paginator";
-import {Button, Col, Spinner} from "reactstrap";
+import {Button, Col } from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faEye, faPause, faPlay, faSignOutAlt, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faEye, faSignOutAlt, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {fetchRecords} from "../../../actions/fetchRecords";
 import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
@@ -13,21 +13,13 @@ import moment from 'moment';
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 //Change
 import ModalRecord from "../modals/ModalVisitas";
-import ModalRecordVehiculo from "../modals/ModalVehiculo";
 import {useUsuario} from "../../../context/usuario-context";
-import CookieService from "../../../services/CookieService";
-import axios from "axios";
-import {url_base} from "../../../constants/api_url";
 import {updateRecord} from "../../../actions/updateRecord";
 //Change
-const RESOURCE1 = 'vehiculos'; //API
 const RESOURCE = 'visitantes'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Visitante';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
-const api_url = url_base;
 
-let records = [];
-let recordsVehiculo = [];
 const VisitasTable = () => {
 
     const { idCondominio } = useUsuario();

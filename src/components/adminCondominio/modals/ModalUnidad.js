@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
+import React, { useState } from 'react';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Col, Row } from 'reactstrap';
 import Select from "react-select";
 
-import {fetchRecords} from "../../../actions/fetchRecords";
-import {fetchRecord} from "../../../actions/fetchRecord";
-import {updateRecord} from "../../../actions/updateRecord";
-import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
 
-let tipoUnidad = [];
-let personas = [];
-let condominios = [];
 let optionsTipoUnidad = [];
 let optionsPersona = [];
 let optionsCondominio = [];
 
 const ModalUnidad = (props) => {
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit } = useForm();
 
-    const [record,setRecord] = useState(null);
+    const [record] = useState(null);
     
     const onSubmit = () => {
         
