@@ -35,30 +35,6 @@ const ModalArea = (props) => {
                            value={props.idRecord ? props.descripcion : undefined}
                            ref={register}/>
                 </FormGroup>
-                <FormGroup>
-                    <Input className="form-control" type="text" name="area" id="" placeholder="Area"
-                           value={props.idRecord ? props.area : undefined}
-                           ref={register}/>
-                </FormGroup>
-                {/*<FormGroup>
-                    <Input className="form-control" type="number" name="idCondominio" id="" placeholder="Condominio"
-                           value={props.idRecord ? props.idCondominio : undefined}
-                           ref={register}/>
-                </FormGroup>*/}
-                <Row form>
-                    <Col>
-                        <FormGroup>
-                            <label>Condominio</label>
-                            <Select options={optionsidCondominio}
-                                    name="idCondominio"
-                                    value={optionsidCondominio.find(op => {
-                                        return op.value == props.idCondominio
-                                    })}
-                                    ref={register({required:true})}>
-                            </Select>
-                        </FormGroup>
-                    </Col>
-                </Row>
             </Form>
         </ModalBody>
         <ModalFooter>
