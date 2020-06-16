@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
 import Select from "react-select";
-
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
@@ -9,16 +8,13 @@ import DatePicker, { registerLocale } from "react-datepicker/es";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
 import {format} from "date-fns";
-import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
 import {fetchRecords} from "../../../actions/fetchRecords";
 import {useUsuario} from "../../../context/usuario-context";
 import {store} from "react-notifications-component";
 import {fetchRecord} from "../../../actions/fetchRecord";
 registerLocale("es", es);
 
-
 const ModalTransaccion = (props) => {
-    //Importante
     const { register, handleSubmit } = useForm();
     const { idCondominio } = useUsuario();
     const [startDate, setStartDate] = useState(new Date());

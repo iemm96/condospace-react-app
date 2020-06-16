@@ -22,8 +22,7 @@ const ModalCuota = (props) => {
     //Importante
     const { register, handleSubmit } = useForm();
     const { idCondominio } = useUsuario();
-    const [recordState, setRecordState] = useState(props);
-    const [selectedRecordId,setSelectedRecordId] = useState(props.idRecord);
+    const [ setRecordState] = useState(props);
     const [startDate, setStartDate] = useState(new Date());
     const [esRecurrente,setEsRecurrente] = useState(0);
     const [tipoCuota,setTipoCuota] = useState(null);
@@ -32,9 +31,9 @@ const ModalCuota = (props) => {
     const [tipoPeriodicidad,setTipoPeriodicidad] = useState([]);
     const [record,setRecord] = useState(null);
     const [unidades,setUnidades] = useState([]);
-    const [cuentas,setCuentas] = useState([]);
-    const [cuentasTotal,setCuentasTotal] = useState([]);
-    const [total,setTotal] = useState(null);
+    const [setCuentas] = useState([]);
+    const [cuentasTotal] = useState([]);
+    const [total] = useState(null);
     const [fechaPrimerCobro,setFechaPrimerCobro] = useState(null);
     const [disabledButton,setDisabledButton] = useState(false);
 

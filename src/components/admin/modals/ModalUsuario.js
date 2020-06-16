@@ -17,21 +17,24 @@ export const ModalUsuario = (props) => {
         try {
             const response = await storeRecord(data,'register');
 
-            store.addNotification({
-                title: "Correcto",
-                message: "Se ha creado un nuevo usuario",
-                type: "success",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 5000,
-                    onScreen: true
-                }
-            });
-            props.toggleModal();
-            props.update();
+            if(response) {
+                store.addNotification({
+                    title: "Correcto",
+                    message: "Se ha creado un nuevo usuario",
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+                props.toggleModal();
+                props.update();
+            }
+
         }catch (e) {
             console.log(e);
             store.addNotification({

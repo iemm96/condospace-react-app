@@ -10,10 +10,8 @@ import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
-//Change
 import {ModalUsuario} from "../modals/ModalUsuario";
 
-//Change
 const RESOURCE = 'administradores'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Administrador';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;

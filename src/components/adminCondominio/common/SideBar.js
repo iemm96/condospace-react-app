@@ -1,14 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faHome,
-  faBriefcase,
-  faPaperPlane,
-  faQuestion,
-  faImage,
-  faCopy,
-  faBell, faCalendarWeek, faCoins, faFileInvoiceDollar, faMoneyCheckAlt, faTree, faDoorOpen, faUser, faCogs
-} from '@fortawesome/free-solid-svg-icons';
+import {faHome, faBell, faCalendarWeek, faCoins, faFileInvoiceDollar, faMoneyCheckAlt, faTree, faDoorOpen, faUser, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { NavItem, NavLink, Nav } from 'reactstrap';
 import classNames from 'classnames';
 import {Link} from 'react-router-dom';
@@ -75,33 +67,5 @@ const SideBar = props => (
       </div>
     </div>
   );
-
-  const submenus = [
-    [
-      {
-        title: "Home 1",
-        target: "Home-1"
-      },
-      {
-        title: "Home 2",
-        target: "Home-2",        
-      },
-      {
-        itle: "Home 3",
-        target: "Home-3",      
-      }
-    ],
-    [
-      {
-        title: "Page 1",
-        target: "Page-1",          
-      },
-      {
-        title: "Page 2",
-        target: "Page-2",        
-      }
-    ]
-  ]
-  
 
 export default SideBar;

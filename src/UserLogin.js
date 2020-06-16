@@ -82,7 +82,7 @@ const UserLogin = (props) => {
 
                 setUserLoggedIn(true);
 
-                if(tipoUsuario == 2) {
+                if(tipoUsuario === 2) {
                     if(response.data.user.bPrimerInicio) {
                         history.push(`/${condominio}/bienvenida`);
                     }else{
@@ -96,10 +96,10 @@ const UserLogin = (props) => {
 
             if (error.response) {
 
-                if(error.response.data.type == 'usuario') {
+                if(error.response.data.type === 'usuario') {
                     inputEmail.classList.add('bounce');
                 }
-                if(error.response.data.type == 'password') {
+                if(error.response.data.type === 'password') {
                     inputPassword.classList.add('bounce');
                 }
             } else if (error.request) {
