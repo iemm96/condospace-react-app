@@ -10,16 +10,14 @@ import Skeleton from 'react-loading-skeleton';
 import { Buscador } from './../common/buscador';
 import { options } from "../../../constants/tables_options";
 import { DeleteRecordModal } from "../modals/DeleteRecordModal";
-
-//Change
 import ModalRecord from "../modals/ModalArea";
-
-//Change
+import {useUsuario} from "../../../context/usuario-context";
 const RESOURCE = 'areas'; //API
 const NEW_BUTTON_TEXT = 'Nueva Area';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
-const AreaTable  = (props) => {
+const AreaTable  = () => {
+    const {idCondominio} = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
     const [modalDeleteControl,setModalDeleteControl] = useState(false);
@@ -29,7 +27,7 @@ const AreaTable  = (props) => {
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(RESOURCE);
+                const result = await fetchRecords(`areas/getRecords/${idCondominio}`);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -79,10 +77,6 @@ const AreaTable  = (props) => {
     },{
         dataField: 'tipo',
         text: 'Tipo',
-        sort: true,
-    },{
-        dataField: 'disponiblePara',
-        text: 'Disponible para',
         sort: true,
     },{
         dataField: 'actions',

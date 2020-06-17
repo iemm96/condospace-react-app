@@ -10,16 +10,15 @@ import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
-//Change
 import ModalRecord from "../modals/ModalAnuncio";
-
-//Change
+import {useUsuario} from "../../../context/usuario-context";
 const RESOURCE = 'anuncios'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Anuncio';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 
-const AnunciosTable = (props) => {
+const AnunciosTable = () => {
+    const {idCondominio} = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
     const [modalDeleteControl,setModalDeleteControl] = useState(false);
@@ -29,7 +28,7 @@ const AnunciosTable = (props) => {
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(RESOURCE);
+                const result = await fetchRecords(`anuncios/getRecords/${idCondominio}`);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -70,14 +69,6 @@ const AnunciosTable = (props) => {
     },{
         dataField: 'mensaje',
         text: 'Mensaje',
-        sort: true,
-    },{
-        dataField: 'idTipoVisibilidad',
-        text: 'Visible para',
-        sort: true,
-    },{
-        dataField: 'idTipoImportancia',
-        text: 'Tipo de importancia',
         sort: true,
     },{
         dataField: 'actions',
