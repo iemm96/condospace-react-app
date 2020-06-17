@@ -15,10 +15,11 @@ const Header = (props) => {
     const [isOpenSidebar,setIsOpenSidebar] = useState(false);
     const [titleSection,setTitleSection] = useState(false);
     let location = useLocation();
+    let arrUrl = location.pathname.split('/');
+    let secondPath = arrUrl[2];
 
     useEffect(() => {
-        let arrUrl = location.pathname.split('/');
-        let secondPath = arrUrl[2];
+
 
         secondPath = secondPath.charAt(0).toUpperCase() + secondPath.slice(1);
 
@@ -83,15 +84,15 @@ const Header = (props) => {
                         <FontAwesomeIcon icon={faBars}/>
                     </Button> : ''}
 
-                    <NavLink className="navbar-brand" to="#" disabled>CondoSpace</NavLink>
+                    <NavLink className="navbar-brand"  disabled>CondoSpace</NavLink>
 
                     <Collapse className="navbar-collapse justify-content-start" id="navbarSupportedContent" navbar>
 
                         <ul className="navbar-nav">
 
                             <li className="nav-item">
-                                <NavLink className="nav-link" disabled>
-                                    {usuario ? usuario.condominio : ''}
+                                <NavLink className="nav-link" to={`/${arrUrl[1]}/login`}>
+                                    {usuario ? <a>{usuario.condominio}</a> : ''}
                                 </NavLink>
                             </li>
                             <li className="nav-item">

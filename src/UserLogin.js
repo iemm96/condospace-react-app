@@ -86,7 +86,7 @@ const UserLogin = (props) => {
                     if(response.data.user.bPrimerInicio) {
                         history.push(`/${condominio}/bienvenida`);
                     }else{
-                        history.push(`/${condominio}/unidades`);
+                        history.push(`/${condominio}/dashboard`);
                     }
                 }
 
