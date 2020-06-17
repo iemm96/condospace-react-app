@@ -14,7 +14,6 @@ const Header = (props) => {
     const { usuario } = useUsuario();
     const [isOpenSidebar,setIsOpenSidebar] = useState(false);
     const [titleSection,setTitleSection] = useState(false);
-    const { condominioURL } = props.match.params.condominio;
     let location = useLocation();
 
     useEffect(() => {
@@ -45,7 +44,7 @@ const Header = (props) => {
             // On page load
             stickyToggle(sticky, stickyWrapper, window);
         });
-    });
+    },[]);
 
     const stickyToggle = (sticky, stickyWrapper, scrollElement) => {
 
@@ -67,7 +66,8 @@ const Header = (props) => {
         console.log('cerrar');
         CookieService.remove('access_token');
         CookieService.remove('tipoUsuario');
-        window.location.href =  `/${condominioURL}/login`;
+        let arrUrl = location.pathname.split('/');
+        window.location.href =  `/${arrUrl[1]}/login`;
     };
 
     const toggleSidebar = () => (setIsOpenSidebar(!isOpenSidebar));
@@ -79,9 +79,10 @@ const Header = (props) => {
             <Navbar className="header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar"
                     data-toggle="sticky-onscroll">
                 <div className="container">
-                    <Button color="info" className="" onClick={toggleSidebar}>
+                    {usuario.user.idTipoUsuario === 2 ? <Button color="info" className="" onClick={toggleSidebar}>
                         <FontAwesomeIcon icon={faBars}/>
-                    </Button>
+                    </Button> : ''}
+
                     <NavLink className="navbar-brand" to="#" disabled>CondoSpace</NavLink>
 
                     <Collapse className="navbar-collapse justify-content-start" id="navbarSupportedContent" navbar>
