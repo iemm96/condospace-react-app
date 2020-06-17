@@ -89,6 +89,16 @@ const UserLogin = (props) => {
                         history.push(`/${condominio}/unidades`);
                     }
                 }
+
+                if(tipoUsuario === 3) {
+                    history.push(`/${condominio}/residente`);
+
+                }
+
+                if(tipoUsuario === 4) {
+                    history.push(`/${condominio}/vigilante`);
+                }
+
                 return response.data
             },
         ).catch(error => {

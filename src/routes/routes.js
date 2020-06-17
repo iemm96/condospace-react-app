@@ -54,6 +54,11 @@ const AppRoutes = () => {
                                 <Route path="/:condominio/transacciones" component={TransaccionesTable} />
                                 <Route path="/:condominio/unidades" component={UnidadTable} />
                                 <Route path="/:condominio/visitas" component={VisitasTable} />
+
+
+                                <Route path="/:condominio/residentes" component={UnidadTable} />
+                                <Route path="/:condominio/vigilante" component={VisitasTable} />
+
                             </DashboardContainerWithRouter >
                         </Route>
                         <Route path="/error" component={NoMatchPage} />

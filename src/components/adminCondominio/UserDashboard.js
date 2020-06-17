@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Col, Row,Container} from "reactstrap";
+import {Col, Row,Container, Spinner} from "reactstrap";
 import Header from "./common/Header";
 import {withRouter} from 'react-router-dom';
 import {useHistory} from 'react-router';
@@ -49,21 +49,28 @@ const UserDashboard = (props) => {
 
     },[]);
 
-    return(
-        <div>
+    if(userLoggedIn) {
+        return (<div>
             <CommonHeader condominio={condominio}/>
             <div className="dashboard-content animate fadeInUp one">
                 <Container>
                     <Row className="pt-5 justify-content-center">
                         <Col className="col-11">
                             <div>
-                                {userLoggedIn ? props.children : ''}
+                                {props.children}
                             </div>
                         </Col>
                     </Row>
                 </Container>
             </div>
-        </div>)
+        </div>);
+    }else{
+        return (
+            <div className="text-center pt-auto" style={{marginTop: '20%'}}>
+                <Spinner type="grow" color="light" style={{ width: '4rem', height: '4rem' }}/>
+            </div>
+        );
+    }
 }
 
 export const DashboardContainerWithRouter = withRouter(UserDashboard);
