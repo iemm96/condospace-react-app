@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {UncontrolledTooltip, Button,  FormGroup, Label, Col, Row } from 'reactstrap';
+import { Button,  FormGroup, Label, Col, Row } from 'reactstrap';
 import {storeRecord} from "../../../actions/storeRecord";
 import {useUsuario} from "../../../context/usuario-context";
 import { useForm } from "react-hook-form";
@@ -123,7 +123,7 @@ export const AgregarUnidades = (props) => {
         );
     }else{
         return(
-            <Row className="">
+            <Row className="justify-content-end">
                 <Col>
                     <Row className="text-center">
                         <Col>

@@ -60,6 +60,7 @@ const UnidadTable  = () => {
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
         setSelectedRecordTitle(title);
+        toggleDeleteModal();
     };
 
     const updateRecords = async () => {
@@ -108,9 +109,10 @@ const UnidadTable  = () => {
             <DeleteRecordModal
                 toggleDeleteModal={toggleDeleteModal}
                 title={selectedRecordTitle}
-                idRecord={setSelectedRecordId}
+                idRecord={selectedRecordId}
                 deleteModal={modalDeleteControl}
                 resource={RESOURCE}
+                updateRecords={updateRecords}
             />
             <ToolkitProvider
                 keyField="id"

@@ -58,11 +58,6 @@ const SideBar = props => (
               <FontAwesomeIcon icon={faUser} className="mr-2"/>Usuarios
             </NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink tag={Link} to={`/${props.condominio}/configuracion`}>
-              <FontAwesomeIcon icon={faCogs} className="mr-2"/>Configuración
-            </NavLink>
-          </NavItem>
          </Nav>
       </div>
     </div>
