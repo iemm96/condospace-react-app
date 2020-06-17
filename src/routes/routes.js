@@ -8,13 +8,12 @@ import AnunciosTable from "./../components/adminCondominio/tables/AnunciosTable"
 import UnidadTable from "../components/adminCondominio/tables/UnidadTable";
 import EventosTable from "../components/adminCondominio/tables/EventosTable";
 import VisitasTable from "../components/adminCondominio/tables/VisitasTable";
-import AdminsTable from "../components/adminCondominio/tables/AdminsTable";
 import CuotaTable from "../components/adminCondominio/tables/CuotaTable";
 import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
 import TransaccionesTable from "../components/adminCondominio/tables/TransaccionesTable";
 
 import {CondominioList} from "../components/adminCondominio/lists/CondominioList";
-import UsuariosTable from "../components/admin/tables/UsuariosTable";
+import UsuariosTable from "../components/adminCondominio/tables/UsuariosTable";
 import UserLogin from "../UserLogin";
 import Bienvenida from "../components/adminCondominio/sections/Bienvenida";
 import {AgregarUnidades} from "../components/adminCondominio/sections/AgregarUnidades";
@@ -51,9 +50,9 @@ const AppRoutes = () => {
                                 <Route path="/:condominio/cuotas" component={CuotaTable} />
                                 <Route path="/:condominio/cuentas" component={CuentaTable} />
                                 <Route path="/:condominio/eventos" component={EventosTable} />
+                                <Route path="/:condominio/usuarios" component={UsuariosTable} />
                                 <Route path="/:condominio/transacciones" component={TransaccionesTable} />
                                 <Route path="/:condominio/unidades" component={UnidadTable} />
-                                <Route path="/:condominio/usuarios" component={AdminsTable} />
                                 <Route path="/:condominio/visitas" component={VisitasTable} />
                             </DashboardContainerWithRouter >
                         </Route>

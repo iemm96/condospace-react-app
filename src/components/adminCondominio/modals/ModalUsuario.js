@@ -1,101 +1,230 @@
-import React from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
-
-import {fetchRecord} from "../../../actions/fetchRecord";
+import React, { useState, useEffect } from 'react';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Col, Row } from 'reactstrap';
+import Select from "react-select";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
+import {useForm} from "react-hook-form";
+import DatePicker, { registerLocale } from "react-datepicker/es";
+import "react-datepicker/dist/react-datepicker.css";
+import es from "date-fns/locale/es";
+import {format, addWeeks, addMonths, addYears} from "date-fns";
+import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
+import {fetchRecords} from "../../../actions/fetchRecords";
+import {useUsuario} from "../../../context/usuario-context";
+import {store} from "react-notifications-component";
+import {fetchRecord} from "../../../actions/fetchRecord";
+
+registerLocale("es", es);
 
 
+const ModalUsuario = (props) => {
+    //Importante
+    const { register, handleSubmit } = useForm();
+    const { idCondominio } = useUsuario();
+    const [record,setRecord] = useState(null);
+    const [disabledButton,setDisabledButton] = useState(false);
+    const [idTipoUsuario,setIdTipoUsuario] = useState(false);
 
-export default class ModalUsuario extends React.Component{
+    useEffect(() => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            idPersona:this.props.idRecord
-        }
-    }
-    async componentWillReceiveProps(nextProps) {
-        this.setState({
-            id:nextProps.idRecord
-        });
-
-        if(nextProps.idRecord) {
+        //Obtiene los datos del registro
+        async function getRecord() {
             try {
-                let recordData = await fetchRecord(nextProps.idRecord,this.props.resource);
-                this.setState({...recordData});
-            }catch (error) {
-                console.log(error);
+                const resultadoRecord = await fetchRecord(props.idRecord,'usuarios');
+
+                setIdTipoUsuario(resultadoRecord.idTipoUsuario);
+
+                setRecord(resultadoRecord);
+                setDisabledButton(false);
+
+            }catch (e) {
+                console.log(e);
             }
         }
-    }
 
-    handleInputChange = event => {
-
-        console.log(event);
-        let target;
-
-        if(target = event.target) {
-            const value = target.value;
-            const name = target.name;
-            this.setState({
-                [name]:value
-            });
-        }else{
-            const name = event.name;
-            const value = event.value;
-            this.setState({
-                [name]:value
-            })
+        if(props.idRecord) {
+            getRecord();
         }
-    }
+    }, [props.idRecord]);
 
-    render() {
+    const onSubmit = async (data) => {
 
-        console.log(this.state.titulo);
+        data.idCondominio = idCondominio;
+        data.idTipoUsuario = idTipoUsuario;
 
-        return(<Modal isOpen={this.props.recordModal} toggle={() => this.props.toggleModal()}>
-            <ModalHeader toggle={() => this.props.toggleModal()}>{this.props.idRecord ? 'Actualizar' : 'Crear'} Usuario</ModalHeader>
-            <ModalBody>
-                <Form id="form" onSubmit={this.state.idRecord ? updateRecord(this.state) : storeRecord(this.state)}>
-                    <FormGroup>
-                        <Input type="text" name="nombre" id="" placeholder="Nombre"
-                               value={this.props.idRecord ? this.state.nombre : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="apellidos" id="" placeholder="Apellidos"
-                               value={this.props.idRecord ? this.state.apellidos : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="telefono" id="" placeholder="Telefono"
-                               value={this.props.idRecord ? this.state.telefono : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="celular" id="" placeholder="Celular"
-                               value={this.props.idRecord ? this.state.celular : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="text" name="email" id="" placeholder="Email"
-                               value={this.props.idRecord ? this.state.email : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Input type="password" name="password" id="" placeholder="Password"
-                               value={this.props.idRecord ? this.state.password : undefined}
-                               onChange={event => this.handleInputChange(event)}/>
-                    </FormGroup>
-                </Form>
-            </ModalBody>
-            <ModalFooter>
-                <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancelar</Button>
-                <Button form="form" type="submit" color="primary">{this.props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
-            </ModalFooter>
+        if(record) {
 
-        </Modal>);
-    }
+            try {
+                const response = await updateRecord(data,'usuarios',record.id);
+                if(response) {
+                    store.addNotification({
+                        title: "Correcto",
+                        message: "Se ha actualizado la cuota",
+                        type: "success",
+                        insert: "top",
+                        container: "top-right",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 5000,
+                            onScreen: true
+                        }
+                    });
+                    setRecord(null);
 
+                    props.toggleModal();
+                    props.updateRecords();
+                }
+            }catch (e) {
+                console.log(e);
+                store.addNotification({
+                    title: "Ocurrió un error al actualizar la cuota",
+                    message: "Revisa tu conexión a internet",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+            }
+
+        }else{
+            try {
+
+                const response = await storeRecord(data,'addUsuario');
+                if(response) {
+                    store.addNotification({
+                        title: "Correcto",
+                        message: "Se ha creado una nueva cuota",
+                        type: "success",
+                        insert: "top",
+                        container: "top-right",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 5000,
+                            onScreen: true
+                        }
+                    });
+                    props.toggleModal();
+                    props.updateRecords();
+                }
+            }catch (e) {
+                console.log(e);
+                store.addNotification({
+                    title: "Ocurrió un error al agregar la cuota",
+                    message: "Revisa tu conexión a internet",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+            }
+        }
+
+    };
+
+    const customStyles = {
+
+        control: () => ({
+            borderRadius: 10,
+            border: '1px solid #979797 !important',
+            position: 'relative',
+            justifyContent: 'space-between',
+            display: '-webkit-flex'
+        }),
+        dropdownIndicator: () => ({
+            color: 'black',
+            marginRight: 10
+        }),
+        indicatorSeparator: () => ({
+            border: 'none',
+        })
+    };
+
+    const tiposUsuario = [
+        {value:2,label:'Administrador del condominio',name:'idTipoUsuario'},
+        {value:3,label:'Residente',name:'idTipoUsuario'},
+        {value:4,label:'Tesorero',name:'idTipoUsuario'}
+    ];
+
+    return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
+        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Usuario</ModalHeader>
+        <ModalBody>
+            <Form id="form" onSubmit={handleSubmit(onSubmit)}>
+                <Row>
+                    <Col sm={6}>
+                        <FormGroup>
+                            <label>* Nombre</label>
+                            <input className="form-control" type="text" name="name" id="" placeholder="Nombre"
+                                   defaultValue={record ? record.name : undefined}
+                                   ref={register}/>
+                        </FormGroup>
+                    </Col>
+                    <Col sm={6}>
+                        <FormGroup>
+                            <label>* Apellidos</label>
+                            <input className="form-control" type="text" name="apellidos" id="" placeholder="Apellidos"
+                                   defaultValue={record ? record.apellidos : undefined}
+                                   ref={register}/>
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={8}>
+                        <FormGroup>
+                            <Label>* Teléfono</Label>
+                            <input className="form-control" type="text" name="telefono" id="" placeholder="Telefono"
+                                   defaultValue={record ? record.telefono : undefined}
+                                   ref={register}/>
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={6}>
+                        <FormGroup>
+                            <Label>* Email</Label>
+                            <input className="form-control" type="text" name="email" id="" placeholder="Email"
+                                   defaultValue={record ? record.email : undefined}
+                                   ref={register}/>
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={8}>
+                        <FormGroup>
+                            <label>* Tipo de usuario</label>
+                            <Select styles={customStyles}
+                                    options={tiposUsuario}
+                                    placeholder="Selecciona ..."
+                                    defaultValue={tiposUsuario.find(op => {
+                                        return op.value === idTipoUsuario
+                                    })}
+                                    onChange={(event) => {setIdTipoUsuario(event.value)}}
+                            />
+                        </FormGroup>
+                    </Col>
+                </Row>
+            </Form>
+        </ModalBody>
+        <p className="center">Los campos marcados con * son obligatorios</p>
+        <ModalFooter className="d-flex justify-content-around">
+            <Button className="neutralButton" onClick={() => props.toggleModal()}>Cancelar</Button>
+            <Button className="confirmButton" type="submit" form="form" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Usuario</Button>
+        </ModalFooter>
+    </Modal>);
 };
+
+export default ModalUsuario;
+
+
+

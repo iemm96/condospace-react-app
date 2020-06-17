@@ -10,14 +10,14 @@ import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
-import ModalRecord from "../modals/ModalCuenta";
+import ModalRecord from "../modals/ModalUsuario";
 import {useUsuario} from "../../../context/usuario-context";
 
 const RESOURCE = 'usuarios'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Usuario';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
-const AdminsTable = () => {
+const UsuariosTable = () => {
     const {idCondominio} = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
@@ -38,10 +38,15 @@ const AdminsTable = () => {
         getRecords();
     },[]);
 
+    const prepareEditModal = (idRecord) => {
+        setSelectedRecordId(idRecord);
+        toggleModal();
+    };
+
     const actionsFormatter = (cell, row) => (
         <div className="text-center">
-            <Button type="Button" onClick={() => setSelectedRecordId(row.id)} className="btn mr-2 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => prepareDeleteModal(row.id, row.titulo)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
+            <Button type="Button" onClick={() => prepareEditModal(row.id)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareDeleteModal(row.id, row.name)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
 
@@ -56,6 +61,7 @@ const AdminsTable = () => {
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
         setSelectedRecordTitle(title);
+        toggleDeleteModal();
     };
 
     const prepareNewModal = () => {
@@ -65,7 +71,7 @@ const AdminsTable = () => {
 
     const updateRecords = async () => {
         console.log('updating');
-        const result = await fetchRecords(`cuentas/getRecords/${idCondominio}`);
+        const result = await fetchRecords(`usuarios/getRecords/${idCondominio}`);
 
         if(result) {
             setRecords(result);
@@ -81,10 +87,6 @@ const AdminsTable = () => {
         text: 'Email',
         sort: true,
     },{
-        dataField: 'tipoUsuario',
-        text: 'Tipo',
-        sort: true,
-    },{
         dataField: 'actions',
         text: 'Acciones',
         isDummyField: true,
@@ -92,6 +94,7 @@ const AdminsTable = () => {
         formatter: actionsFormatter,
         headerStyle: { textAlign:'center'}
     }];
+
     const contentTable = ({ paginationProps, paginationTableProps }) => (
         <div>
             {modalControl ? <ModalRecord
@@ -104,9 +107,10 @@ const AdminsTable = () => {
             <DeleteRecordModal
                 toggleDeleteModal={toggleDeleteModal}
                 title={selectedRecordTitle}
-                idRecord={setSelectedRecordId}
+                idRecord={selectedRecordId}
                 deleteModal={modalDeleteControl}
                 resource={RESOURCE}
+                updateRecords={updateRecords}
             />
             <ToolkitProvider
                 keyField="id"
@@ -162,4 +166,4 @@ const AdminsTable = () => {
 
 };
 
-export default AdminsTable;
+export default UsuariosTable;

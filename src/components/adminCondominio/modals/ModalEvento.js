@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label } from 'reactstrap';
+import {Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Row, Col} from 'reactstrap';
 import Select from "react-select";
 
 import {fetchRecords} from "../../../actions/fetchRecords";
@@ -130,7 +130,7 @@ const ModalEvento = (props) => {
                         }
                     });
                     props.toggleModal();
-                   // props.updateRecords();
+                   props.updateRecords();
                 }
 
 
@@ -177,48 +177,66 @@ const ModalEvento = (props) => {
         <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Evento</ModalHeader>
         <ModalBody>
             <Form id="form" onSubmit={handleSubmit(onSubmit)}>
-                <FormGroup>
-                    <Label>* Titulo </Label>
-                    <input className="form-control" type="text" name="nombre" id="" placeholder="Nombre"
-                           defaultValue={record ? record.nombre : undefined}
-                           ref={register}/>
-                </FormGroup>
-                <FormGroup>
-                    <Label>* Descripcion </Label>
-                    <input className="form-control" type="textarea" name="descripcion" id="" placeholder="Descripción"
-                           value={props.idRecord ? props.descripcion : undefined}
-                           ref={register}/>
-                </FormGroup>
-                <FormGroup>
-                    <Label>* Fecha de Evento</Label>
-                    <DatePicker
-                        locale="es"
-                        className="form-control"
-                        maxDate={new Date()}
-                        name="fecha"
-                        dateFormat="dd/MMMM/yyyy"
-                        selected={startDate}
-                        onChange={date => setStartDate(date)} />
-                </FormGroup>
-                <FormGroup>
-                    <Label>* Lugar</Label>
-                    <Select styles={customStyles}
-                            options={areas}
-                            placeholder="Selecciona ..."
-                            value={areas.find(op => {
-                                return op.value === idArea
-                            })}
-                            onChange={(event) => {setIdArea(event.value)}}
-                    />
-                </FormGroup>
-
+                <Row>
+                    <Col sm={8}>
+                        <FormGroup>
+                            <Label>* Título</Label>
+                            <input className="form-control" type="text" name="nombre" id="" placeholder=""
+                                   defaultValue={record ? record.nombre : undefined}
+                                   ref={register({required:true})}/>
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={8}>
+                        <FormGroup>
+                            <Label>Descripción</Label>
+                            <textarea className="form-control" name="descripcion" id="" placeholder=""
+                                      defaultValue={record ? record.descripcion : undefined}
+                                      ref={register}/>
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={6}>
+                        <FormGroup>
+                            <Label>* Fecha de Evento</Label>
+                            <DatePicker
+                                locale="es"
+                                className="form-control"
+                                minDate={new Date()}
+                                name="fecha"
+                                dateFormat="dd/MMMM/yyyy"
+                                selected={startDate}
+                                onChange={date => setStartDate(date)} />
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={8}>
+                        <FormGroup>
+                            <Label>* Lugar</Label>
+                            <Select styles={customStyles}
+                                    options={areas}
+                                    placeholder="Selecciona ..."
+                                    value={areas.find(op => {
+                                        return op.value === idArea
+                                    })}
+                                    onChange={(event) => {setIdArea(event.value)}}
+                            />
+                        </FormGroup>
+                    </Col>
+                </Row>
             </Form>
         </ModalBody>
-        <ModalFooter>
-            <Button color="secondary" onClick={() => props.toggleModal()}>Cancelar</Button>
-            <Button form="form" type="submit" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Evento</Button>
+        <p className="center">Los campos marcados con * son obligatorios</p>
+        <ModalFooter className="d-flex justify-content-around">
+            <Button className="neutralButton" onClick={() => props.toggleModal()}>Cancelar</Button>
+            <Button className="confirmButton" type="submit" form="form" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Cuota</Button>
         </ModalFooter>
     </Modal>);
+
+
 }
 
 export default ModalEvento;
