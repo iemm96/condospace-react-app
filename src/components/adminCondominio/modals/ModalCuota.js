@@ -22,7 +22,7 @@ const ModalCuota = (props) => {
     //Importante
     const { register, handleSubmit } = useForm();
     const { idCondominio } = useUsuario();
-    const [ setRecordState] = useState(props);
+    const [ recordState, setRecordState] = useState(props);
     const [startDate, setStartDate] = useState(new Date());
     const [esRecurrente,setEsRecurrente] = useState(0);
     const [tipoCuota,setTipoCuota] = useState(null);
