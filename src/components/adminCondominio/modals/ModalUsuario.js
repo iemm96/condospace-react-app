@@ -286,7 +286,7 @@ const ModalUsuario = (props) => {
                 </Row>
                 <Row>
                     <Col sm={8}>
-                        <FormGroup>
+                        <FormGroup style={{zIndex:3000,position:'relative'}}>
                             <label>* Tipo de usuario</label>
                             <Select styles={customStyles}
                                     options={tiposUsuario}

@@ -6,7 +6,7 @@ import axios from "axios";
 import stringifyData from "../../services/stringifyData";
 import {url_base} from "../../constants/api_url";
 import CookieService from "../../services/CookieService";
-import { withRouter, Redirect, useHistory} from 'react-router';
+import { withRouter, useHistory} from 'react-router';
 
 const expiresAt = 60 * 24;
 
@@ -15,7 +15,7 @@ const AdminLogin = () => {
 
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
     const {errorUser,errorPassword,setUsuario,setTipoUsuario} = useUsuario();
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit } = useForm();
     let history = useHistory();
 
     const spinner = <span className="spinner-border spinner-border-sm" role="status"
@@ -69,17 +69,10 @@ const AdminLogin = () => {
                     inputPassword.classList.add('bounce');
                 }
             } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the
-                // browser and an instance of
-                // http.ClientRequest in node.js
                 console.log(error.request);
 
-
             } else {
-                // Something happened in setting up the request that triggered an Error
                 console.log('Error', error.message);
-
             }
         });
     };
