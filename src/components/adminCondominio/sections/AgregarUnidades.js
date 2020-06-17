@@ -1,24 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {UncontrolledTooltip, Button,  FormGroup, Label, Col, Row } from 'reactstrap';
 import {storeRecord} from "../../../actions/storeRecord";
 import {useUsuario} from "../../../context/usuario-context";
 import { useForm } from "react-hook-form";
 import Skeleton from 'react-loading-skeleton';
 import {store} from "react-notifications-component";
+import {useHistory} from 'react-router';
+import Select from "react-select";
 
 export const AgregarUnidades = (props) => {
-    const {cargandoUsuario,idCondominio} = useUsuario();
+    const {cargandoUsuario,idCondominio,usuario} = useUsuario();
     const { register, handleSubmit, errors } = useForm();
+    const [pertenecen,setPertenecen] = useState(false);
+    const [tipoUnidad,setTipoUnidad] = useState(null);
+    let history = useHistory();
 
     const onSubmit = async data => {
         data.idCondominio = idCondominio;
+        data.tipoUnidades = tipoUnidad;
         console.log(data);
 
         try {
             await storeRecord(data,'addUnidades');
-
-            window.location.href = `/${props.match.params.condominio}/unidades`;
-
+            history.push(`/${props.match.params.condominio}/unidades`);
         }catch (e) {
             console.log(e);
             store.addNotification({
@@ -35,8 +39,25 @@ export const AgregarUnidades = (props) => {
                 }
             });
         }
+    };
 
-    }
+    const customStyles = {
+
+        control: () => ({
+            borderRadius: 10,
+            border: '1px solid #979797 !important',
+            position: 'relative',
+            justifyContent: 'space-between',
+            display: '-webkit-flex'
+        }),
+        dropdownIndicator: () => ({
+            color: 'black',
+            marginRight: 10
+        }),
+        indicatorSeparator: () => ({
+            border: 'none',
+        })
+    };
 
     if(cargandoUsuario) {
         return(
@@ -106,7 +127,7 @@ export const AgregarUnidades = (props) => {
                 <Col>
                     <Row className="text-center">
                         <Col>
-                            <h4>Nombre del condominio</h4>
+                            <h4>{usuario.condominio}</h4>
                             <p>Agrega las unidades de tu condominio</p>
                         </Col>
                     </Row>
@@ -114,7 +135,7 @@ export const AgregarUnidades = (props) => {
                         <Col sm={8}>
                             <form id="form" onSubmit={handleSubmit(onSubmit)}>
                                 <Row>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <Label>*¿Cuántas unidades deseas agregar?</Label>
                                             <input type="number"
@@ -131,59 +152,84 @@ export const AgregarUnidades = (props) => {
                                 <Row>
                                     <Col sm={8}>
                                         <FormGroup>
-                                            <Label for="">¿Pertenecen a una misma calle?</Label>
-                                            <div className="custom-control custom-radio">
-                                                <input className="custom-control-input" type="radio" id="radioButtonSi" value="1" name="pertenecen" label="Si" ref={register({ required: true })}/>
-                                                <label className="custom-control-label" htmlFor="radioButtonSi">Si</label>
-                                                <input className="custom-control-input" type="radio" id="radioButtonNo" value="0" name="pertenecen" label="No" ref={register({ required: true })}/>
-                                                <label className="custom-control-label" htmlFor="radioButtonNo">No</label>
+                                            <label>* ¿Pertenecen a una misma calle?</label><br/>
+                                            <div className="custom-control custom-radio custom-control-inline">
+                                                <input type="radio"
+                                                       value="1"
+                                                       className="custom-control-input"
+                                                       id="radioSi"
+                                                       name="pertenecen"
+                                                       ref={register({ required: true })}
+                                                       onChange={() => setPertenecen(true)}
+                                                />
+                                                <label className="custom-control-label" htmlFor="radioSi">Si</label>
+                                            </div>
+                                            <div className="custom-control custom-radio custom-control-inline">
+                                                <input type="radio"
+                                                       value="0"
+                                                       className="custom-control-input"
+                                                       id="radioNo"
+                                                       name="pertenecen"
+                                                       ref={register({ required: true })}
+                                                       onChange={() => setPertenecen(false)}
+                                                />
+                                                <label className="custom-control-label" htmlFor="radioNo">No</label>
                                             </div>
                                             {errors.pertenecen && <small>Selecciona una respuesta</small>}
                                         </FormGroup>
                                     </Col>
                                 </Row>
-                                <Row>
+                                {pertenecen ? (<Row className="animate fadeIn one">
                                     <Col sm={8}>
                                         <FormGroup>
-                                            <Label>*Nombre de la calle</Label>
+                                            <Label>* Nombre de la calle</Label>
                                             <input className="form-control"
                                                    type="text"
                                                    name="calle"
                                                    ref={register({ required: true })}
-                                                   />
+                                            />
                                         </FormGroup>
                                     </Col>
-                                </Row>
+                                </Row>) : ''}
                                 <Row>
                                     <Col sm={6}>
                                         <FormGroup>
                                             <Label for="exampleCustomSelect">*Tipo de Unidades</Label>
-                                            <select
-                                                className="form-control"
-                                                type="select"
-                                                id="exampleCustomSelect"
-                                                ref={register({ required: true })}
-                                                name="tipoUnidades">
-                                                <option value="">Selecciona el tipo de unidades...</option>
-                                                <option value="Casa">Casas</option>
-                                                <option value="Departamento">Departamentos</option>
-                                            </select>
+                                            <Select styles={customStyles}
+                                                    options={[{value:"Casa",label:'Casas',name:'tipoUnidades'},
+                                                        {value:"Departamento",label:'Departamentos',name:'tipoUnidades'}]}
+                                                    placeholder="Selecciona una opción..."
+                                                    onChange={(event) => {setTipoUnidad(event.value)}}
+                                            />
                                         </FormGroup>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col sm={10}>
-                                        <FormGroup>
+                                        <FormGroup >
                                             <Label for="">¿Deseas que las unidades se guarden como Departamento 1, Departamento 2…?</Label>
-                                            <div  id="UncontrolledTooltipExample">
-                                                <input type="radio" id="radioNombreSi" value="1" name="guardarComo" label="Si" ref={register({ required: true })}/>
-                                                <label htmlFor="radioNombreSi">Si</label>
-                                                <input type="radio" id="radioNombreNo" value="0" name="guardarComo" label="No" ref={register({ required: true })}/>
-                                                <label htmlFor="radioNombreNo">No</label>
+                                            <div className="custom-control custom-radio custom-control-inline">
+                                                <input type="radio"
+                                                       value="1"
+                                                       className="custom-control-input"
+                                                       id="radioSi"
+                                                       name="guardarComo"
+                                                       ref={register({ required: true })}
+                                                       onChange={() => setPertenecen(true)}
+                                                />
+                                                <label className="custom-control-label" htmlFor="radioSi">Si</label>
                                             </div>
-                                            <UncontrolledTooltip placement="right" target="UncontrolledTooltipExample">
-                                                Las unidades se guardarán como Unidad 1, Unidad 2…
-                                            </UncontrolledTooltip>
+                                            <div className="custom-control custom-radio custom-control-inline">
+                                                <input type="radio"
+                                                       value="0"
+                                                       className="custom-control-input"
+                                                       id="radioNo"
+                                                       name="guardarComo"
+                                                       ref={register({ required: true })}
+                                                       onChange={() => setPertenecen(false)}
+                                                />
+                                                <label className="custom-control-label" htmlFor="radioNo">No</label>
+                                            </div>
                                         </FormGroup>
                                     </Col>
                                 </Row>

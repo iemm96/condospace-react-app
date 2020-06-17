@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Col, Row } from 'reactstrap';
 import Select from "react-select";
 
 import {storeRecord} from "../../../actions/storeRecord";
@@ -18,7 +18,7 @@ const ModalAnuncio = (props) => {
         }catch (e) {
             console.log(e);
         }
-    }
+    };
 
     return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
         <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Nuevo'} Anuncio</ModalHeader>
