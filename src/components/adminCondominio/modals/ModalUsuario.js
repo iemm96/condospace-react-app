@@ -13,6 +13,7 @@ import {fetchRecords} from "../../../actions/fetchRecords";
 import {useUsuario} from "../../../context/usuario-context";
 import {store} from "react-notifications-component";
 import {fetchRecord} from "../../../actions/fetchRecord";
+import Spinner from "reactstrap/es/Spinner";
 
 registerLocale("es", es);
 
@@ -24,6 +25,9 @@ const ModalUsuario = (props) => {
     const [record,setRecord] = useState(null);
     const [disabledButton,setDisabledButton] = useState(false);
     const [idTipoUsuario,setIdTipoUsuario] = useState(false);
+    const [unidades,setUnidades] = useState(false);
+    const [idUnidad,setIdUnidad] = useState(false);
+    const [password,setPassword] = useState(false);
 
     useEffect(() => {
 
@@ -51,6 +55,12 @@ const ModalUsuario = (props) => {
 
         data.idCondominio = idCondominio;
         data.idTipoUsuario = idTipoUsuario;
+
+        if(idUnidad) {
+            data.idUnidad = idUnidad;
+        }
+
+        data.password = password;
 
         if(record) {
 
@@ -154,8 +164,83 @@ const ModalUsuario = (props) => {
     const tiposUsuario = [
         {value:2,label:'Administrador del condominio',name:'idTipoUsuario'},
         {value:3,label:'Residente',name:'idTipoUsuario'},
-        {value:4,label:'Tesorero',name:'idTipoUsuario'}
+        {value:4,label:'Vigilante',name:'idTipoUsuario'}
     ];
+
+    const getUnidades = async () => {
+        try {
+            const resultadoUnidades = await fetchRecords(`unidades/getRecords/${idCondominio}`);
+
+            let opcionesUnidades = [];
+
+            if(resultadoUnidades) {
+                resultadoUnidades.map((val) => {
+                    opcionesUnidades.push({value:val.idUnidad,label:val.nombre,name:'idUnidad'});
+                });
+
+                setUnidades(opcionesUnidades);
+            }
+
+        }catch (e) {
+            console.log(e);
+        }
+    };
+
+    const handleTipoUsuarioChange = (idTipo) => {
+        setIdTipoUsuario(idTipo);
+
+        switch (idTipo) {
+            case 2: {
+                setPassword('admin_condominio');
+                break;
+            }
+            case 3: {
+                setPassword('residente_condominio');
+                break;
+            }
+            case 4: {
+                setPassword('vigilante_condominio');
+                break;
+            }
+        }
+    };
+
+    const selectUnidad = () => {
+
+        if(!unidades) {
+            getUnidades();
+        }
+
+        return (
+            <Row >
+                <Col sm={8}>
+                    <FormGroup>
+                        {unidades ? (<div className="animate one fadeIn" style={{zIndex:2000,position:'relative'}}>
+                                <label>* Unidad del residente</label>
+                                <Select styles={customStyles}
+                                        options={unidades}
+                                        placeholder="Selecciona ..."
+                                        defaultValue={unidades.find(op => {
+                                            return op.value === idUnidad
+                                        })}
+                                        onChange={(event) => {
+                                            setIdUnidad(event.value)
+                                        }}
+                                />
+                            </div>
+                            ) :
+                            <div className="text-center">
+                                <Spinner color="dark"/>
+                            </div>
+                            }
+
+                    </FormGroup>
+                </Col>
+            </Row>
+        )
+
+
+    };
 
     return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
         <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Usuario</ModalHeader>
@@ -209,11 +294,17 @@ const ModalUsuario = (props) => {
                                     defaultValue={tiposUsuario.find(op => {
                                         return op.value === idTipoUsuario
                                     })}
-                                    onChange={(event) => {setIdTipoUsuario(event.value)}}
+                                    onChange={(event) => {handleTipoUsuarioChange(event.value)}}
                             />
                         </FormGroup>
                     </Col>
                 </Row>
+                {idTipoUsuario === 3 ? selectUnidad() : ''}
+                {password ? <p className="animate fadeIn one">
+                    La contraseña por defecto es <b>{password}</b> <br/>
+                    Podrá cambiarla la primera vez que inicie sesión
+                </p> : ''}
+
             </Form>
         </ModalBody>
         <p className="center">Los campos marcados con * son obligatorios</p>
