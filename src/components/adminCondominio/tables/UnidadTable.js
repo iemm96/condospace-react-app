@@ -19,7 +19,7 @@ const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 
 const UnidadTable  = () => {
-    const {idCondominio} = useUsuario();
+    const { idCondominio } = useUsuario();
     const [records,setRecords] = useState(null);
     const [selectedRecordId,setSelectedRecordId] = useState(null);
     const [selectedRecordTitle,setSelectedRecordTitle] = useState(null);
@@ -29,7 +29,7 @@ const UnidadTable  = () => {
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(`unidades/getRecords/${idCondominio}`);
+                const result = await fetchRecords(RESOURCE,idCondominio);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -39,14 +39,17 @@ const UnidadTable  = () => {
         getRecords();
     },[]);
 
+    //Abre/cierra el modal del recurso
     const toggleModal = () => {
         setModalControl(!modalControl);
     };
 
+    //Abre/cierra el modal de eliminar el recurso
     const toggleDeleteModal = () => {
         setModalDeleteControl(!modalDeleteControl);
     };
 
+    //
     const prepareEditModal = (idRecord) => {
         setSelectedRecordId(idRecord);
         toggleModal();
@@ -64,7 +67,7 @@ const UnidadTable  = () => {
     };
 
     const updateRecords = async () => {
-        const result = await fetchRecords(`unidades/getRecords/${idCondominio}`);
+        const result = await fetchRecords(RESOURCE,idCondominio);
         if(result) {
             setRecords(result);
         }
@@ -101,7 +104,7 @@ const UnidadTable  = () => {
         <div>
             {modalControl ? <ModalRecord
                 idRecord={selectedRecordId}
-                toggleModal={toggleModal}
+                toggleModal={() => (setModalControl(!modalControl))}
                 recordModal={modalControl}
                 resource={RESOURCE}
                 updateRecords={updateRecords}

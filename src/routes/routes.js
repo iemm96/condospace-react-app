@@ -33,6 +33,7 @@ const AppRoutes = () => {
             <UsuarioProvider>
                 <BrowserRouter>
                     <Switch>
+                        <Route path="/error" component={NoMatchPage} />
                         <Route path="/admin/login" component={() => <AdminLogin/>}/>
                         <Route path="/:condominio/login" component={() => <UserLogin/>} exact/>
 
@@ -63,8 +64,6 @@ const AppRoutes = () => {
 
                             </DashboardContainerWithRouter >
                         </Route>
-                        <Route path="/error" component={NoMatchPage} />
-                        <Route component={NoMatchPage} />
                     </Switch>
                 </BrowserRouter>
             </UsuarioProvider>
