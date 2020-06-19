@@ -38,8 +38,19 @@ const AnunciosTable = () => {
         getRecords();
     },[]);
 
+    const prepareNewModal = () => {
+        setSelectedRecordId(null);
+        toggleModal();
+    };
+
+
+    const prepareEditModal = (idRecord) => {
+        setSelectedRecordId(idRecord);
+        toggleModal();
+    };
+
     const actionsFormatter = (cell, row) => (<div className="text-center">
-            <Button type="Button" onClick={() => setSelectedRecordId(row.idAnuncio)} className="btn mr-2 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
+            <Button type="Button" onClick={() => prepareEditModal(row.idAnuncio)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
             <Button type="Button" onClick={() => prepareDeleteModal(row.idAnuncio, row.titulo)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
     );
@@ -55,12 +66,9 @@ const AnunciosTable = () => {
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
         setSelectedRecordTitle(title);
+        toggleDeleteModal();
     };
 
-    const prepareNewModal = () => {
-        setSelectedRecordId(null);
-        toggleModal();
-    };
 
     const columns = [{
         dataField: 'titulo',
@@ -79,20 +87,31 @@ const AnunciosTable = () => {
         headerStyle: { textAlign:'center'}
     }];
 
+    const updateRecords = async () => {
+        console.log('updating');
+        const result = await fetchRecords(`anuncios/getRecords/${idCondominio}`);
+
+        if(result) {
+            setRecords(result);
+        }
+    };
+
     const contentTable = ({ paginationProps, paginationTableProps }) => (
         <div>
-            <ModalRecord
+            {modalControl ? <ModalRecord
                 idRecord={selectedRecordId}
                 toggleModal={toggleModal}
                 recordModal={modalControl}
                 resource={RESOURCE}
-            />
+                updateRecords={updateRecords}
+            /> : ''}
             <DeleteRecordModal
                 toggleDeleteModal={toggleDeleteModal}
                 title={selectedRecordTitle}
-                idRecord={setSelectedRecordId}
+                idRecord={selectedRecordId}
                 deleteModal={modalDeleteControl}
                 resource={RESOURCE}
+                updateRecords={updateRecords}
             />
             <ToolkitProvider
                 keyField="id"

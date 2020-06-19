@@ -170,7 +170,6 @@ const TransaccionesTable  = (props) => {
                 deleteModal={modalDeleteControl}
                 resource={RESOURCE}
                 updateRecords={updateRecords}
-
             />
             <ToolkitProvider
                 keyField="idTransaccion"

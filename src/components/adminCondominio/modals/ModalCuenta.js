@@ -7,6 +7,7 @@ import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
 import {useUsuario} from "../../../context/usuario-context";
 import {store} from "react-notifications-component";
+import {fetchRecord} from "../../../actions/fetchRecord";
 
 const ModalCuenta = (props) => {
     const { register, handleSubmit } = useForm();
@@ -15,6 +16,27 @@ const ModalCuenta = (props) => {
     const [tipoBanco,setTipoBanco] = useState([]);
     const [record,setRecord] = useState(null);
     const [disabledButton,setDisabledButton] = useState(false);
+
+    useEffect(() => {
+
+        //Obtiene los datos del registro
+        async function getRecord() {
+            try {
+                const resultadoRecord = await fetchRecord(props.idRecord,'cuentas');
+
+                setTipoBanco(resultadoRecord.tipoBanco);
+
+                setRecord(resultadoRecord);
+
+            }catch (e) {
+                console.log(e);
+            }
+        }
+
+        if(props.idRecord) {
+            getRecord();
+        }
+    }, [props.idRecord]);
 
     useEffect(() => {
         return () => {
