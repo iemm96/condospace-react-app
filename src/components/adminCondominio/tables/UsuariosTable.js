@@ -29,7 +29,7 @@ const UsuariosTable = () => {
 
         async function getRecords() {
             try {
-                const result = await fetchRecords(`usuarios/getRecords/${idCondominio}`);
+                const result = await fetchRecords(RESOURCE,idCondominio);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -71,8 +71,7 @@ const UsuariosTable = () => {
 
     const updateRecords = async () => {
         console.log('updating');
-        const result = await fetchRecords(`usuarios/getRecords/${idCondominio}`);
-
+        const result = await fetchRecords(RESOURCE,idCondominio);
         if(result) {
             setRecords(result);
         }

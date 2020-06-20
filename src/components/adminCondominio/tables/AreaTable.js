@@ -27,7 +27,7 @@ const AreaTable  = () => {
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(`areas/getRecords/${idCondominio}`);
+                const result = await fetchRecords(RESOURCE,idCondominio);
                 setRecords(result);
             }catch (e) {
                 console.log(e);

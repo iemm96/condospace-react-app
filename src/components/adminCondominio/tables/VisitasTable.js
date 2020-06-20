@@ -16,7 +16,7 @@ import ModalRecord from "../modals/ModalVisitas";
 import {useUsuario} from "../../../context/usuario-context";
 import {updateRecord} from "../../../actions/updateRecord";
 //Change
-const RESOURCE = 'visitantes'; //API
+const RESOURCE = 'visitas'; //API
 const NEW_BUTTON_TEXT = 'Nueva Visita';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
@@ -34,7 +34,7 @@ const VisitasTable = () => {
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(`visitas/getRecords/${idCondominio}`);
+                const result = await fetchRecords(RESOURCE,idCondominio);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -108,7 +108,7 @@ const VisitasTable = () => {
 
     const updateRecords = async () => {
         console.log('updating');
-        const result = await fetchRecords(`visitas/getRecords/${idCondominio}`);
+        const result = await fetchRecords(RESOURCE,idCondominio);
         if(result) {
             setRecords(result);
         }

@@ -47,7 +47,7 @@ const ModalEvento = (props) => {
 
     useEffect(() => {
         async function getAreas() {
-            const resultadoAreas = await fetchRecords(`areas/getRecords/${idCondominio}`);
+            const resultadoAreas = await fetchRecords('areas',idCondominio);
 
             if(resultadoAreas) {
                 let opcionesAreas = [];

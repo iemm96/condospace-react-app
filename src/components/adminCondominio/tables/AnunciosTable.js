@@ -28,7 +28,7 @@ const AnunciosTable = () => {
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(`anuncios/getRecords/${idCondominio}`);
+                const result = await fetchRecords(RESOURCE,idCondominio);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -89,7 +89,7 @@ const AnunciosTable = () => {
 
     const updateRecords = async () => {
         console.log('updating');
-        const result = await fetchRecords(`anuncios/getRecords/${idCondominio}`);
+        const result = await fetchRecords(RESOURCE,idCondominio);
 
         if(result) {
             setRecords(result);

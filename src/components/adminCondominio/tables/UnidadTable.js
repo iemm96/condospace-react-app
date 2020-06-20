@@ -104,7 +104,7 @@ const UnidadTable  = () => {
         <div>
             {modalControl ? <ModalRecord
                 idRecord={selectedRecordId}
-                toggleModal={() => (setModalControl(!modalControl))}
+                toggleModal={toggleModal}
                 recordModal={modalControl}
                 resource={RESOURCE}
                 updateRecords={updateRecords}

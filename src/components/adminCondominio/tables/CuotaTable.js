@@ -39,7 +39,7 @@ const CuotaTable = (props) => {
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(`cuotas/getRecords/${idCondominio}`);
+                const result = await fetchRecords(RESOURCE,idCondominio);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -137,7 +137,8 @@ const CuotaTable = (props) => {
 
     const updateRecords = async () => {
         console.log('updating');
-        const result = await fetchRecords(`cuotas/getRecords/${idCondominio}`);
+        const result = await fetchRecords(RESOURCE,idCondominio);
+
         if(result) {
             setRecords(result);
         }

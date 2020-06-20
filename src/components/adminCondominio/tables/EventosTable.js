@@ -33,7 +33,7 @@ const EventosTable = (props) =>
     useEffect(() => {
         async function getRecords() {
             try {
-                const result = await fetchRecords(`eventos/getRecords/${idCondominio}`);
+                const result = await fetchRecords(RESOURCE,idCondominio);
                 setRecords(result);
             }catch (e) {
                 console.log(e);
@@ -59,7 +59,8 @@ const EventosTable = (props) =>
     };
     const updateRecords = async () => {
         console.log('updating');
-        const result = await fetchRecords(`eventos/getRecords/${idCondominio}`);
+        const result = await fetchRecords(RESOURCE,idCondominio);
+
         if(result) {
             setRecords(result);
         }
