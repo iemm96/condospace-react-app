@@ -34,8 +34,37 @@ export const Perfil = (props) => {
         }
 
         try {
-            await updateRecord(data,'usuarios',usuario.user.id,idCondominio);
-            //history.push(`/${props.match.params.condominio}/unidades`);
+
+            if(data.password) {
+
+                if(data.rtpassword !== data.password) {
+                    alert('Las contraseñas no coinciden');
+                    return;
+                }
+
+                await storeRecord({password:data.password},'updateUserPassword');
+
+                delete data.password;
+                delete data.rtpassword;
+            }
+
+            const response = await updateRecord(data,'usuarios',usuario.user.id,idCondominio);
+
+            if(response) {
+                store.addNotification({
+                    title: "Correcto",
+                    message: "Se han actualizado los datos de tu perfil",
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+            }
         }catch (e) {
             console.log(e);
             store.addNotification({

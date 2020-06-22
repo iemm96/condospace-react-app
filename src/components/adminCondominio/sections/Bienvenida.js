@@ -1,9 +1,6 @@
 import React from 'react';
 import { Button, Form, FormGroup, Label, input, Col, Row } from 'reactstrap';
 
-import {fetchRecord} from "../../../actions/fetchRecord";
-import {updateRecord} from "../../../actions/updateRecord";
-import {storeRecord} from "../../../actions/storeRecord";
 import stringifyData from "../../../services/stringifyData";
 import {url_base} from "../../../constants/api_url";
 import CookieService from "../../../services/CookieService";
