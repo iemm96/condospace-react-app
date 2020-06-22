@@ -10,7 +10,7 @@ import { withRouter, Redirect, useHistory} from 'react-router';
 const expiresAt = 60 * 24;
 
 const UserLogin = (props) => {
-    const {usuario,idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUsuario,setUserLoggedIn} = useUsuario();
+    const {usuario,idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUsuario,setUserLoggedIn,setFondo,setTema} = useUsuario();
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
     const { register, handleSubmit, errors } = useForm();
     const condominio  = props.match.params.condominio;
@@ -69,6 +69,8 @@ const UserLogin = (props) => {
             (response) => {
                 console.log(response.data);
                 setUsuario(response.data);
+                setFondo(response.data.user.fondo);
+                setTema(response.data.user.tema);
                 const tipoUsuario = response.data.user.idTipoUsuario;
                 setTipoUsuario(tipoUsuario);
 
