@@ -44,8 +44,14 @@ export function UsuarioProvider (props) {
                     setIdCondominio(response.user.idCondominio);
                     setCargandoUsuario(false);
                     setUserLoggedIn(true);
-                    setTema(response.user.tema);
-                    setFondo(response.user.fondo);
+
+                    if(response.user.tema) {
+                        setTema(response.user.tema);
+                    }
+
+                    if(response.user.fondo) {
+                        setFondo(response.user.fondo);
+                    }
                 }
             }catch (e) {
                 console.log(e);
