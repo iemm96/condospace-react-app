@@ -169,7 +169,7 @@ const ModalUsuario = (props) => {
 
     const getUnidades = async () => {
         try {
-            const resultadoUnidades = await fetchRecords(`unidades/getRecords/${idCondominio}`);
+            const resultadoUnidades = await fetchRecords('unidades',idCondominio);
 
             let opcionesUnidades = [];
 
