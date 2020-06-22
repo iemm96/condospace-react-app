@@ -73,7 +73,7 @@ const ModalEvento = (props) => {
 
             try {
 
-                const response = await updateRecord(data,'eventos',record.idEvento);
+                const response = await updateRecord(data,'eventos',record.idEvento,idCondominio);
 
                 console.log(response);
                 if(response) {
@@ -114,7 +114,7 @@ const ModalEvento = (props) => {
 
         }else{
             try {
-                const response = await storeRecord(data,'eventos');
+                const response = await storeRecord(data,'eventos',idCondominio);
                 if(response) {
                     store.addNotification({
                         title: "Correcto",
@@ -232,7 +232,7 @@ const ModalEvento = (props) => {
         <p className="center">Los campos marcados con * son obligatorios</p>
         <ModalFooter className="d-flex justify-content-around">
             <Button className="neutralButton" onClick={() => props.toggleModal()}>Cancelar</Button>
-            <Button className="confirmButton" type="submit" form="form" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Evento</Button>
+            <Button className="confirmButton" type="submit" form="form" >{props.idRecord ? 'Actualizar ' : 'Crear '} Evento</Button>
         </ModalFooter>
     </Modal>);
 

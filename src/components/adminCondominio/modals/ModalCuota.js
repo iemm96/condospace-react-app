@@ -74,7 +74,7 @@ const ModalCuota = (props) => {
 
         async function getCuentas() {
             try {
-                const resultadoCuentas = await fetchRecords(`cuentas/getRecords/${idCondominio}`);
+                const resultadoCuentas = await fetchRecords(`cuentas/getRecords/${idCondominio}`,idCondominio);
 
                 let opcionesCuentas = [];
 
@@ -491,7 +491,7 @@ const ModalCuota = (props) => {
         <p className="center">Los campos marcados con * son obligatorios</p>
         <ModalFooter className="d-flex justify-content-around">
             <Button className="neutralButton" onClick={() => props.toggleModal()}>Cancelar</Button>
-            <Button className="confirmButton" type="submit" disabled={disabledButton} form="form" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Cuota</Button>
+            <Button className="confirmButton" type="submit" disabled={disabledButton} form="form" >{props.idRecord ? 'Actualizar ' : 'Crear '} Cuota</Button>
         </ModalFooter>
     </Modal>);
 };

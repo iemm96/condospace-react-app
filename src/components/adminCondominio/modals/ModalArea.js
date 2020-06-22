@@ -20,7 +20,7 @@ const ModalCuenta = (props) => {
         //Obtiene los datos del registro
         async function getRecord() {
             try {
-                const resultadoRecord = await fetchRecord(props.idRecord,'anuncios');
+                const resultadoRecord = await fetchRecord(props.idRecord,'anuncios',idCondominio);
 
                 setIdTipoImportancia(resultadoRecord.idTipoImportancia);
 
@@ -43,7 +43,7 @@ const ModalCuenta = (props) => {
 
             try {
 
-                const response = await updateRecord(data,'anuncios',record.idCuenta);
+                const response = await updateRecord(data,'anuncios',record.idCuenta,idCondominio);
 
                 console.log(response);
                 if(response) {
@@ -174,7 +174,7 @@ const ModalCuenta = (props) => {
         <p className="center">Los campos marcados con * son obligatorios</p>
         <ModalFooter className="d-flex justify-content-around">
             <Button className="neutralButton" onClick={() => props.toggleModal()}>Cancelar</Button>
-            <Button className="confirmButton" type="submit" form="form" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
+            <Button className="confirmButton" type="submit" form="form" >{props.idRecord ? 'Actualizar ' : 'Crear '} Anuncio</Button>
         </ModalFooter>
     </Modal>);
 }

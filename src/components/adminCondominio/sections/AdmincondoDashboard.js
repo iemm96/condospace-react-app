@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {PieChart, Pie, Cell,Tooltip, Legend} from 'recharts';
 import {Button,Col,Row,Card,CardBody,CardTitle,CardSubtitle} from 'reactstrap';
-import {useHistory} from 'react-router';
 import Container from "reactstrap/es/Container";
 import {faBell, faCalendarWeek, faCoins, faDoorOpen, faFileInvoiceDollar, faHome, faMoneyCheckAlt, faTree, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
