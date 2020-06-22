@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { Button,  FormGroup, Label, Col, Row } from 'reactstrap';
+import React, {useState, useEffect} from 'react';
+import {Button, FormGroup, Label, Col, Row, UncontrolledDropdown} from 'reactstrap';
 import {storeRecord} from "../../../actions/storeRecord";
 import {useUsuario} from "../../../context/usuario-context";
 import { useForm } from "react-hook-form";
@@ -7,22 +7,35 @@ import Skeleton from 'react-loading-skeleton';
 import {store} from "react-notifications-component";
 import {useHistory} from 'react-router';
 import Select from "react-select";
+import {updateRecord} from "../../../actions/updateRecord";
+import {faBriefcase, faCamera} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-export const AgregarUnidades = (props) => {
-    const {cargandoUsuario,idCondominio,usuario} = useUsuario();
+export const Perfil = (props) => {
+    const {cargandoUsuario,idCondominio,usuario,setTema,setFondo,fondo,tema} = useUsuario();
     const { register, handleSubmit, errors } = useForm();
-    const [pertenecen,setPertenecen] = useState(false);
-    const [tipoUnidad,setTipoUnidad] = useState(null);
+    const [updatePassword,setUpdatePassword] = useState(false);
+    const [profileImg,setProfileImg] = useState(null);
+
+    useEffect(() => {
+
+        if(usuario.user.fotoPerfil) {
+            setProfileImg(usuario.user.fotoPerfil)
+        }
+    });
     let history = useHistory();
 
     const onSubmit = async data => {
-        data.idCondominio = idCondominio;
-        data.tipoUnidades = tipoUnidad;
-        console.log(data);
+        data.tema = tema;
+        data.fondo = fondo;
+
+        if(profileImg) {
+            data.fotoPerfil = profileImg;
+        }
 
         try {
-            await storeRecord(data,'addUnidades');
-            history.push(`/${props.match.params.condominio}/unidades`);
+            await updateRecord(data,'usuarios',usuario.user.id,idCondominio);
+            //history.push(`/${props.match.params.condominio}/unidades`);
         }catch (e) {
             console.log(e);
             store.addNotification({
@@ -41,6 +54,14 @@ export const AgregarUnidades = (props) => {
         }
     };
 
+    const handleChangeTema = async value => {
+        setTema(value);
+    };
+
+    const handleChangeFondo = fondo => {
+        setFondo(fondo);
+    };
+
     const customStyles = {
 
         control: () => ({
@@ -48,15 +69,48 @@ export const AgregarUnidades = (props) => {
             border: '1px solid #979797 !important',
             position: 'relative',
             justifyContent: 'space-between',
-            display: '-webkit-flex'
+            display: '-webkit-flex',
         }),
         dropdownIndicator: () => ({
-            color: 'black',
+            color: fondo === 'white' ? 'black' : 'white',
             marginRight: 10
         }),
         indicatorSeparator: () => ({
             border: 'none',
-        })
+        }),
+        singleValue: () => ({
+            color: fondo === 'white' ? '' : 'white',
+        }),
+    };
+
+    const opcionesTema = [
+        {value:"amatista",label:'Amatista',name:'idTema'},
+        {value:"aqua",label:'Aqua',name:'idTema '},
+        {value:"coral",label:'Coral',name:'idTema'},
+        {value:"esmeralda",label:'Esmeralda',name:'idTema'},
+        {value:"ocaso",label:'Ocaso',name:'idTema'},
+        {value:"pastel",label:'Pastel',name:'idTema'},
+    ];
+
+    const handleUpdatePassword = () => {
+    };
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    const handleClick = () => {
+        document.getElementById('hiddenFileInput').click();
+    };
+
+    const handleChange = async event => {
+        const fileUploaded = event.target.files[0];
+        const img = await toBase64(fileUploaded);
+
+        setProfileImg(img);
     };
 
     if(cargandoUsuario) {
@@ -68,6 +122,7 @@ export const AgregarUnidades = (props) => {
                             <h1 style={{fontSize: 60}}>{<Skeleton />}</h1>
                         </Col>
                     </Row>
+
                     <Row className="justify-content-center">
                         <Col sm={8}>
                             <div>
@@ -127,119 +182,128 @@ export const AgregarUnidades = (props) => {
                 <Col>
                     <Row className="text-center">
                         <Col>
-                            <h4>{usuario.condominio}</h4>
-                            <p>Agrega las unidades de tu condominio</p>
+                            <h4>Datos del perfil</h4>
+                        </Col>
+                    </Row>
+                    <Row className="mt-2">
+                        <Col className="text-center">
+                            <img src={profileImg ? profileImg : require('./../../../assets/images.png')} width={80} height={80} className="rounded-circle"/><br/>
+                            <input id="hiddenFileInput"
+                                   type="file"
+                                   style={{display:'none'}}
+                                   onChange={handleChange}
+                            />
+                            <Button onClick={handleClick} className="btnAction mt-2"  type="submit">
+                                <FontAwesomeIcon icon={faCamera}/>
+                            </Button>
                         </Col>
                     </Row>
                     <Row className="justify-content-center">
                         <Col sm={8}>
                             <form id="form" onSubmit={handleSubmit(onSubmit)}>
-                                <Row>
-                                    <Col sm={6}>
-                                        <FormGroup>
-                                            <Label>*¿Cuántas unidades deseas agregar?</Label>
-                                            <input type="number"
-                                                   name="unidades"
-                                                   min="1"
-                                                   max="1000"
-                                                   className="form-control"
-                                                   ref={register({ required: true })}
-                                            />
-                                            {errors.unidades && <small>Ingresa un número de 1 a 1000</small>}
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
+                                <Row className="ml-5">
                                     <Col sm={8}>
                                         <FormGroup>
-                                            <label>* ¿Pertenecen a una misma calle?</label><br/>
-                                            <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio"
-                                                       value="1"
-                                                       className="custom-control-input"
-                                                       id="radioSi"
-                                                       name="pertenecen"
-                                                       ref={register({ required: true })}
-                                                       onChange={() => setPertenecen(true)}
-                                                />
-                                                <label className="custom-control-label" htmlFor="radioSi">Si</label>
-                                            </div>
-                                            <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio"
-                                                       value="0"
-                                                       className="custom-control-input"
-                                                       id="radioNo"
-                                                       name="pertenecen"
-                                                       ref={register({ required: true })}
-                                                       onChange={() => setPertenecen(false)}
-                                                />
-                                                <label className="custom-control-label" htmlFor="radioNo">No</label>
-                                            </div>
-                                            {errors.pertenecen && <small>Selecciona una respuesta</small>}
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                {pertenecen ? (<Row className="animate fadeIn one">
-                                    <Col sm={8}>
-                                        <FormGroup>
-                                            <Label>* Nombre de la calle</Label>
-                                            <input className="form-control"
+                                            <Label>Nombre</Label>
+                                            <input name="name"
+                                                   class="form-control"
                                                    type="text"
-                                                   name="calle"
-                                                   ref={register({ required: true })}
-                                            />
+                                                   defaultValue={usuario ? usuario.user.name : undefined}
+                                                   ref={register}/>
                                         </FormGroup>
                                     </Col>
-                                </Row>) : ''}
-                                <Row>
+                                </Row>
+                                <Row className="ml-5">
                                     <Col sm={6}>
                                         <FormGroup>
-                                            <Label for="exampleCustomSelect">*Tipo de Unidades</Label>
+                                            <Label>Email</Label>
+                                            <input name="email"
+                                                   class="form-control"
+                                                   type="email"
+                                                   defaultValue={usuario ? usuario.user.email : undefined}
+                                                   ref={register}/>
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row className="ml-5">
+                                    <Col>
+                                        <a href="#" onClick={() => setUpdatePassword(!updatePassword)}>Actualizar mi contraseña</a>
+                                    </Col>
+                                </Row>
+                                {updatePassword ? (
+                                    <Row className="mt-1 ml-5 animate fadeIn one">
+                                        <Col sm={6}>
+                                            <FormGroup>
+                                                <Label>* Nueva contraseña</Label>
+                                                <input name="password"
+                                                       className="form-control"
+                                                       type="password"
+                                                       ref={register({ required: true })}/>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col sm={6}>
+                                            <FormGroup>
+                                                <Label>* Repite tu contraseña</Label>
+                                                <input name="rtpassword"
+                                                       className="form-control"
+                                                       type="password"
+                                                       ref={register({ required: true })}/>
+                                            </FormGroup>
+                                        </Col>
+                                    </Row>
+                                ) : ''}
+                                <Row className="mt-2 ml-5">
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <Label>Tema</Label>
                                             <Select styles={customStyles}
-                                                    options={[{value:"Casa",label:'Casas',name:'tipoUnidades'},
-                                                        {value:"Departamento",label:'Departamentos',name:'tipoUnidades'}]}
+                                                    options={opcionesTema}
                                                     placeholder="Selecciona una opción..."
-                                                    onChange={(event) => {setTipoUnidad(event.value)}}
+                                                    value={opcionesTema.find(op => {
+                                                        return op.value === usuario.user.tema
+                                                    })}
+                                                    onChange={(event) => {handleChangeTema(event.value)}}
                                             />
                                         </FormGroup>
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="ml-5">
                                     <Col sm={10}>
                                         <FormGroup >
-                                            <Label for="">¿Deseas que las unidades se guarden como Departamento 1, Departamento 2…?</Label>
+                                            <Label for="">Color del fondo</Label><br/>
                                             <div className="custom-control custom-radio custom-control-inline">
                                                 <input type="radio"
                                                        value="1"
                                                        className="custom-control-input"
-                                                       id="radioSi"
-                                                       name="guardarComo"
+                                                       id="radioWhite"
+                                                       name="colorFondo"
                                                        ref={register({ required: true })}
-                                                       onChange={() => setPertenecen(true)}
+                                                       defaultChecked={usuario.user.fondo === 'white'}
+                                                       onChange={() => handleChangeFondo('white')}
                                                 />
-                                                <label className="custom-control-label" htmlFor="radioSi">Si</label>
+                                                <label className="custom-control-label" htmlFor="radioWhite">Claro</label>
                                             </div>
                                             <div className="custom-control custom-radio custom-control-inline">
                                                 <input type="radio"
                                                        value="0"
                                                        className="custom-control-input"
-                                                       id="radioNo"
-                                                       name="guardarComo"
+                                                       id="radioDark"
+                                                       name="colorFondo"
+                                                       defaultChecked={usuario.user.fondo === 'dark'}
                                                        ref={register({ required: true })}
-                                                       onChange={() => setPertenecen(false)}
+                                                       onChange={() => handleChangeFondo('dark')}
                                                 />
-                                                <label className="custom-control-label" htmlFor="radioNo">No</label>
+                                                <label className="custom-control-label" htmlFor="radioDark">Oscuro</label>
                                             </div>
                                         </FormGroup>
                                     </Col>
                                 </Row>
-                                <Row className="">
+                                <Row className="mt-5">
                                     <Col className="d-flex justify-content-around">
-                                        <Button className="neutralButton" onClick={() => this.props.toggleModal()}>Omitir</Button>
-                                        <Button className="confirmButton"  type="submit">Guardar y continuar</Button>
+                                        <Button className="neutralButton">Regresar</Button>
+                                        <Button className="confirmButton"  type="submit">Guardar mis datos</Button>
                                     </Col>
                                 </Row>
-
                             </form>
                         </Col>
                     </Row>
