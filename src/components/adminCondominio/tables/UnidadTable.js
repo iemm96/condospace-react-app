@@ -25,12 +25,17 @@ const UnidadTable  = () => {
     const [selectedRecordTitle,setSelectedRecordTitle] = useState(null);
     const [modalControl,setModalControl] = useState(false);
     const [modalDeleteControl,setModalDeleteControl] = useState(false);
+    const [ultimaUnidad,setUltimaUnidad] = useState(false);
 
     useEffect(() => {
         async function getRecords() {
             try {
                 const result = await fetchRecords(RESOURCE,idCondominio);
                 setRecords(result);
+
+                var keys = Object.keys(result);
+                var last = keys[keys.length-1];
+                setUltimaUnidad(result[last].idUnidad);
             }catch (e) {
                 console.log(e);
             }
@@ -62,7 +67,7 @@ const UnidadTable  = () => {
 
     const prepareDeleteModal = (id,title) => {
         setSelectedRecordId(id);
-        setSelectedRecordTitle(title);
+        setSelectedRecordTitle('Unidad ' + id);
         toggleDeleteModal();
     };
 
@@ -80,8 +85,8 @@ const UnidadTable  = () => {
     );
 
     const columns = [{
-        dataField: 'nombre',
-        text: 'Nombre',
+        dataField: 'idUnidad',
+        text: 'Unidad',
         sort: true,
     },{
         dataField: 'calle',
@@ -108,6 +113,7 @@ const UnidadTable  = () => {
                 recordModal={modalControl}
                 resource={RESOURCE}
                 updateRecords={updateRecords}
+                ultimaUnidad={ultimaUnidad}
             /> : ''}
             <DeleteRecordModal
                 toggleDeleteModal={toggleDeleteModal}
@@ -118,7 +124,7 @@ const UnidadTable  = () => {
                 updateRecords={updateRecords}
             />
             <ToolkitProvider
-                keyField="id"
+                keyField="idUnidad"
                 columns={ columns }
                 data={ records }
                 search>
@@ -135,7 +141,7 @@ const UnidadTable  = () => {
                                     hover
                                     bordered={false}
                                     rowStyle={{ backgroundColor: '#ECF7FD' }}
-
+                                    key={records.idUnidad}
                                     { ...toolkitprops.baseProps }
                                     { ...paginationTableProps }
                                 />
