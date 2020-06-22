@@ -4,7 +4,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {PaginationListStandalone, PaginationProvider} from "react-bootstrap-table2-paginator";
 import {Button, Col, Spinner} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faEye, faPause, faPlay, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faArrowRight, faEdit, faEye, faPause, faPlay, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {fetchRecords} from "../../../actions/fetchRecords";
 import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
@@ -15,9 +15,10 @@ import {url_base} from "./../../../constants/api_url";
 //Change
 import ModalRecord from "../modals/ModalCuota";
 import {useUsuario} from "../../../context/usuario-context";
-import {updateRecord} from "../../../actions/updateRecord";
 import axios from "axios";
 import CookieService from "../../../services/CookieService";
+import Row from "reactstrap/es/Row";
+import moment from "moment";
 
 //Change
 const RESOURCE = 'cuotas'; //API
@@ -144,6 +145,24 @@ const CuotaTable = (props) => {
         }
     };
 
+    const handleClickMesAnterior = () => {
+
+        const table = document.getElementById('recordTable');
+        table.classList.remove('fadeInLeft');
+
+        table.classList.add('fadeOut');
+
+        setTimeout(() => {  table.classList.add('fadeInLeft'); }, 1000);
+
+        /*
+        table.classList.remove('fadeOut');
+        setTimeout(() => {  console.log('await') }, 1000);
+
+        table.classList.add('fadeInRight');*/
+
+
+    };
+
     const rowStyle = (row) => {
 
         if(row.esActiva === 1) {
@@ -196,7 +215,7 @@ const CuotaTable = (props) => {
     };
 
     const contentTable = ({ paginationProps, paginationTableProps }) => (
-        <div>
+        <div className="">
             {modalControl ? <ModalRecord
                 idRecord={selectedRecordId}
                 toggleModal={toggleModal}
@@ -249,15 +268,38 @@ const CuotaTable = (props) => {
 
         return(
             <div>
-                <Col className="col-3">
-                </Col>
-                <PaginationProvider
-                    pagination={paginationFactory(options(records))}>
+                <Row>
+                    <Col>
+                        <Button onClick={handleClickMesAnterior} className="btnAction">
+                            <FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon>
+                            {' '}
+                            {moment().subtract(1, 'months').format("MMMM")}
+                        </Button>
+                    </Col>
+                    <Col className="text-center">
+                        <h4>Cuotas periodo actual ({moment().format("MMMM")})</h4>
+                    </Col>
+                    <Col className="text-right">
+                        <Button className="btnAction">
+                            {moment().add(1, 'months').format("MMMM")}
+                            {' '}
+                            <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon>
+                        </Button>
+                    </Col>
+                </Row>
+                <Row className="mt-4">
+                    <Col className="col-3">
+                    </Col>
+                    <div id="recordTable" className="animate one">
+                        <PaginationProvider
+                            pagination={paginationFactory(options(records))}>
+                            {contentTable}
+                        </PaginationProvider>
+                    </div>
 
-                    {contentTable}
-
-                </PaginationProvider>
+                </Row>
             </div>
+
         );
     }else{
         return(<div style={{ fontSize: 20, lineHeight: 2 }}>
