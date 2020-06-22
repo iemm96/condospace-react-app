@@ -208,7 +208,7 @@ const ModalCuenta = (props) => {
 
 
     return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
-        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Transacción</ModalHeader>
+        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Cuenta</ModalHeader>
         <ModalBody>
             <Form id="form" onSubmit={handleSubmit(onSubmit)}>
                 <Row>
@@ -266,7 +266,7 @@ const ModalCuenta = (props) => {
         <p className="center">Los campos marcados con * son obligatorios</p>
         <ModalFooter className="d-flex justify-content-around">
             <Button className="neutralButton" onClick={() => props.toggleModal()}>Cancelar</Button>
-            <Button className="confirmButton" type="submit" disabled={disabledButton} form="form" >{props.idRecord ? 'Actualizar ' : 'Crear '} Transacción</Button>
+            <Button className="confirmButton" type="submit" disabled={disabledButton} form="form" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Transacción</Button>
         </ModalFooter>
     </Modal>);
 }
