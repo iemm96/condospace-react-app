@@ -5,13 +5,14 @@ import {faBars} from "@fortawesome/free-solid-svg-icons";
 import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
-import CookieService from "../../../services/CookieService";
-import SideBar from "./SideBar";
-import {useUsuario} from "../../../context/usuario-context";
+import CookieService from "../../../../services/CookieService";
+import SideBar from "./../SideBar";
 import {Link, useLocation} from 'react-router-dom';
+import './header.scss';
+import {useUsuario} from "../../../../context/usuario-context";
 
 const Header = (props) => {
-    const { usuario } = useUsuario();
+    const { usuario,tema } = useUsuario();
     const [isOpenSidebar,setIsOpenSidebar] = useState(false);
     const [titleSection,setTitleSection] = useState(false);
     let location = useLocation();
@@ -77,7 +78,7 @@ const Header = (props) => {
         <header className="main-header ">
             <SideBar condominio={props.condominio} isOpen={isOpenSidebar}/>
 
-            <Navbar className="header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar"
+            <Navbar id="user-header" className={'header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar ' + tema}
                     data-toggle="sticky-onscroll">
                 <div className="container">
                     {usuario.user.idTipoUsuario === 2 ? <Button color="info" className="" onClick={toggleSidebar}>
@@ -107,7 +108,7 @@ const Header = (props) => {
                             </li>
                         </ul>
                         <UncontrolledDropdown className="d-sm-none">
-                            <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
+                            <img src={usuario.user.fotoPerfil ? usuario.user.fotoPerfil  :  require('./../../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
                             <DropdownToggle caret>
                                 {usuario ? usuario.user.name : ''}
                             </DropdownToggle>
@@ -119,7 +120,7 @@ const Header = (props) => {
                         </UncontrolledDropdown>
                     </Collapse>
                     <UncontrolledDropdown className="d-none d-sm-block">
-                        <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
+                        <img src={usuario.user.fotoPerfil ? usuario.user.fotoPerfil  :  require('./../../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
                         <DropdownToggle caret>
                             {usuario ? usuario.user.name : ''}
 
