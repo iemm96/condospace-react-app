@@ -61,7 +61,11 @@ const AppRoutes = () => {
                                 <Route path="/:condominio/perfil" component={Perfil} />
 
 
-                                <Route path="/:condominio/residentes" component={UnidadTable} />
+                                <Route path="/:condominio/residente/bienvenida" component={Bienvenida} />
+                                <Route path="/:condominio/residente/dashboard" component={AdmincondoDashboard} />
+                                <Route path="/:condominio/residente/cuotas" component={CuotaTable} />
+                                <Route path="/:condominio/residente/eventos" component={EventosTable} />
+                                <Route path="/:condominio/residente/anuncios" component={AnunciosTable} />
                                 <Route path="/:condominio/vigilante" component={VisitasTable} />
 
                             </DashboardContainerWithRouter >
