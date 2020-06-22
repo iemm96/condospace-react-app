@@ -10,10 +10,11 @@ import {fetchRecord} from "../../../actions/fetchRecord";
 import {updateRecord} from "../../../actions/updateRecord";
 
 const ModalUnidad = (props) => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, errors } = useForm();
     const { idCondominio } = useUsuario();
     const [tipoUnidad,setTipoUnidad] = useState(null);
     const [record,setRecord] = useState(null);
+    const [customNombre,setCustomNombre] = useState(null);
 
     useEffect(() => {
 
@@ -42,16 +43,32 @@ const ModalUnidad = (props) => {
         };
     });
 
+    const handleUnidadChange = value => {
+        const selectUnidad = document.getElementById('selectUnidad');
+        selectUnidad.classList.remove('bounceSelect');
+        setTipoUnidad(value);
+    };
 
     const onSubmit = async data => {
         data.idCondominio = idCondominio;
+
+        if(!tipoUnidad) {
+            const selectUnidad = document.getElementById('selectUnidad');
+            selectUnidad.classList.add('bounceSelect');
+
+            return;
+        }
+
         data.tipoUnidad = tipoUnidad;
-        console.log(data);
+
+        if(data.tipoUnidad === 1) {
+            data.nombre = '';
+        }
 
         try {
 
             if(record) {
-                const response = await updateRecord(data,'unidades',props.idRecord);
+                const response = await updateRecord(data,'unidades',props.idRecord,idCondominio);
 
                 if(response) {
                     store.addNotification({
@@ -72,12 +89,12 @@ const ModalUnidad = (props) => {
                     props.updateRecords();
                 }
             }else{
-                const response = await storeRecord(data,'unidades');
+                const response = await storeRecord(data,'unidades',idCondominio);
 
                 if(response) {
                     store.addNotification({
                         title: "Correcto",
-                        message: "Se ha actualizado la unidad",
+                        message: "Se ha creado la unidad",
                         type: "success",
                         insert: "top",
                         container: "top-right",
@@ -136,16 +153,23 @@ const ModalUnidad = (props) => {
         {value:2,label:'Departamento',name:'tipoUnidad'}
     ]);
     return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
-        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Unidad</ModalHeader>
+        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Crear'} Unidad <b>{props.idRecord ? '' : props.ultimaUnidad + 1 }</b></ModalHeader>
         <ModalBody>
             <Form id="form" onSubmit={handleSubmit(onSubmit)}>
                 <Row>
-                    <Col sm={8}>
+                    <Col sm={6}>
                         <FormGroup>
-                            <Label>* Nombre de la unidad</Label>
-                            <input className="form-control" type="text" name="nombre" id="" placeholder=""
-                                   defaultValue={record ? record.nombre : undefined}
-                                   ref={register({required:true})}/>
+                            <Label>Tipo de unidad</Label>
+                            <Select id="selectUnidad"
+                                    styles={customStyles}
+                                    options={tiposUnidad}
+                                    required={true}
+                                    value={tiposUnidad.find(op => {
+                                        return op.value === tipoUnidad
+                                    })}
+                                    placeholder="Selecciona..."
+                                    onChange={(event) => {handleUnidadChange(event.value)}}
+                            />
                         </FormGroup>
                     </Col>
                 </Row>
@@ -157,7 +181,9 @@ const ModalUnidad = (props) => {
                     <Col sm={8}>
                         <FormGroup>
                             <Label>Calle</Label>
-                            <input className="form-control" type="text" name="calle" id="" placeholder=""
+                            <input name="calle"
+                                   className="form-control"
+                                   type="text"
                                    defaultValue={record ? record.calle : undefined}
                                    ref={register}/>
                         </FormGroup>
@@ -167,24 +193,12 @@ const ModalUnidad = (props) => {
                     <Col sm={4}>
                         <FormGroup>
                             <Label>* Número Exterior</Label>
-                            <input className="form-control" type="text" name="noExterior" id="" placeholder=""
+                            <input name="noExterior"
+                                   className="form-control"
+                                   type="number"
                                    defaultValue={record ? record.noExterior : undefined}
                                    ref={register({required:true})}/>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={4}>
-                        <FormGroup>
-                            <Label>Tipo de unidad</Label>
-                            <Select styles={customStyles}
-                                    options={tiposUnidad}
-                                    value={tiposUnidad.find(op => {
-                                        return op.value === tipoUnidad
-                                    })}
-                                    placeholder="Selecciona..."
-                                    onChange={(event) => {setTipoUnidad(event.value)}}
-                            />
+                                   {errors.noExterior && <small>Ingresa un valor</small>}
                         </FormGroup>
                     </Col>
                 </Row>
@@ -193,7 +207,7 @@ const ModalUnidad = (props) => {
         <p className="center">Los campos marcados con * son obligatorios</p>
         <ModalFooter className="d-flex justify-content-around">
             <Button className="neutralButton" onClick={() => props.toggleModal()}>Cancelar</Button>
-            <Button className="confirmButton" type="submit" form="form" color="primary">{props.idRecord ? 'Actualizar ' : 'Crear '} Unidad</Button>
+            <Button className="confirmButton" type="submit" form="form" >{props.idRecord ? 'Actualizar ' : 'Crear '} Unidad</Button>
         </ModalFooter>
     </Modal>);
 
