@@ -9,20 +9,28 @@ import {useUsuario} from "../context/usuario-context";
 
 const api_url = url_base;
 
-export const storeRecord = async (payload, resource) => {
+export const storeRecord = async (payload, resource, idCondominio) => {
     const authToken = CookieService.get('access_token');
 
+    const headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json, text-plain, */*",
+        "Authorization": 'Bearer ' + authToken,
+    };
+
+    if(idCondominio) {
+        headers.idCondominio = idCondominio;
+    }
+
+    const options = {
+        url:`${api_url}${resource}`,
+        method: 'POST',
+        headers: headers,
+        data: stringifyData(payload)
+    };
+
     try {
-         const response = await axios({
-            url:`${api_url}${resource}`,
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json, text-plain, */*",
-                "Authorization": 'Bearer ' + authToken,
-            },
-            data: stringifyData(payload)
-        });
+         const response = await axios(options);
 
          if(response) {
              return response.data;

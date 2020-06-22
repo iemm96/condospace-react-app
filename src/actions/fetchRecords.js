@@ -10,7 +10,6 @@ export const fetchRecords = async (resource,idCondominio) => {
     const headers = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${authToken}`,
-        "idCondominio": idCondominio
     };
 
     if(idCondominio) {
