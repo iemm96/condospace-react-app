@@ -1,7 +1,6 @@
 import React, {useState,useEffect, useMemo} from 'react';
 import CookieService from "../services/CookieService";
 import {getUser} from "../actions/getUser";
-import { withRouter, Redirect, useHistory} from 'react-router';
 
 const UsuarioContext = React.createContext();
 
@@ -13,6 +12,8 @@ export function UsuarioProvider (props) {
     const [userLoggedIn,setUserLoggedIn] = useState(false);
     const [cargandoRequest,setCargandoRequest] = useState(false);
     const [notificacion,setNotificacion] = useState(null);
+    const [tema,setTema] = useState('aqua');
+    const [fondo,setFondo] = useState('white');
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -21,6 +22,38 @@ export function UsuarioProvider (props) {
         return function cleanup() {
             abortController.abort();
         }
+    },[]);
+
+    useEffect(() => {
+
+        async function cargarUsuario() {
+
+            try{
+                const accessToken = CookieService.get('access_token');
+
+                //Si el token existe carga el usuario en el contexto
+                if(accessToken === undefined) {
+                    setUserLoggedIn(false);
+                    return;
+                }
+
+                //Se obtiene una respuesta del servidor con los datos del usuario, de existir se setea en el contexto
+                const response = await getUser(accessToken);
+                if(response) {
+                    setUsuario(response);
+                    setIdCondominio(response.user.idCondominio);
+                    setCargandoUsuario(false);
+                    setUserLoggedIn(true);
+                    setTema(response.user.tema);
+                    setFondo(response.user.fondo);
+                }
+            }catch (e) {
+                console.log(e);
+            }
+        }
+
+        cargarUsuario();
+
     },[]);
 
     const value = useMemo(() => {
@@ -36,9 +69,13 @@ export function UsuarioProvider (props) {
             userLoggedIn,
             setCargandoUsuario,
             setNotificacion,
-            setUserLoggedIn
+            setUserLoggedIn,
+            setTema,
+            tema,
+            fondo,
+            setFondo
         });
-    },[usuario,userLoggedIn,cargandoUsuario,cargandoRequest,setIdCondominio,idCondominio,tipoUsuario,setTipoUsuario,setCargandoUsuario,setNotificacion]);
+    },[usuario,fondo,tema,userLoggedIn,cargandoUsuario,cargandoRequest,setIdCondominio,idCondominio,tipoUsuario,setTipoUsuario,setCargandoUsuario,setNotificacion]);
 
     return <UsuarioContext.Provider value={value} {...props}/>
 }
