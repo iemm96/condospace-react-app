@@ -22,6 +22,7 @@ import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import AreaTable from "../components/adminCondominio/tables/AreaTable";
 import AdmincondoDashboard from "../components/adminCondominio/sections/AdmincondoDashboard";
+import {Perfil} from "../components/adminCondominio/sections/Perfil";
 
 const NoMatchPage = () => {  return (    <h3>404 - Not found</h3>  );};
 
@@ -57,6 +58,7 @@ const AppRoutes = () => {
                                 <Route path="/:condominio/transacciones" component={TransaccionesTable} />
                                 <Route path="/:condominio/unidades" component={UnidadTable} />
                                 <Route path="/:condominio/visitas" component={VisitasTable} />
+                                <Route path="/:condominio/perfil" component={Perfil} />
 
 
                                 <Route path="/:condominio/residentes" component={UnidadTable} />
