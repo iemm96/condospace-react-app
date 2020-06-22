@@ -20,9 +20,9 @@ export const  DeleteRecordModal = (props) => {
         <ModalBody>
             <p>¿Seguro que desea eliminar el registro de <b>'{props.title}'</b>? Esta acción no se puede deshacer.</p>
         </ModalBody>
-        <ModalFooter>
-            <Button color="secondary" onClick={() => props.toggleDeleteModal()}>Cancelar</Button>
-            <Button color="primary" onClick={() => handleClickDelete()}>Eliminar
+        <ModalFooter  className="d-flex justify-content-around">
+            <Button className="neutralButton" onClick={() => props.toggleDeleteModal()}>Cancelar</Button>
+            <Button className="confirmButton" onClick={() => deleteRecord(props.idRecord, props.resource)}>Eliminar
                 Registro</Button>{' '}
         </ModalFooter>
     </Modal>);
