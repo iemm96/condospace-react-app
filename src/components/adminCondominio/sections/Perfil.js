@@ -300,7 +300,7 @@ export const Perfil = (props) => {
                                 </Row>
                                 <Row className="mt-5">
                                     <Col className="d-flex justify-content-around">
-                                        <Button className="neutralButton">Regresar</Button>
+                                        <Button onClick={history.goBack} className="neutralButton">Regresar</Button>
                                         <Button className="confirmButton"  type="submit">Guardar mis datos</Button>
                                     </Col>
                                 </Row>
