@@ -92,7 +92,12 @@ const UserLogin = (props) => {
                 }
 
                 if(tipoUsuario === 3) {
-                    history.push(`/${condominio}/residente`);
+
+                    if(response.data.user.bPrimerInicio) {
+                        history.push(`/${condominio}/residente/bienvenida`);
+                    }else{
+                        history.push(`/${condominio}/residente/dashboard`);
+                    }
 
                 }
 
