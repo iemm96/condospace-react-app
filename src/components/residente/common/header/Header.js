@@ -18,6 +18,7 @@ const Header = (props) => {
     const [tipoUsuario,setTipoUsuario] = useState(false);
     let location = useLocation();
     let arrUrl = location.pathname.split('/');
+    let firstPath = arrUrl[1];
     let secondPath = arrUrl[2];
     let thirdPath = arrUrl[3];
 
@@ -71,8 +72,8 @@ const Header = (props) => {
         console.log('cerrar');
         CookieService.remove('access_token');
         CookieService.remove('tipoUsuario');
-        let arrUrl = location.pathname.split('/');
-        window.location.href =  `/${arrUrl[1]}/login`;
+
+        window.location.href =  `/${firstPath}/login`;
     };
 
     const toggleSidebar = () => (setIsOpenSidebar(!isOpenSidebar));
