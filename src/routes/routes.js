@@ -23,6 +23,7 @@ import 'react-notifications-component/dist/theme.css'
 import AreaTable from "../components/adminCondominio/tables/AreaTable";
 import AdmincondoDashboard from "../components/adminCondominio/sections/AdmincondoDashboard";
 import {Perfil} from "../components/adminCondominio/sections/Perfil";
+import CuotaTableResidente from "../components/residente/tables/CuotaTable";
 
 const NoMatchPage = () => {  return (    <h3>404 - Not found</h3>  );};
 
@@ -63,7 +64,7 @@ const AppRoutes = () => {
 
                                 <Route path="/:condominio/residente/bienvenida" component={Bienvenida} />
                                 <Route path="/:condominio/residente/dashboard" component={AdmincondoDashboard} />
-                                <Route path="/:condominio/residente/cuotas" component={CuotaTable} />
+                                <Route path="/:condominio/residente/cuotas" component={CuotaTableResidente} />
                                 <Route path="/:condominio/residente/eventos" component={EventosTable} />
                                 <Route path="/:condominio/residente/anuncios" component={AnunciosTable} />
                                 <Route path="/:condominio/vigilante" component={VisitasTable} />
