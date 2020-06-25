@@ -15,16 +15,19 @@ const Header = (props) => {
     const { usuario,tema } = useUsuario();
     const [isOpenSidebar,setIsOpenSidebar] = useState(false);
     const [titleSection,setTitleSection] = useState(false);
+    const [tipoUsuario,setTipoUsuario] = useState(false);
     let location = useLocation();
     let arrUrl = location.pathname.split('/');
     let secondPath = arrUrl[2];
+    let thirdPath = arrUrl[3];
 
     useEffect(() => {
 
-
         secondPath = secondPath.charAt(0).toUpperCase() + secondPath.slice(1);
+        thirdPath = thirdPath.charAt(0).toUpperCase() + thirdPath.slice(1);
 
-        setTitleSection(secondPath);
+        setTipoUsuario(secondPath);
+        setTitleSection(thirdPath);
 
         var elements = document.querySelectorAll('[data-toggle="sticky-onscroll"]');
 
@@ -81,10 +84,9 @@ const Header = (props) => {
             <Navbar id="user-header" className={'header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar ' + tema}
                     data-toggle="sticky-onscroll">
                 <div className="container">
-                    {usuario.user.idTipoUsuario === 2 ? <Button color="info" className="" onClick={toggleSidebar}>
+                    <Button color="info" className="" onClick={toggleSidebar}>
                         <FontAwesomeIcon icon={faBars}/>
-                    </Button> : ''}
-
+                    </Button>
                     <NavLink className="navbar-brand"  disabled>CondoSpace</NavLink>
 
                     <Collapse className="navbar-collapse justify-content-start" id="navbarSupportedContent" navbar>
@@ -92,8 +94,18 @@ const Header = (props) => {
                         <ul className="navbar-nav">
 
                             <li className="nav-item">
-                                <NavLink className="nav-link" to={`/${arrUrl[1]}/login`}>
-                                    {usuario ? <a>{usuario.condominio}</a> : ''}
+                                <NavLink className="nav-link" >
+                                    {usuario ? <Link style={{color:'white'}} to={`/${arrUrl[1]}/residente/dashboard`}>{usuario.condominio}</Link> : ''}
+                                </NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link">
+                                    /
+                                </NavLink>
+                            </li>
+                            <li className="nav-item" >
+                                <NavLink className="nav-link" disabled>
+                                    {tipoUsuario}
                                 </NavLink>
                             </li>
                             <li className="nav-item">
@@ -113,7 +125,9 @@ const Header = (props) => {
                                 {usuario ? usuario.user.name : ''}
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem>Mis datos de perfil</DropdownItem>
+                                <DropdownItem>
+                                    <Link to={`/${arrUrl[1]}/residente/perfil`}>Mis datos de perfil</Link>
+                                </DropdownItem>
                                 <DropdownItem divider />
                                 <DropdownItem onClick={cerrarSesion}>Cerrar Sesión</DropdownItem>
                             </DropdownMenu>
@@ -127,7 +141,7 @@ const Header = (props) => {
                         </DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem>
-                                <Link to={`/${arrUrl[1]}/perfil`}>Mis datos de perfil</Link>
+                                <Link to={`/${arrUrl[1]}/residente/perfil`}>Mis datos de perfil</Link>
                             </DropdownItem>
                             <DropdownItem divider />
                             <DropdownItem onClick={cerrarSesion}>Cerrar Sesión</DropdownItem>
