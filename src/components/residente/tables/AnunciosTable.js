@@ -16,7 +16,6 @@ const RESOURCE = 'anuncios'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Anuncio';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
-
 const AnunciosTableResidente = () => {
     const {idCondominio} = useUsuario();
     const [records,setRecords] = useState(null);
@@ -43,18 +42,6 @@ const AnunciosTableResidente = () => {
         toggleModal();
     };
 
-
-    const prepareEditModal = (idRecord) => {
-        setSelectedRecordId(idRecord);
-        toggleModal();
-    };
-
-    const actionsFormatter = (cell, row) => (<div className="text-center">
-            <Button type="Button" onClick={() => prepareEditModal(row.idAnuncio)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
-            <Button type="Button" onClick={() => prepareDeleteModal(row.idAnuncio, row.titulo)} className="btn btnAction"><FontAwesomeIcon icon={faTrash} /></Button>
-        </div>
-    );
-
     const toggleModal = () => {
         setModalControl(!modalControl);
     };
@@ -62,13 +49,6 @@ const AnunciosTableResidente = () => {
     const toggleDeleteModal = () => {
         setModalDeleteControl(!modalDeleteControl);
     };
-
-    const prepareDeleteModal = (id,title) => {
-        setSelectedRecordId(id);
-        setSelectedRecordTitle(title);
-        toggleDeleteModal();
-    };
-
 
     const columns = [{
         dataField: 'titulo',
@@ -78,13 +58,6 @@ const AnunciosTableResidente = () => {
         dataField: 'mensaje',
         text: 'Mensaje',
         sort: true,
-    },{
-        dataField: 'actions',
-        text: 'Acciones',
-        isDummyField: true,
-        csvExport: false,
-        formatter: actionsFormatter,
-        headerStyle: { textAlign:'center'}
     }];
 
     const updateRecords = async () => {
