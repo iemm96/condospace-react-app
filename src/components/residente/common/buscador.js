@@ -17,9 +17,11 @@ export const Buscador = (props) => {
                     onChange={search}
                 />
             </div>
-            <div className="col-2">
-                <Button className="actionButton" onClick={() => props.prepareNewModal()}>{props.buttonText}</Button>
-            </div>
+            {props.newRecordButton ?
+                <div className="col-2">
+                    <Button className="actionButton" onClick={() => props.prepareNewModal()}>{props.buttonText}</Button>
+                </div> : ''
+            }
         </Row>
     );
 };
