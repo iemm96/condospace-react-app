@@ -5,11 +5,19 @@ import {faBars} from "@fortawesome/free-solid-svg-icons";
 import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
-import SideBar from "./SideBar";
-import CookieService from "../../../services/CookieService";
+import SideBar from "../SideBar";
+import CookieService from "../../../../services/CookieService";
+import {useUsuario} from "../../../../context/usuario-context";
+import {useLocation} from "react-router-dom";
+import './header.scss';
 
 export const AdminHeader = (props) => {
     const [isOpenSidebar,setIsOpenSidebar] = useState(null);
+    const { usuario,tema } = useUsuario();
+    const [titleSection,setTitleSection] = useState(false);
+    let location = useLocation();
+    let arrUrl = location.pathname.split('/');
+    let secondPath = arrUrl[2];
 
     useEffect(() => {
         var elements = document.querySelectorAll('[data-toggle="sticky-onscroll"]');
@@ -64,7 +72,7 @@ export const AdminHeader = (props) => {
         <div className="mt-3">
             <SideBar toggle={toggleSidebar} isOpen={isOpenSidebar}/>
             <header className="main-header ">
-        <Navbar className="header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar"
+        <Navbar className={'header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar '  + tema}
                 data-toggle="sticky-onscroll">
             <div className="container">
                 <Button color="info" className="" onClick={toggleSidebar}>
@@ -72,45 +80,16 @@ export const AdminHeader = (props) => {
                 </Button>
                 <NavLink className="navbar-brand" to="#">CondoSpace</NavLink>
 
-                <Collapse className="navbar-collapse justify-content-center" id="navbarSupportedContent" navbar>
+                <Collapse className="navbar-collapse justify-content-start" id="navbarSupportedContent" navbar>
 
                     <ul className="navbar-nav">
 
-                        <li className="nav-item">
-                            <NavLink className="nav-link" href="/admin/anuncios"
-                                     className={props.location === 'admin/anuncios' ? 'active' : ''}>Anuncios
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" href="/admin/eventos"
-                                     className={props.location === '/admin/eventos' ? 'active' : ''}>Eventos
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" href="/admin/finanzas"
-                                     className={props.location === '/admin/finanzas' ? 'active' : ''}>Finanzas
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" href="/admin/areas"
-                                     className={props.location === '/admin/areas' ? 'active' : ''}>Áreas Comunes
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" href="/admin/condominios"
-                                     className={props.location === '/admin/condominios' ? 'active' : ''}>Condominios y Unidades
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" href="/admin/personas"
-                                     className={props.location === '/admin/personas' ? 'active' : ''}>Usuarios
-                            </NavLink>
-                        </li>
+
                     </ul>
                     <UncontrolledDropdown className="d-sm-none">
-                        <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
+                        <img src={require('../../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
                         <DropdownToggle caret>
-                            Nombre del usuario
+                            Admin
                         </DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem>Mis datos de perfil</DropdownItem>
@@ -120,9 +99,9 @@ export const AdminHeader = (props) => {
                     </UncontrolledDropdown>
                 </Collapse>
                 <UncontrolledDropdown className="d-none d-sm-block">
-                    <img src={require('./../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
+                    <img src={require('../../../../assets/images.png')} width={35} height={35} className="rounded-circle"/>
                     <DropdownToggle caret>
-                        Nombre del usuario
+                        Admin
                     </DropdownToggle>
                     <DropdownMenu>
                         <DropdownItem>Mis datos de perfil</DropdownItem>
