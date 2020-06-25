@@ -11,7 +11,7 @@ import {updateRecord} from "../../../actions/updateRecord";
 import {faBriefcase, faCamera} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-export const Perfil = (props) => {
+export const ResidentePerfil = (props) => {
     const {cargandoUsuario,idCondominio,usuario,setTema,setFondo,fondo,tema} = useUsuario();
     const { register, handleSubmit, errors } = useForm();
     const [updatePassword,setUpdatePassword] = useState(false);
@@ -53,7 +53,7 @@ export const Perfil = (props) => {
             if(response) {
                 store.addNotification({
                     title: "Correcto",
-                    message: "Se han actualizado los datos de tu perfil",
+                    message: "Se han actualizado los datos de tu Perfil",
                     type: "success",
                     insert: "top",
                     container: "top-right",
@@ -211,7 +211,7 @@ export const Perfil = (props) => {
                 <Col>
                     <Row className="text-center">
                         <Col>
-                            <h4>Datos del perfil</h4>
+                            <h4>Datos del Perfil</h4>
                         </Col>
                     </Row>
                     <Row className="mt-2">
