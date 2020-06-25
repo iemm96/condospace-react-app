@@ -2,9 +2,16 @@ import React, {useEffect, useState} from "react";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {PaginationListStandalone, PaginationProvider} from "react-bootstrap-table2-paginator";
-import {Button, Col, Spinner} from "reactstrap";
+import {Button, Col} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faArrowRight, faEdit, faEye, faPause, faPlay, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowLeft,
+    faArrowRight,
+    faCheck,
+    faEdit,
+    faEye,
+    faTrash
+} from "@fortawesome/free-solid-svg-icons";
 import {fetchRecords} from "../../../actions/fetchRecords";
 import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
@@ -19,6 +26,7 @@ import axios from "axios";
 import CookieService from "../../../services/CookieService";
 import Row from "reactstrap/es/Row";
 import moment from "moment";
+import PayModal from "../modals/PayModal";
 
 //Change
 const RESOURCE = 'cuotas'; //API
@@ -26,7 +34,7 @@ const NEW_BUTTON_TEXT = 'Nueva Cuota';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 const api_url = url_base;
 
-const CuotaTable = (props) => {
+const CuotaTableResidente = (props) => {
     const { idCondominio } = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
@@ -35,6 +43,7 @@ const CuotaTable = (props) => {
     const [selectedRecordTitle,setSelectedRecordTitle] = useState(null);
     const [isLoading,setIsLoading] = useState(false);
     const [expanded,setExpanded] = useState([]);
+    const [modalPayControl,setModalPayControl] = useState(false);
 
 
     useEffect(() => {
@@ -49,6 +58,8 @@ const CuotaTable = (props) => {
 
         getRecords();
     },[]);
+
+
 
     const toggleActiva = async (e,cuota,row) => {
         const authToken = CookieService.get('access_token');
@@ -100,16 +111,8 @@ const CuotaTable = (props) => {
     //Change "titulo" if necessary
     const actionsFormatter = (cell, row) => (<div>
 
-            <Button type="Button" onClick={(e) => toggleActiva(e,row.idCuota,row)} className="btn mr-1 btnAction">
-                {isLoading ? <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                /> : <FontAwesomeIcon icon={row.esActiva === 1 ? faPause  : faPlay}/>}
+            <Button type="Button" onClick={() => preparePayModal(row.idCuota, row.nombre)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faCheck}/></Button>
 
-            </Button>
             <Button type="Button" onClick={() => handleExpandButtonClick(row)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEye}/></Button>
 
             <Button type="Button" onClick={() => prepareEditModal(row.idCuota)} className="btn mr-1 btnAction"><FontAwesomeIcon icon={faEdit}/></Button>
@@ -135,6 +138,15 @@ const CuotaTable = (props) => {
         setSelectedRecordId(null);
         toggleModal();
     };
+
+    const preparePayModal = (id,title) => {
+        setSelectedRecordTitle(title)
+        togglePayModal();
+    }
+
+    const togglePayModal = () => {
+        setModalPayControl(!modalPayControl);
+    }
 
     const updateRecords = async () => {
         console.log('updating');
@@ -198,7 +210,7 @@ const CuotaTable = (props) => {
         isDummyField: true,
         csvExport: false,
         formatter: actionsFormatter,
-        headerStyle: { textAlign:'center', width: 204}
+        headerStyle: { textAlign:'center', width: 206}
     }];
 
     const expandRow =  {
@@ -230,6 +242,11 @@ const CuotaTable = (props) => {
                 deleteModal={modalDeleteControl}
                 resource={RESOURCE}
                 updateRecords={updateRecords}
+            />
+            <PayModal
+                title={selectedRecordTitle}
+                togglePayModal={togglePayModal}
+                modalControl={modalPayControl}
             />
             <ToolkitProvider
                 keyField="id"
@@ -309,4 +326,4 @@ const CuotaTable = (props) => {
     }
 };
 
-export default CuotaTable;
+export default CuotaTableResidente;
