@@ -1,38 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Col, Row,Container, Spinner} from "reactstrap";
 import Header from "./common/header/Header";
 import {withRouter} from 'react-router-dom';
-import {useHistory} from 'react-router';
-import CookieService from "../../services/CookieService";
 import {useUsuario} from "../../context/usuario-context";
-import {getUser} from "../../actions/getUser";
 
-const UserDashboard = (props) => {
-    const { fondo,setTema,setFondo } = useUsuario();
+const ResidenteContainer = (props) => {
+    const { fondo } = useUsuario();
     const CommonHeader = withRouter(props => <Header {...props}/>);
-    const {setCargandoUsuario,setUsuario,setUserLoggedIn,setIdCondominio,userLoggedIn} = useUsuario();
-    let history = useHistory();
+    const {userLoggedIn} = useUsuario();
     const condominio  = props.match.params.condominio;
-
-    useEffect(() => {
-
-        async function cargarUsuario() {
-
-            try{
-
-                //Si el token existe carga el usuario en el contexto
-                if(!userLoggedIn) {
-                    //history.push(`/${condominio}/login`);
-                }
-
-            }catch (e) {
-                console.log(e);
-            }
-        }
-
-        cargarUsuario();
-
-    },[]);
 
     if(userLoggedIn) {
         return (<div>
@@ -56,7 +32,7 @@ const UserDashboard = (props) => {
             </div>
         );
     }
-}
+};
 
-export const DashboardContainerWithRouter = withRouter(UserDashboard);
+export const ResidenteContainerWithRouter = withRouter(ResidenteContainer);
 
