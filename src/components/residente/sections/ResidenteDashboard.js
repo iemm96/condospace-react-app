@@ -11,7 +11,7 @@ import 'moment/locale/es';
 import CountUp from 'react-countup';
 import {Link, useLocation} from "react-router-dom";
 
-const AdmincondoDashboard = (props) => {
+const ResidenteDashboard = (props) => {
     const { idCondominio } = useUsuario();
     const [chartData,setChartData] = useState([]);
     const [unidades, setUnidades] = useState([]);
@@ -122,64 +122,14 @@ const AdmincondoDashboard = (props) => {
                     <h3>Tablero de control</h3>
                 </Col>
             </Row>
-            <Row>
-                <Col sm="6">
-                    <Card>
-                        <CardBody className="text-center">
-                            <CardTitle>
-                                <h3>Periodo actual ({moment().format("MMMM")})</h3>
-                            </CardTitle>
-                            {chartIngresEgreso}
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col sm="6">
-                    <Card >
-                        <CardBody className="text-center" style={{height:228}}>
-                            <CardTitle>
-                                <h3>Porcentaje de Morosidad</h3>
-                            </CardTitle>
-                            <h1 className="mt-5" style={{color:'#FF8042'}} id="porcentaje"><CountUp end={40} />%</h1>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
             <Row className="mt-1">
-                <Col xs="4">
-                    <Card>
-                        <CardBody className="text-center">
-                            <CardTitle>
-                                <h3><FontAwesomeIcon icon={faHome} className="mr-2"/>Unidades</h3>
-                            </CardTitle>
-                            {cantidades ?
-                                <h2>{cantidades.unidades}</h2> : ''
-                            }
-                            <Link to={`/${arrUrl[1]}/unidades`}>
-                                <Button className="mt-2 actionButton" >Seleccionar</Button>
-                            </Link>
-                        </CardBody>
-                    </Card>
-                </Col>
                 <Col xs="4">
                     <Card>
                         <CardBody className="text-center">
                             <CardTitle>
                                 <h3><FontAwesomeIcon icon={faBell} className="mr-2"/>Anuncios</h3>
                             </CardTitle>
-                            <Link to={`/${arrUrl[1]}/anuncios`}>
-                                <Button className="mt-2 actionButton" >Seleccionar</Button>
-                            </Link>
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col xs="4">
-                    <Card>
-                        <CardBody className="text-center">
-                            <CardTitle>
-                                <h3><FontAwesomeIcon icon={faMoneyCheckAlt} className="mr-2"/>Transacciones</h3>
-                            </CardTitle>
-
-                            <Link to={`/${arrUrl[1]}/transacciones`}>
+                            <Link to={`/${arrUrl[1]}/residente/anuncios`}>
                                 <Button className="mt-2 actionButton" >Seleccionar</Button>
                             </Link>
                         </CardBody>
@@ -192,20 +142,7 @@ const AdmincondoDashboard = (props) => {
                                 <h3><FontAwesomeIcon icon={faCoins} className="mr-2"/>Cuotas</h3>
                             </CardTitle>
 
-                            <Link to={`/${arrUrl[1]}/cuotas`}>
-                                <Button className="mt-2 actionButton" >Seleccionar</Button>
-                            </Link>
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col xs="4">
-                    <Card>
-                        <CardBody className="text-center">
-                            <CardTitle>
-                                <h3><FontAwesomeIcon icon={faFileInvoiceDollar} className="mr-2"/>Cuentas</h3>
-                            </CardTitle>
-
-                            <Link to={`/${arrUrl[1]}/cuentas`}>
+                            <Link to={`/${arrUrl[1]}/residente/cuotas`}>
                                 <Button className="mt-2 actionButton" >Seleccionar</Button>
                             </Link>
                         </CardBody>
@@ -218,46 +155,7 @@ const AdmincondoDashboard = (props) => {
                                 <h3><FontAwesomeIcon icon={faCalendarWeek} className="mr-2"/>Eventos</h3>
                             </CardTitle>
 
-                            <Link to={`/${arrUrl[1]}/eventos`}>
-                                <Button className="mt-2 actionButton" >Seleccionar</Button>
-                            </Link>
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col xs="4">
-                    <Card>
-                        <CardBody className="text-center">
-                            <CardTitle>
-                                <h3><FontAwesomeIcon icon={faDoorOpen} className="mr-2"/>Visitas</h3>
-                            </CardTitle>
-
-                            <Link to={`/${arrUrl[1]}/visitas`}>
-                                <Button className="mt-2 actionButton" >Seleccionar</Button>
-                            </Link>
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col xs="4">
-                    <Card>
-                        <CardBody className="text-center">
-                            <CardTitle>
-                                <h3><FontAwesomeIcon icon={faTree} className="mr-2"/>Áreas Comunes</h3>
-                            </CardTitle>
-
-                            <Link to={`/${arrUrl[1]}/areas`}>
-                                <Button className="mt-2 actionButton" >Seleccionar</Button>
-                            </Link>
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col xs="4">
-                    <Card>
-                        <CardBody className="text-center">
-                            <CardTitle>
-                                <h3><FontAwesomeIcon icon={faUser} className="mr-2"/>Usuarios</h3>
-                            </CardTitle>
-
-                            <Link to={`/${arrUrl[1]}/usuarios`}>
+                            <Link to={`/${arrUrl[1]}/residente/eventos`}>
                                 <Button className="mt-2 actionButton" >Seleccionar</Button>
                             </Link>
                         </CardBody>
@@ -268,4 +166,4 @@ const AdmincondoDashboard = (props) => {
     );
 };
 
-export default AdmincondoDashboard;
+export default ResidenteDashboard;

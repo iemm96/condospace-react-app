@@ -17,7 +17,7 @@ const NEW_BUTTON_TEXT = 'Nuevo Anuncio';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
 
-const AnunciosTable = () => {
+const AnunciosTableResidente = () => {
     const {idCondominio} = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
@@ -168,4 +168,4 @@ const AnunciosTable = () => {
 };
 
 
-export default AnunciosTable;
+export default AnunciosTableResidente;

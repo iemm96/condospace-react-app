@@ -20,7 +20,7 @@ const RESOURCE = 'eventos'; //API
 const NEW_BUTTON_TEXT = 'Nuevo Evento';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 
-const EventosTable = (props) =>
+const EventosTableResidente = (props) =>
 {
     const { idCondominio } = useUsuario();
     const [records,setRecords] = useState(null);
@@ -176,4 +176,4 @@ const EventosTable = (props) =>
     }
     
 };
-export default EventosTable;
+export default EventosTableResidente;
