@@ -69,6 +69,15 @@ const UserLogin = (props) => {
             (response) => {
                 console.log(response.data);
                 setUsuario(response.data);
+
+                if(!response.data.user.fondo) {
+                    setFondo('white');
+                }
+
+                if(!response.data.user.tema) {
+                    setTema('aqua');
+                }
+
                 setFondo(response.data.user.fondo);
                 setTema(response.data.user.tema);
                 const tipoUsuario = response.data.user.idTipoUsuario;
