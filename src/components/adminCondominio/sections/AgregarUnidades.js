@@ -18,7 +18,6 @@ export const AgregarUnidades = (props) => {
     const onSubmit = async data => {
         data.idCondominio = idCondominio;
         data.tipoUnidades = tipoUnidad;
-        console.log(data);
 
         try {
             await storeRecord(data,'addUnidades');
@@ -201,35 +200,6 @@ export const AgregarUnidades = (props) => {
                                                     placeholder="Selecciona una opción..."
                                                     onChange={(event) => {setTipoUnidad(event.value)}}
                                             />
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm={10}>
-                                        <FormGroup >
-                                            <Label for="">¿Deseas que las unidades se guarden como Departamento 1, Departamento 2…?</Label>
-                                            <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio"
-                                                       value="1"
-                                                       className="custom-control-input"
-                                                       id="radioSi"
-                                                       name="guardarComo"
-                                                       ref={register({ required: true })}
-                                                       onChange={() => setPertenecen(true)}
-                                                />
-                                                <label className="custom-control-label" htmlFor="radioSi">Si</label>
-                                            </div>
-                                            <div className="custom-control custom-radio custom-control-inline">
-                                                <input type="radio"
-                                                       value="0"
-                                                       className="custom-control-input"
-                                                       id="radioNo"
-                                                       name="guardarComo"
-                                                       ref={register({ required: true })}
-                                                       onChange={() => setPertenecen(false)}
-                                                />
-                                                <label className="custom-control-label" htmlFor="radioNo">No</label>
-                                            </div>
                                         </FormGroup>
                                     </Col>
                                 </Row>

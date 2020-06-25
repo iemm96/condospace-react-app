@@ -7,10 +7,12 @@ import CookieService from "../../../services/CookieService";
 import {useForm} from "react-hook-form";
 import {useHistory} from 'react-router';
 import Container from "reactstrap/es/Container";
+import {useUsuario} from "../../../context/usuario-context";
 const api_url = url_base;
 
 const Bienvenida = (props) => {
     const { register, handleSubmit } = useForm();
+    const { usuario } = useUsuario();
     let history = useHistory();
 
     const updatePasword = (data) => {
@@ -26,7 +28,14 @@ const Bienvenida = (props) => {
             body:stringifyData(data)
         }).then((res) => res.json())
             .then((data) =>  {
-                history.push(`/${props.match.params.condominio}/agregarUnidades`);
+                if(usuario.user.idTipoUsuario === 2) {
+                    history.push(`/${props.match.params.condominio}/agregarUnidades`);
+                }
+
+                if(usuario.user.idTipoUsuario === 3) {
+                    history.push(`/${props.match.params.condominio}/residente/dashboard`);
+                }
+
             })
             .catch((err)=>console.log(err));
     };
