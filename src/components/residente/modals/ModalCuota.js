@@ -128,7 +128,6 @@ const ModalCuota = (props) => {
                     opcionesUnidades.push({value:val.idUnidad,label:val.nombre,name:'idUnidad'});
                 });
 
-
                 setUnidades(opcionesUnidades);
             }
         }catch (e) {

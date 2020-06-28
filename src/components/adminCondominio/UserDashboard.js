@@ -2,18 +2,14 @@ import React, {useEffect} from 'react';
 import {Col, Row,Container, Spinner} from "reactstrap";
 import Header from "./common/header/Header";
 import {withRouter} from 'react-router-dom';
-import {useHistory} from 'react-router';
-import CookieService from "../../services/CookieService";
 import {useUsuario} from "../../context/usuario-context";
-import {getUser} from "../../actions/getUser";
 
 const UserDashboard = (props) => {
-    const { fondo,setTema,setFondo } = useUsuario();
+    const { fondo } = useUsuario();
     const CommonHeader = withRouter(props => <Header {...props}/>);
-    const {setCargandoUsuario,setUsuario,setUserLoggedIn,setIdCondominio,userLoggedIn} = useUsuario();
-    let history = useHistory();
-    const condominio  = props.match.params.condominio;
+    const { userLoggedIn } = useUsuario();
 
+    /*
     useEffect(() => {
 
         async function cargarUsuario() {
@@ -32,11 +28,11 @@ const UserDashboard = (props) => {
 
         cargarUsuario();
 
-    },[]);
+    },[]);*/
 
     if(userLoggedIn) {
         return (<div>
-            <CommonHeader condominio={condominio}/>
+            <CommonHeader/>
             <div className={'dashboard-content animate fadeInUp one ' + fondo}>
                 <Container>
                     <Row className="pt-5 justify-content-center">
