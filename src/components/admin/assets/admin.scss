@@ -398,7 +398,7 @@ div.login {
 
   }
 }
-
+/*
 .card-nav-tabs .card-header {
   margin-top: -30px!important;
 }
@@ -459,7 +459,7 @@ div.login {
 
 .nav .nav-item {
   position: relative;
-}
+}*/
 
 /* ==============
       Tables
@@ -567,6 +567,14 @@ thead {
   padding: 10px;
 }
 
+.nav-link.gray {
+  color: gray !important;
+  &:hover {
+    transform: scale(1);
+    transition: 0.1s;
+  }
+}
+
 .nav-link {
   color: white !important;
   &:hover {
@@ -574,6 +582,8 @@ thead {
     transition: 0.1s;
   }
 }
+
+
 
 .menu-open {
   background: #6d7fcc;
