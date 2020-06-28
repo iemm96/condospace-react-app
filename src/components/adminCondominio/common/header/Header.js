@@ -11,7 +11,7 @@ import {Link, useLocation} from 'react-router-dom';
 import './header.scss';
 import {useUsuario} from "../../../../context/usuario-context";
 
-const Header = (props) => {
+const Header = () => {
     const { usuario,tema } = useUsuario();
     const [isOpenSidebar,setIsOpenSidebar] = useState(false);
     const [titleSection,setTitleSection] = useState(false);
@@ -20,7 +20,6 @@ const Header = (props) => {
     let secondPath = arrUrl[2];
 
     useEffect(() => {
-
 
         secondPath = secondPath.charAt(0).toUpperCase() + secondPath.slice(1);
 
@@ -76,7 +75,7 @@ const Header = (props) => {
 
     return(<div className="mt-3">
         <header className="main-header ">
-            <SideBar condominio={props.condominio} isOpen={isOpenSidebar}/>
+            <SideBar condominio={usuario.condominio} isOpen={isOpenSidebar}/>
 
             <Navbar id="user-header" className={'header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar ' + tema}
                     data-toggle="sticky-onscroll">
