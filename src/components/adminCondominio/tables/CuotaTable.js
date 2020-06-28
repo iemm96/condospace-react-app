@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {PaginationListStandalone, PaginationProvider} from "react-bootstrap-table2-paginator";
-import {Button, Col, Spinner} from "reactstrap";
+import {Button, Col, Spinner, TabContent, TabPane, NavItem, NavLink, Nav} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faArrowRight, faEdit, faEye, faPause, faPlay, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {fetchRecords} from "../../../actions/fetchRecords";
@@ -11,22 +11,23 @@ import {Buscador} from './../common/buscador';
 import {options} from "../../../constants/tables_options";
 import {DeleteRecordModal} from "../modals/DeleteRecordModal";
 import {url_base} from "./../../../constants/api_url";
-
-//Change
 import ModalRecord from "../modals/ModalCuota";
 import {useUsuario} from "../../../context/usuario-context";
 import axios from "axios";
 import CookieService from "../../../services/CookieService";
 import Row from "reactstrap/es/Row";
 import moment from "moment";
-
-//Change
+import classnames from 'classnames';
+import {BuscadorUnidades} from "../BuscadorUnidades";
+import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
 const RESOURCE = 'cuotas'; //API
 const NEW_BUTTON_TEXT = 'Nueva Cuota';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 const api_url = url_base;
 
-const CuotaTable = (props) => {
+const CuotaTable = () => {
+    const [activeTab, setActiveTab] = useState('1');
+
     const { idCondominio } = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
@@ -35,7 +36,8 @@ const CuotaTable = (props) => {
     const [selectedRecordTitle,setSelectedRecordTitle] = useState(null);
     const [isLoading,setIsLoading] = useState(false);
     const [expanded,setExpanded] = useState([]);
-
+    const [unidades,setUnidades] = useState([]);
+    const [tipoUnidad,setTipoUnidad] = useState(null);
 
     useEffect(() => {
         async function getRecords() {
@@ -46,6 +48,30 @@ const CuotaTable = (props) => {
                 console.log(e);
             }
         }
+
+        async function getUnidades() {
+
+            try {
+                const resultadoUnidades = await fetchRecordsByParam('getUnidadesByCondominio',idCondominio,idCondominio);
+
+                let opcionesUnidades = [];
+
+                if(resultadoUnidades) {
+                    resultadoUnidades.map((val,index) => {
+                        if(index === 0) {
+                            setTipoUnidad(val.idUnidad);
+                        }
+                        opcionesUnidades.push({value:val.idUnidad,label:`${'Unidad ' + val.idUnidad}`,name:'idUnidad'});
+                    });
+
+                    setUnidades(opcionesUnidades);
+                }
+            }catch (e) {
+
+            }
+        }
+
+        getUnidades();
 
         getRecords();
     },[]);
@@ -154,13 +180,6 @@ const CuotaTable = (props) => {
 
         setTimeout(() => {  table.classList.add('fadeInLeft'); }, 1000);
 
-        /*
-        table.classList.remove('fadeOut');
-        setTimeout(() => {  console.log('await') }, 1000);
-
-        table.classList.add('fadeInRight');*/
-
-
     };
 
     const rowStyle = (row) => {
@@ -239,7 +258,10 @@ const CuotaTable = (props) => {
                 {
                     toolkitprops => (
                         <div>
-                            <Buscador prepareNewModal={prepareNewModal}
+                            <BuscadorUnidades prepareNewModal={prepareNewModal}
+                                              unidades={unidades}
+                                              setTipoUnidad={setTipoUnidad}
+                                              tipoUnidad={tipoUnidad}
                                       buttonText={NEW_BUTTON_TEXT}
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }
@@ -264,42 +286,78 @@ const CuotaTable = (props) => {
         </div>
     );
 
+    const toggle = tab => {
+        if(activeTab !== tab) setActiveTab(tab);
+    }
+
     if(records) {
 
         return(
-            <div>
-                <Row>
-                    <Col>
-                        <Button onClick={handleClickMesAnterior} className="btnAction">
-                            <FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon>
-                            {' '}
-                            {moment().subtract(1, 'months').format("MMMM")}
-                        </Button>
-                    </Col>
-                    <Col className="text-center">
-                        <h4>Cuotas periodo actual ({moment().format("MMMM")})</h4>
-                    </Col>
-                    <Col className="text-right">
-                        <Button className="btnAction">
-                            {moment().add(1, 'months').format("MMMM")}
-                            {' '}
-                            <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon>
-                        </Button>
-                    </Col>
-                </Row>
-                <Row className="mt-4">
-                    <Col className="col-3">
-                    </Col>
-                    <div id="recordTable" className="animate one">
-                        <PaginationProvider
-                            pagination={paginationFactory(options(records))}>
-                            {contentTable}
-                        </PaginationProvider>
-                    </div>
-
-                </Row>
+            <div className="mt-4">
+                <Nav tabs>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeTab === '1' }) + ' gray'}
+                            onClick={() => { toggle('1'); }}
+                        >
+                            Pago de Cuotas por Unidad
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeTab === '2' }) + ' gray'}
+                            onClick={() => { toggle('2'); }}
+                        >
+                            Administrar Cuotas
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+                <TabContent activeTab={activeTab}>
+                    <TabPane tabId="1">
+                        <Row className="mt-4">
+                            <Col>
+                                <Button onClick={handleClickMesAnterior} className="btnAction">
+                                    <FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon>
+                                    {' '}
+                                    {moment().subtract(1, 'months').format("MMMM")}
+                                </Button>
+                            </Col>
+                            <Col className="text-center">
+                                <h4>Cuotas periodo actual ({moment().format("MMMM")})</h4>
+                            </Col>
+                            <Col className="text-right">
+                                <Button className="btnAction">
+                                    {moment().add(1, 'months').format("MMMM")}
+                                    {' '}
+                                    <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon>
+                                </Button>
+                            </Col>
+                        </Row>
+                        <Row className="mt-4">
+                            <Col className="col-3">
+                            </Col>
+                            <div id="recordTable" className="animate one">
+                                <PaginationProvider
+                                    pagination={paginationFactory(options(records))}>
+                                    {contentTable}
+                                </PaginationProvider>
+                            </div>
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId="2">
+                        <Row className="mt-4">
+                            <Col className="col-3">
+                            </Col>
+                            <div id="recordTable" className="animate one">
+                                <PaginationProvider
+                                    pagination={paginationFactory(options(records))}>
+                                    {contentTable}
+                                </PaginationProvider>
+                            </div>
+                        </Row>
+                    </TabPane>
+                </TabContent>
             </div>
-
         );
     }else{
         return(<div style={{ fontSize: 20, lineHeight: 2 }}>
