@@ -8,6 +8,7 @@ import {UsuarioProvider} from "./context/usuario-context";
 import * as serviceWorker from './serviceWorker';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/styles.scss'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 import AppRoutes from './routes/routes';

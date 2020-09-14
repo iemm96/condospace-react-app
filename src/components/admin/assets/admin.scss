@@ -219,6 +219,7 @@ header .container {
 }
 
 
+/*
 div.card {
   border: 0;
   margin-bottom: 30px;
@@ -243,7 +244,7 @@ div.card .card-header {
   margin-top: -30px;
   border: 0;
   background: linear-gradient(60deg,#eee,#bdbdbd);
-}
+}*/
 
 .header-dashboard {
   z-index: 1000;
@@ -314,31 +315,7 @@ div.card .card-header-danger {
   margin: 0 !important;
 }
 
-div.login {
-  border-radius: 10px;
 
-  background: linear-gradient(60deg, #68D6FC, #4C68BB);
-  box-shadow: 0 5px 20px 0 rgba(0,0,0,.2), 0 13px 24px -11px #4C68BB;
-  width: 500px;
-  color: white;
-
-  input.input-form {
-    text-align: center;
-    border: 2px solid #4C68BB;
-    padding: 14px 10px;
-    outline: none;
-    width: 230px;
-    border-radius: 15px;
-    transition: 0.25s;
-  }
-
-  input:focus{
-    width: 250px;
-    border-color: $aquaColor;
-
-  }
-
-}
 
 .actionButton{
   background-color: #4C68BB !important;
@@ -466,7 +443,6 @@ div.login {
 ================= */
 table {
   border-collapse: collapse;
-  border-radius: 1em;
   overflow: hidden;
 }
 
@@ -522,7 +498,6 @@ footer p a:hover {
 thead {
   background-color: rgb(1, 22, 39);
   color: white;
-  border-radius: 18px 0px 0px;
 }
 
 

@@ -122,28 +122,28 @@ const AdmincondoDashboard = (props) => {
                     <h3>Tablero de control</h3>
                 </Col>
             </Row>
-            <Row>
-                <Col sm="6">
-                    <Card>
-                        <CardBody className="text-center">
-                            <CardTitle>
-                                <h3>Periodo actual ({moment().format("MMMM")})</h3>
-                            </CardTitle>
-                            {chartIngresEgreso}
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col sm="6">
-                    <Card >
-                        <CardBody className="text-center" style={{height:228}}>
-                            <CardTitle>
-                                <h3>Porcentaje de Morosidad</h3>
-                            </CardTitle>
-                            <h1 className="mt-5" style={{color:'#FF8042'}} id="porcentaje"><CountUp end={40} />%</h1>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
+                <Row>
+                    <Col sm="6">
+                        <Card>
+                            <CardBody className="text-center">
+                                <CardTitle>
+                                    <h3>Periodo actual ({moment().format("MMMM")})</h3>
+                                </CardTitle>
+                                {chartIngresEgreso}
+                            </CardBody>
+                        </Card>
+                    </Col>
+                    <Col sm="6">
+                        <Card >
+                            <CardBody className="text-center" style={{height:228}}>
+                                <CardTitle>
+                                    <h3>Porcentaje de Morosidad</h3>
+                                </CardTitle>
+                                <h1 className="mt-5" style={{color:'#FF8042'}} id="porcentaje"><CountUp end={40} />%</h1>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
             <Row className="mt-1">
                 <Col xs="4">
                     <Card>

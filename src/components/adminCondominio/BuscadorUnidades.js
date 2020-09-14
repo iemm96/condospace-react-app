@@ -37,6 +37,21 @@ export const BuscadorUnidades = (props) => {
         })
     };
 
+    const opcionesMeses = ([
+        {value:1,label:'Enero',name:'mes'},
+        {value:2,label:'Febrero',name:'mes'},
+        {value:3,label:'Marzo',name:'mes'},
+        {value:4,label:'Abril',name:'mes'},
+        {value:5,label:'Mayo',name:'mes'},
+        {value:6,label:'Junio',name:'mes'},
+        {value:7,label:'Julio',name:'mes'},
+        {value:8,label:'Agosto',name:'mes'},
+        {value:9,label:'Septiembre',name:'mes'},
+        {value:10,label:'Octubre',name:'mes'},
+        {value:11,label:'Noviembre',name:'mes'},
+        {value:12,label:'Diciembre',name:'mes'},
+    ]);
+
     return (
         <Row className="row mb-2 justify-content-between">
             <Col sm={3}>
@@ -48,8 +63,19 @@ export const BuscadorUnidades = (props) => {
                     onChange={search}
                 />
             </Col>
-            <Col sm={3} className="justify-content-end">
+            <Col sm={6} className="justify-content-end">
                 <Form inline>
+                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                        <Label className="mr-sm-2">Mes</Label>
+                        <Select styles={customStyles}
+                                options={opcionesMeses}
+                                placeholder="Selecciona"
+                                value={opcionesMeses.find(op => {
+                                    return op.value === props.mesActual
+                                })}
+                                onChange={(event) => {props.setMesActual(event.value)}}
+                        />
+                    </FormGroup>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                         <Label className="mr-sm-2">Unidad</Label>
                         <Select styles={customStyles}

@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {PaginationListStandalone, PaginationProvider} from "react-bootstrap-table2-paginator";
-import {Button, Col, Spinner } from "reactstrap";
+import {Button, Col, Spinner, TabContent, TabPane, NavItem, NavLink, Nav} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faEdit, faEye, faPause, faPlay, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faArrowRight, faEdit, faEye, faPause, faPlay, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {fetchRecords} from "../../../actions/fetchRecords";
 import Skeleton from 'react-loading-skeleton';
 import {Buscador} from './../common/buscador';
@@ -15,15 +15,17 @@ import ModalRecord from "../modals/ModalCuota";
 import {useUsuario} from "../../../context/usuario-context";
 import axios from "axios";
 import CookieService from "../../../services/CookieService";
+import Row from "reactstrap/es/Row";
+import moment from "moment";
+import classnames from 'classnames';
+import {BuscadorUnidades} from "../BuscadorUnidades";
 import {fetchRecordsByParam} from "../../../actions/fetchRecordsByParam";
 const RESOURCE = 'cuotas'; //API
 const NEW_BUTTON_TEXT = 'Nueva Cuota';
 const PLACEHOLDER_SEARCH_TEXT = `Buscar ${RESOURCE}...`;
 const api_url = url_base;
 
-const CuotaTable = () => {
-    const [activeTab, setActiveTab] = useState('1');
-
+const UnidadCuotaTable = () => {
     const { idCondominio } = useUsuario();
     const [records,setRecords] = useState(null);
     const [modalControl,setModalControl] = useState(false);
@@ -34,18 +36,12 @@ const CuotaTable = () => {
     const [expanded,setExpanded] = useState([]);
     const [unidades,setUnidades] = useState([]);
     const [tipoUnidad,setTipoUnidad] = useState(null);
+    const [mesActual,setMesActual] = useState(moment().format("M"));
 
     useEffect(() => {
-        async function getRecords() {
-            try {
-                const result = await fetchRecords(RESOURCE,idCondominio);
-                setRecords(result);
-            }catch (e) {
-                console.log(e);
-            }
-        }
 
         async function getUnidades() {
+            let primerUnidad = null;
 
             try {
                 const resultadoUnidades = await fetchRecordsByParam('getUnidadesByCondominio',idCondominio,idCondominio);
@@ -55,12 +51,17 @@ const CuotaTable = () => {
                 if(resultadoUnidades) {
                     resultadoUnidades.map((val,index) => {
                         if(index === 0) {
-                            setTipoUnidad(val.idUnidad);
+                            primerUnidad = val.idUnidad;
                         }
                         opcionesUnidades.push({value:val.idUnidad,label:`${'Unidad ' + val.idUnidad}`,name:'idUnidad'});
                     });
 
                     setUnidades(opcionesUnidades);
+
+                    await reloadRecords(primerUnidad,mesActual);
+
+
+                    tipoUnidad(primerUnidad);
                 }
             }catch (e) {
 
@@ -69,8 +70,27 @@ const CuotaTable = () => {
 
         getUnidades();
 
-        getRecords();
     },[]);
+
+    useEffect(() => {
+        reloadRecords(tipoUnidad,mesActual);
+    },[tipoUnidad,mesActual]);
+
+    async function reloadRecords(unidad,mes) {
+        try {
+
+            if(unidad !== null) {
+                const result = await fetchRecords(`getCuotasByUnidadMes/${unidad}/${mes}`,idCondominio);
+
+                if(result) {
+                    setRecords(result);
+                }
+            }
+
+        }catch (e) {
+            console.log(e)
+        }
+    }
 
     const toggleActiva = async (e,cuota,row) => {
         const authToken = CookieService.get('access_token');
@@ -159,8 +179,8 @@ const CuotaTable = () => {
     };
 
     const updateRecords = async () => {
-        console.log('updating');
-        const result = await fetchRecords(RESOURCE,idCondominio);
+
+        const result = await fetchRecords(`getCuotasByUnidadMes/${tipoUnidad}/${mesActual.format("M")}`,idCondominio);
 
         if(result) {
             setRecords(result);
@@ -168,6 +188,9 @@ const CuotaTable = () => {
     };
 
     const handleClickMesAnterior = () => {
+
+
+        setMesActual(mesActual.subtract(1, 'months'));
 
         const table = document.getElementById('recordTable');
         table.classList.remove('fadeInLeft');
@@ -189,7 +212,7 @@ const CuotaTable = () => {
 
     const columns = [{
         dataField: 'nombre',
-        text: 'Nombre',
+        text: 'Cuota',
         sort: true,
     },{
         dataField: 'monto',
@@ -207,13 +230,6 @@ const CuotaTable = () => {
         dataField: 'tipoPeriodicidad',
         text: 'Periodicidad',
         sort: true,
-    },{
-        dataField: 'actions',
-        text: 'Acciones',
-        isDummyField: true,
-        csvExport: false,
-        formatter: actionsFormatter,
-        headerStyle: { textAlign:'center', width: 204}
     }];
 
     const expandRow =  {
@@ -254,10 +270,12 @@ const CuotaTable = () => {
                 {
                     toolkitprops => (
                         <div>
-                            <Buscador prepareNewModal={prepareNewModal}
+                            <BuscadorUnidades prepareNewModal={prepareNewModal}
                                               unidades={unidades}
                                               setTipoUnidad={setTipoUnidad}
                                               tipoUnidad={tipoUnidad}
+                                              mesActual={mesActual}
+                                              setMesActual={setMesActual}
                                       buttonText={NEW_BUTTON_TEXT}
                                       placeholderText={PLACEHOLDER_SEARCH_TEXT}
                                       { ...toolkitprops.searchProps }
@@ -282,30 +300,33 @@ const CuotaTable = () => {
         </div>
     );
 
-    const toggle = tab => {
-        if(activeTab !== tab) setActiveTab(tab);
-    }
-
     if(records) {
 
         return(
             <div className="mt-4">
-                <Col className="col-3">
-                </Col>
-                <div id="recordTable" className="animate one">
-                    <PaginationProvider
-                        pagination={paginationFactory(options(records))}>
-                        {contentTable}
-                    </PaginationProvider>
-                </div>
+                <Row className="mt-4">
+                    <Col className="text-center">
+                        <h4>Cuotas por Unidad</h4>
+                    </Col>
+                </Row>
+                <Row className="mt-4">
+                    <Col className="col-3">
+                    </Col>
+                    <div id="recordTable" className="animate one">
+                        <PaginationProvider
+                            pagination={paginationFactory(options(records))}>
+                            {contentTable}
+                        </PaginationProvider>
+                    </div>
+                </Row>
             </div>
         );
     }else{
-        return(<div style={{ fontSize: 20, lineHeight: 2 }}>
+        return(<div className="mt-5" style={{ fontSize: 20, lineHeight: 2 }}>
             <h1>{<Skeleton />}</h1>
             {<Skeleton count={5} />}
         </div>);
     }
 };
 
-export default CuotaTable;
+export default UnidadCuotaTable;

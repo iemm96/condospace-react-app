@@ -1,0 +1,80 @@
+$primaryColor: #21447C;
+$primaryColorVariant: #151A44;
+
+$secondayColor: #483575;
+$neutralColor: #12101D;
+$alertColor: #CA2E55;
+
+.dashboard-content {
+  border-radius: 20px;
+  margin-top: -35px;
+  margin-left: 30px;
+  margin-right: 30px;
+  min-height: 90vh;
+  background-color: #ebe7ed;
+}
+
+button.primary {
+  background-color: $primaryColor;
+  border-radius: 30px;
+  border: none;
+  padding: 0.8rem;
+  &:hover {
+    border-radius: 30px;
+    border: none;
+    background-color: $primaryColor;
+    -webkit-box-shadow: 0 8px 6px -6px $primaryColor;
+    -moz-box-shadow: 0 8px 6px -6px $primaryColor;
+    box-shadow: 0 8px 6px -6px $primaryColor;
+  }
+
+  &:active{
+    background-color: $primaryColorVariant !important;
+
+  }
+
+  &.border{
+    border: 2px solid white !important;
+  }
+
+}
+
+button.action {
+  background: none;
+  border: none;
+  color: $neutralColor;
+  width: 40px;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  transition: 500ms;
+
+  &:hover{
+    background: none;
+    color: $alertColor;
+    transform: scale(1.1);
+  }
+}
+
+@media screen and (max-width: 1287px){
+
+  .main-header {
+    margin: 0 !important;
+    transition: 0.25s;
+  }
+
+  .header-dashboard {
+    margin: 0;
+    border-radius: 0;
+    transition: 0.25s;
+
+  }
+}
+
+@media screen and (max-width: 1200px){
+
+  .dashboard-content{
+    margin: -70px 0 0 0;
+    transition: .25s;
+  }
+}

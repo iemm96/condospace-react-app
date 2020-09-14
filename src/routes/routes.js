@@ -1,18 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import AdminLogin from "../components/admin/AdminLogin";
-import {AdminDashboardWithRouter} from "../components/admin/AdminDashboard";
+import AdminLogin from "../components/admin/login";
+import {Admin} from "../components/admin";
+
 import {DashboardContainerWithRouter} from "../components/adminCondominio/UserDashboard";
 
 import AnunciosTable from "./../components/adminCondominio/tables/AnunciosTable";
 import UnidadTable from "../components/adminCondominio/tables/UnidadTable";
 import EventosTable from "../components/adminCondominio/tables/EventosTable";
 import VisitasTable from "../components/adminCondominio/tables/VisitasTable";
-import CuotaTable from "../components/adminCondominio/tables/CuotaTable";
 import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
 import TransaccionesTable from "../components/adminCondominio/tables/TransaccionesTable";
 
-import {CondominioList} from "../components/adminCondominio/lists/CondominioList";
 import UsuariosTable from "../components/adminCondominio/tables/UsuariosTable";
 import UserLogin from "../UserLogin";
 import Bienvenida from "../components/adminCondominio/sections/Bienvenida";
@@ -29,8 +28,13 @@ import AnunciosTableResidente from "../components/residente/tables/AnunciosTable
 import {ResidenteContainerWithRouter} from "../components/residente/ResidenteContainer";
 import {useUsuario} from "../context/usuario-context";
 import {ResidentePerfil} from "../components/residente/sections/ResidentePerfil";
+import Cuotas from "../components/adminCondominio/sections/Cuotas";
+import UsuariosCondominio from "../components/admin/usuariosCondominio";
+import {Dashboard} from "../components/admin/dashboard";
+import {AdminProvider} from "../context/admin-context";
 
-const NoMatchPage = () => {  return (    <h3>404 - Not found</h3>  );};
+const NoMatchPage = () => (<h3>404 - Not found</h3>);
+const PermissionDenied = () => (<h3>403 - No tienes permiso para acceder a esta sección</h3>);
 
 const AppRoutes = () => {
     const { usuario } = useUsuario();
@@ -42,7 +46,7 @@ const AppRoutes = () => {
             <Route exact path="/:condominio/areas" component={AreaTable} />
             <Route exact path="/:condominio/anuncios" component={AnunciosTable} />
             <Route exact path="/:condominio/bienvenida" component={Bienvenida} />
-            <Route exact path="/:condominio/cuotas" component={CuotaTable} />
+            <Route exact path="/:condominio/cuotas" component={Cuotas} />
             <Route exact path="/:condominio/cuentas" component={CuentaTable} />
             <Route exact path="/:condominio/eventos" component={EventosTable} />
             <Route exact path="/:condominio/usuarios" component={UsuariosTable} />
@@ -70,16 +74,23 @@ const AppRoutes = () => {
             <ReactNotification/>
                 <BrowserRouter>
                     <Switch>
-                        <Route exact path="/error" component={NoMatchPage} />
-                        <Route exact path="/admin/login" component={() => <AdminLogin/>}/>
-                        <Route exact path="/:condominio/login" component={() => <UserLogin/>} exact/>
 
-                        <Route exact path="/admin">
-                            <AdminDashboardWithRouter>
-                                <Route exact path="/admin/index" component={CondominioList}/>
-                                <Route exact path="/admin/condominio/:idCondominio" component={UsuariosTable}/>
-                            </AdminDashboardWithRouter>
-                        </Route>
+                        <Route exact path="/error/404" component={NoMatchPage} />
+                        <Route exact path="/error/403" component={PermissionDenied} />
+
+                        <Route exact path="/admin/login" component={() => <AdminLogin/>} exact/>
+
+
+                        <Admin>
+                            <Route exact path="/admin/dashboard" component={Dashboard}/>
+                            <Route exact path="/admin/usuariosCondominio/:idCondominio" component={UsuariosCondominio}/>
+                        </Admin>
+
+
+
+                        <Route exact path="/:condominio" component={() => <UserLogin/>} />
+
+
 
                         {usuario?.user.idTipoUsuario === 2 ? CondoAdminRoutes : ''}
                         {usuario?.user.idTipoUsuario === 3 ? ResidenteRoutes : ''}
