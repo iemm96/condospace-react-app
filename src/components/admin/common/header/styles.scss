@@ -1,0 +1,47 @@
+$primaryColor: #21447C;
+$secondayColor: #483575;
+$neutralColor: #12101D;
+$alertColor: #6F2234;
+
+header .container {
+  max-width: 100% !important;
+
+  .btn-secondary {
+    background: none;
+    border: none;
+  }
+
+  .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show > .btn-secondary.dropdown-toggle {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+  }
+
+  .dropdown-menu {
+    margin-top: 20px;
+    border-radius: 15px;
+  }
+}
+
+.header-dashboard {
+  z-index: 1000;
+  background: linear-gradient(60deg, $primaryColor, $secondayColor);
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(40, 83, 107, 0.6);
+  padding: 1rem 15px;
+  margin-left: 60px;
+  margin-right: 60px;
+  border-radius: 15px;
+  border: 0;
+}
+
+.sticky.is-sticky {
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-light .navbar-brand, .navbar-light .navbar-brand:hover
+{
+  color: white !important;
+}
