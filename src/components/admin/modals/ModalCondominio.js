@@ -8,48 +8,109 @@ import {useForm} from "react-hook-form";
 import {store} from "react-notifications-component";
 
 export const ModalCondominio = (props) => {
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit } = useForm();
+    const [record,setRecord] = useState(null);
+
+    useEffect(() => {
+        async function getRecord() {
+            try {
+                const result = await fetchRecord(props.idRecord,'condominios');
+
+                if(result) {
+
+                    setRecord(result);
+                }
+            }catch (e) {
+                console.log(e);
+            }
+        }
+
+        if(props.idRecord) {
+            getRecord();
+        }
+    },[props.idRecord]);
 
     const onSubmit = async data => {
         console.log(data);
-        try {
-            const response = await storeRecord(data,'condominios');
 
-            store.addNotification({
-                title: "Correcto",
-                message: "Se ha creado un nuevo condominio",
-                type: "success",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 5000,
-                    onScreen: true
-                }
-            });
-            props.toggleModal();
-            props.update();
-        }catch (e) {
-            console.log(e);
-            store.addNotification({
-                title: "Ocurrió un error al agregar el condominio",
-                message: "Revisa tu conexión a internet",
-                type: "danger",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 5000,
-                    onScreen: true
-                }
-            });
+        if(record) {
+            try {
+                const response = await updateRecord(data,'condominios',props.idRecord);
+
+
+                store.addNotification({
+                    title: "Correcto",
+                    message: "Se ha actualizado el condominio",
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+                props.toggleModal();
+                props.update();
+            }catch (e) {
+                console.log(e);
+                store.addNotification({
+                    title: "Ocurrió un error al agregar el condominio",
+                    message: "Revisa tu conexión a internet",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+            }
+        }else {
+            try {
+
+                const response = await storeRecord(data,'condominios',props.idRecord);
+
+                store.addNotification({
+                    title: "Correcto",
+                    message: "Se ha creado un nuevo condominio",
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+                props.toggleModal();
+                props.update();
+            }catch (e) {
+                console.log(e);
+                store.addNotification({
+                    title: "Ocurrió un error al agregar el condominio",
+                    message: "Revisa tu conexión a internet",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+            }
         }
-    }
+
+    };
 
     return(<Modal isOpen={props.recordModal} toggle={() => props.toggleModal()}>
-        <ModalHeader toggle={() => props.toggleModal()}>{props.idRecord ? 'Actualizar' : 'Nuevo'} Condominio</ModalHeader>
+        <ModalHeader toggle={() => props.toggleModal()}>{record ? 'Actualizar' : 'Nuevo'} Condominio</ModalHeader>
         <ModalBody>
             <Form id="form"  onSubmit={handleSubmit(onSubmit)}>
                 <Row>
@@ -58,7 +119,7 @@ export const ModalCondominio = (props) => {
                             <Label>*Nombre del Condominio</Label>
                             <input class="form-control" type="text"
                                    name="nombreCondominio"
-                                   value={props.idRecord ? props.nombreCondominio : undefined}
+                                   defaultValue={record ? record.nombreCondominio : undefined}
                                    ref={register({ required: true })}
                                    />
                         </FormGroup>
@@ -70,7 +131,7 @@ export const ModalCondominio = (props) => {
                             <Label>*URL personalizada</Label>
                             <input class="form-control" type="text"
                                    name="dominio"
-                                   value={props.idRecord ? props.dominio : undefined}
+                                   defaultValue={record ? record.dominio : undefined}
                                    ref={register({ required: true })}
                                    />
                         </FormGroup>
@@ -86,7 +147,7 @@ export const ModalCondominio = (props) => {
                             <label>*Calle</label>
                             <input class="form-control" type="text"
                                    name="calle"
-                                   value={props.idRecord ? props.calle : undefined}
+                                   defaultValue={record ? record.calle : undefined}
                                    ref={register({ required: true })}
                                    />
                         </FormGroup>
@@ -99,7 +160,7 @@ export const ModalCondominio = (props) => {
                             <input class="form-control" type="text"
                                    name="noExterior"
                                    ref={register({ required: true })}
-                                   value={props.idRecord ? props.noExterior : undefined}
+                                   defaultValue={record ? record.noExterior : undefined}
                                    />
                         </FormGroup>
                     </Col>
@@ -109,7 +170,7 @@ export const ModalCondominio = (props) => {
                             <FormGroup>
                                 <input class="form-control" type="text"
                                        name="cp"
-                                       value={props.idRecord ? props.cp : undefined}
+                                       defaultValue={record ? record.cp : undefined}
                                        ref={register({ required: true })}
                                        />
                             </FormGroup>
@@ -122,7 +183,7 @@ export const ModalCondominio = (props) => {
                             <label>Entre Calle 1</label>
                             <input class="form-control" type="text"
                                    name="entre1"
-                                   value={props.idRecord ? props.entre1 : undefined}
+                                   defaultValue={record ? record.entre1 : undefined}
                                    ref={register}
                                    />
                         </FormGroup>
@@ -134,7 +195,7 @@ export const ModalCondominio = (props) => {
                             <label>Entre Calle 2</label>
                             <input class="form-control" type="text"
                                    name="entre2"
-                                   value={props.idRecord ? props.entre2 : undefined}
+                                   defaultValue={record ? record.entre2 : undefined}
                                    ref={register}
                                    />
                         </FormGroup>
@@ -146,7 +207,7 @@ export const ModalCondominio = (props) => {
                             <label>Ciudad</label>
                             <input class="form-control" type="text"
                                    name="ciudad"
-                                   value={props.idRecord ? props.ciudad : undefined}
+                                   defaultValue={record ? record.ciudad : undefined}
                                    />
                         </FormGroup>
                     </Col>
@@ -155,7 +216,7 @@ export const ModalCondominio = (props) => {
                             <label>Municipio</label>
                             <input class="form-control" type="text"
                                    name="municipio"
-                                   value={props.idRecord ? props.municipio : undefined}
+                                   defaultValue={record ? record.municipio : undefined}
                                    ref={register}
                                    />
                         </FormGroup>
@@ -165,7 +226,7 @@ export const ModalCondominio = (props) => {
                             <label>Estado</label>
                             <input class="form-control" type="text"
                                    name="estado"
-                                   value={props.idRecord ? props.estado : undefined}
+                                   defaultValue={record ? record.estado : undefined}
                                    ref={register}
                                    />
                         </FormGroup>
@@ -177,7 +238,7 @@ export const ModalCondominio = (props) => {
 
         <ModalFooter className="d-flex justify-content-around" >
             <Button className="neutralButton" onClick={() => props.toggleModal()}>Cancelar</Button>
-            <Button className="confirmButton" form="form" type="submit">{props.idRecord ? 'Actualizar ' : 'Crear '} Condominio</Button>
+            <Button className="confirmButton" form="form" type="submit">{record ? 'Editar ' : 'Crear '} Condominio</Button>
         </ModalFooter>
     </Modal>);
 
