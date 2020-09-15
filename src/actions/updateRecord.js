@@ -4,7 +4,7 @@ import CookieService from "../services/CookieService";
 import axios from "axios";
 const api_url = url_base;
 
-export const updateRecord = async (payload,resource,record,idCondominio) => {
+export const updateRecord = async (payload,resource,record,idCondominio = null) => {
 
     const authToken = CookieService.get('access_token');
 
