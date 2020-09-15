@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {Button, Col, Form, FormGroup, Label, ModalBody, Row} from "reactstrap";
+import {Button, Col, Form, FormGroup, Row} from "reactstrap";
 import {useUsuario} from "../../../context/usuario-context";
 import {useForm} from "react-hook-form";
 import axios from "axios";
@@ -87,14 +87,14 @@ const AdminLogin = () => {
 
     return(
         <div className="row justify-content-center">
+
             <div className="mt-5 login cardLogin card-nav-tabs animate fadeInUp one">
                 <div className="card-body">
                     <h3 className="text-center">Sistema Administrativo CondoSpace</h3>
                     <Form id="form"  onSubmit={handleSubmit(onSubmit)}>
-                        <Row>
-                            <Col>
+                        <Row className="justify-content-center">
+                            <Col sm={8}>
                                 <FormGroup>
-                                    <Label>* Email</Label>
                                     <input id="inputEmail"
                                            type="email"
                                            className={'input-form' + (errorUser ? ' bounce' : '') }
@@ -106,10 +106,9 @@ const AdminLogin = () => {
                                 </FormGroup>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col>
+                        <Row className="justify-content-center">
+                            <Col sm={8}>
                                 <FormGroup>
-                                    <Label>* Password</Label>
                                     <input id="inputPassword"
                                            type="password"
                                            className={'input-form' + (errorPassword? ' bounce' : '') }
