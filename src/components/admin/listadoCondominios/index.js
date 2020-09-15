@@ -12,8 +12,18 @@ const ListadoCondominios = props => {
     const [list,setList] = useState([]);
     const [result,setResult] = useState([]);
 
+    const handleClickDelete = (title,idRecord) => {
+        props.setSelectedRecordId(idRecord);
+        props.setModalDeleteControl(true);
+        props.setSelectedRecordTitle(title);
+    };
+
+    const handleClickEdit = (title,idRecord) => {
+        props.setSelectedRecordId(idRecord);
+        props.toggleModal();
+    };
+
     useEffect(() => {
-        setList(props.list);
 
         const buffer = [];
         props.list.map((value, index) => {
@@ -24,7 +34,7 @@ const ListadoCondominios = props => {
                           className={ 'cardCondominio ' + (isHovering && actualHovering === index && 'shadow') }
                           >
 
-                        { isHovering && actualHovering === index && <Button className="action">
+                        { isHovering && actualHovering === index && <Button onClick={() => handleClickDelete(value.nombreCondominio,value.idCondominio)} className="action">
                             <FontAwesomeIcon icon={faTrash} />
                         </Button>}
 
@@ -36,11 +46,11 @@ const ListadoCondominios = props => {
                             </CardTitle>
                             <CardSubtitle className="mb-xs-1 mt-xs-1">{value.unidades.length == '1' ? `${value.unidades.length} Unidad` : `${value.unidades.length} Unidades`}</CardSubtitle>
 
-                            <Link to={`/admin/usuarios-condominio/${value.idCondominio}`}>
+                            <Link to={`/admin/usuariosCondominio/${value.idCondominio}`}>
                                 <a><FontAwesomeIcon className="mr-2" icon={faUser}/>Administrar usuarios</a>
                             </Link><br/>
-                            <Link to={`/admin/usuarios-condominio/${value.idCondominio}`}>
-                                <a><FontAwesomeIcon className="mr-2" icon={faEdit}/>Editar condominio</a>
+                            <Link to={'#'}>
+                                <a onClick={() => handleClickEdit(value.nombreCondominio,value.idCondominio)}><FontAwesomeIcon className="mr-2" icon={faEdit}/>Editar condominio</a>
                             </Link>
                         </CardBody>
                     </Card>
@@ -48,7 +58,7 @@ const ListadoCondominios = props => {
         });
 
         setResult(buffer);
-    },[actualHovering,isHovering]);
+    },[actualHovering,isHovering,props.list]);
 
     const handleMouseHover = index => {
 
