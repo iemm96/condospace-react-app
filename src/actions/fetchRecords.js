@@ -29,7 +29,7 @@ export const fetchRecords = async (resource,idCondominio) => {
             return response.data;
         }
     }catch (e) {
-        throw e;
+        console.log(e);
     }
 
 };

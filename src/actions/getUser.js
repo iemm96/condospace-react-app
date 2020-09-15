@@ -20,7 +20,7 @@ export const getUser = (authToken) => {
                 return response.data
             },
             (error) => {
-                throw new Error(error);
+                console.log(error);
             }
         );
 };

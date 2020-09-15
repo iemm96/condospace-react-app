@@ -23,7 +23,7 @@ export const fetchRecord = async (idRecord,resource) => {
             return response.data;
         }
     }catch (e) {
-        throw e;
+        console.log(e);
     }
 };
 
