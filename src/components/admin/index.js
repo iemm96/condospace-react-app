@@ -9,30 +9,26 @@ import './styles.scss';
 import { withRouter, useHistory } from 'react-router-dom'
 import CookieService from "../../services/CookieService";
 import {getUser} from "../../actions/getUser";
+import {useUsuario} from "../../context/usuario-context";
 
 
 export const Admin = (props) => {
+    const { usuario, userLoggedIn,setUsuario,tipoUsuario } = useUsuario();
+
     const history = useHistory();
 
     useEffect(() => {
 
         async function auth() {
-            const accessToken = CookieService.get('access_token');
 
-            //Si el token existe carga el usuario en el contexto
-            if(accessToken === undefined) {
+            if(!userLoggedIn) {
                 history.push('/admin/login');
-                return;
             }
 
-            //Se obtiene una respuesta del servidor con los datos del usuario, de existir se setea en el contexto
-            const response = await getUser(accessToken);
-
-            if(response) {
-                if(response.user.idTipoUsuario !== 1){
-                    history.push('/error/403')
-                }
+            if(tipoUsuario !== 1){
+                history.push('/error/403')
             }
+
         }
 
         auth();

@@ -5,18 +5,18 @@ import {
     Col,
 } from "reactstrap";
 import Header from "./common/header";
-import './styles.scss';
 import { withRouter, useHistory } from 'react-router-dom'
 import CookieService from "../../services/CookieService";
 import {getUser} from "../../actions/getUser";
+import './styles.scss';
 
-
-export const Admin = (props) => {
+export const AdminCondominio = (props) => {
     const history = useHistory();
 
     useEffect(() => {
 
         async function auth() {
+            debugger;
             const accessToken = CookieService.get('access_token');
 
             //Si el token existe carga el usuario en el contexto
@@ -56,4 +56,4 @@ export const Admin = (props) => {
         </div>)
 };
 
-export default withRouter(Admin);
+export default withRouter(AdminCondominio);

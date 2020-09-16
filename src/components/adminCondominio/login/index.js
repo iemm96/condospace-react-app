@@ -12,7 +12,7 @@ import Checkbox from "../common/checkbox";
 const expiresAt = 60 * 60;
 
 const UserLogin = (props) => {
-    const {idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUsuario} = useUsuario();
+    const {idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUsuario,setFondo,setTema,setUserLoggedIn} = useUsuario();
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
     const { register, handleSubmit } = useForm();
     const [ recordar, setRecordar ] = useState(false);
@@ -43,7 +43,10 @@ const UserLogin = (props) => {
         validaCondominio(condominio);
     }, []);
 
-    const spinner = <span style={{color:'white'}} className="mt-5 spinner-border spinner-grow" role="status"
+    const spinnerGrow = <span style={{color:'white'}} className="mt-5 spinner-border spinner-grow" role="status"
+                        aria-hidden="true"/>;
+
+    const spinnerBorder = <span style={{color:'white'}} className="mt-5 spinner-border spinner-border-sm" role="status"
                         aria-hidden="true"/>;
 
     const clearInput = e => {
@@ -56,11 +59,11 @@ const UserLogin = (props) => {
     const onSubmit = (data) => {
         const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
-
         setEsperandoRespuesta(true);
+        data.idCondominio = idCondominio;
 
         axios({
-            url:`${url_base}adminLogin`,
+            url:`${url_base}userLogin`,
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -69,42 +72,77 @@ const UserLogin = (props) => {
             data: stringifyData(data)
         }).then(
             (response) => {
-                console.log(response.data);
                 setUsuario(response.data);
-                setTipoUsuario(response.data.user.idTipoUsuario);
+
+                if(!response.data.user.fondo) {
+                    setFondo('white');
+                }
+
+                if(!response.data.user.tema) {
+                    setTema('aqua');
+                }
+
+                setFondo(response.data.user.fondo);
+                setTema(response.data.user.tema);
+                const tipoUsuario = response.data.user.idTipoUsuario;
+                setTipoUsuario(tipoUsuario);
 
                 let date = new Date();
 
-                if(recordar) {
-                    date.setTime(date.getTime() + (expiresAt * 336 * 1000));
-                }else{
-                    date.setTime(date.getTime() + (expiresAt * 24 * 1000));
-                }
-
+                date.setTime(date.getTime() + (expiresAt * 60 * 1000));
                 const options = {path: '/', expires: date};
 
                 CookieService.set('access_token', response.data.access_token, options);
 
-                history.push('/admin/dashboard'); //Redirect al dashboard del administrador
+                setUserLoggedIn(true);
+
+                if(tipoUsuario === 2) {
+                    if(response.data.user.bPrimerInicio) {
+                        history.push(`/${condominio}/bienvenida`);
+                    }else{
+                        history.push(`/${condominio}/dashboard`);
+                    }
+                }
+
+                if(tipoUsuario === 3) {
+
+                    if(response.data.user.bPrimerInicio) {
+                        history.push(`/${condominio}/residente/bienvenida`);
+                    }else{
+                        history.push(`/${condominio}/residente/dashboard`);
+                    }
+
+                }
+
+                if(tipoUsuario === 4) {
+                    history.push(`/${condominio}/vigilante`);
+                }
 
                 return response.data
             },
         ).catch(error => {
-        setEsperandoRespuesta(false);
+            setEsperandoRespuesta(false);
 
-        if (error.response) {
+            if (error.response) {
 
-                if(error.response.data.type == 'usuario') {
+                if(error.response.data.type === 'usuario') {
                     inputEmail.classList.add('bounce');
                 }
-                if(error.response.data.type == 'password') {
+                if(error.response.data.type === 'password') {
                     inputPassword.classList.add('bounce');
                 }
             } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the
+                // browser and an instance of
+                // http.ClientRequest in node.js
                 console.log(error.request);
 
+
             } else {
+                // Something happened in setting up the request that triggered an Error
                 console.log('Error', error.message);
+
             }
         });
     };
@@ -112,7 +150,7 @@ const UserLogin = (props) => {
     return(
         <div className="row justify-content-center">
 
-            {idCondominio ? <div className="mt-5 login cardLogin amatista card-nav-tabs animate fadeInUp one">
+            {idCondominio ? <div className="mt-5 login cardLogin aqua card-nav-tabs animate fadeInUp one">
                 <div className="card-body">
 
                     { nombreCondominio && <h3 className="text-center animate fadeInUp one">Iniciar Sesión en { nombreCondominio } </h3>}
@@ -159,7 +197,7 @@ const UserLogin = (props) => {
                         <Row className="animate fadeInDown three">
                             <Col className="text-center ">
                                 <Button type="submit"  className="primary border mt-3">
-                                    { esperandoRespuesta ? spinner : ''}
+                                    { esperandoRespuesta && spinnerBorder }
                                     Iniciar Sesión
                                 </Button>
                             </Col>
@@ -170,7 +208,7 @@ const UserLogin = (props) => {
 
                 </div>
             </div>
-            : spinner}
+            : spinnerGrow}
         </div>
 
     );

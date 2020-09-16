@@ -8,7 +8,7 @@ import DropdownItem from "reactstrap/es/DropdownItem";
 import CookieService from "../../../../services/CookieService";
 import SideBar from "./../SideBar";
 import {Link, useLocation} from 'react-router-dom';
-import './header.scss';
+import './styles.scss';
 import {useUsuario} from "../../../../context/usuario-context";
 
 const Header = () => {

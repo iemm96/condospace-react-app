@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react';
 import {Col, Row,Container, Spinner} from "reactstrap";
-import Header from "./common/header/Header";
 import {withRouter} from 'react-router-dom';
 import {useUsuario} from "../../context/usuario-context";
 
 const UserDashboard = (props) => {
     const { fondo } = useUsuario();
-    const CommonHeader = withRouter(props => <Header {...props}/>);
     const { userLoggedIn } = useUsuario();
 
     /*
@@ -32,7 +30,6 @@ const UserDashboard = (props) => {
 
     if(userLoggedIn) {
         return (<div>
-            <CommonHeader/>
             <div className={'dashboard-content animate fadeInUp one ' + fondo}>
                 <Container>
                     <Row className="pt-5 justify-content-center">
