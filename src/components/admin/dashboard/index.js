@@ -27,12 +27,12 @@ export const Dashboard = () => {
 
     return(
         <div>
-            <ModalCondominio
+            {controlModal && <ModalCondominio
                 toggleModal={toggleModal}
                 recordModal={controlModal}
                 idRecord={selectedRecordId}
                 update={fetchCondominios}
-            />
+            />}
             <DeleteRecordModal
                 toggleDeleteModal={setModalDeleteControl}
                 title={selectedRecordTitle}
