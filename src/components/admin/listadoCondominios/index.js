@@ -34,7 +34,7 @@ const ListadoCondominios = props => {
                           className={ 'cardCondominio ' + (isHovering && actualHovering === index && 'shadow') }
                           >
 
-                        { isHovering && actualHovering === index && <Button onClick={() => handleClickDelete(value.nombreCondominio,value.idCondominio)} className="action">
+                        { isHovering && actualHovering === index && <Button onClick={() => handleClickDelete(value.nombreCondominio,value.idCondominio)} className="action absolute danger">
                             <FontAwesomeIcon icon={faTrash} />
                         </Button>}
 

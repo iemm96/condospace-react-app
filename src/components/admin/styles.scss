@@ -44,16 +44,29 @@ button.action {
   border: none;
   color: $neutralColor;
   width: 40px;
-  position: absolute;
   right: 6px;
   top: 6px;
   transition: 500ms;
 
   &:hover{
     background: none;
+    color: $secondayColor;
+    transform: scale(1.1);
+  }
+  &:hover.danger{
+    background: none;
     color: $alertColor;
     transform: scale(1.1);
   }
+  &:active{
+    border-radius: 30px;
+    background-color: rgba(0,0,0,0.1) !important;
+    color: $primaryColor !important;
+  }
+}
+
+button.action.absolute{
+  position: absolute;
 }
 
 @media screen and (max-width: 1287px){

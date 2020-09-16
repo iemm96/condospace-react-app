@@ -29,6 +29,8 @@ export function UsuarioProvider (props) {
         async function cargarUsuario() {
 
             try{
+
+                /*
                 const accessToken = CookieService.get('access_token');
 
                 //Si el token existe carga el usuario en el contexto
@@ -53,7 +55,7 @@ export function UsuarioProvider (props) {
                     if(response.user.fondo) {
                         setFondo(response.user.fondo);
                     }
-                }
+                }*/
             }catch (e) {
                 console.log(e);
             }

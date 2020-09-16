@@ -13,7 +13,6 @@ import CuentaTable from "../components/adminCondominio/tables/CuentaTable";
 import TransaccionesTable from "../components/adminCondominio/tables/TransaccionesTable";
 
 import UsuariosTable from "../components/adminCondominio/tables/UsuariosTable";
-import UserLogin from "../UserLogin";
 import Bienvenida from "../components/adminCondominio/sections/Bienvenida";
 import {AgregarUnidades} from "../components/adminCondominio/sections/AgregarUnidades";
 import ReactNotification from 'react-notifications-component'
@@ -31,7 +30,8 @@ import {ResidentePerfil} from "../components/residente/sections/ResidentePerfil"
 import Cuotas from "../components/adminCondominio/sections/Cuotas";
 import UsuariosCondominio from "../components/admin/usuariosCondominio";
 import {Dashboard} from "../components/admin/dashboard";
-import {AdminProvider} from "../context/admin-context";
+import FormularioUsuariosCondominio from "../components/admin/usuariosCondominio/formulario";
+import UserLogin from "../components/adminCondominio/login";
 
 const NoMatchPage = () => (<h3>404 - Not found</h3>);
 const PermissionDenied = () => (<h3>403 - No tienes permiso para acceder a esta sección</h3>);
@@ -75,6 +75,8 @@ const AppRoutes = () => {
                 <BrowserRouter>
                     <Switch>
 
+                        <Route exact path="/:condominio" component={() => <UserLogin/>} />
+
                         <Route exact path="/error/404" component={NoMatchPage} />
                         <Route exact path="/error/403" component={PermissionDenied} />
 
@@ -84,11 +86,12 @@ const AppRoutes = () => {
                         <Admin>
                             <Route exact path="/admin/dashboard" component={Dashboard}/>
                             <Route exact path="/admin/usuariosCondominio/:idCondominio" component={UsuariosCondominio}/>
+                            <Route exact path="/admin/usuariosCondominio/:idCondominio/agregar" component={FormularioUsuariosCondominio}/>
+                            <Route path="/admin/usuariosCondominio/:idCondominio/editar/:idRecord" component={FormularioUsuariosCondominio}/>
                         </Admin>
 
 
 
-                        <Route exact path="/:condominio" component={() => <UserLogin/>} />
 
 
 

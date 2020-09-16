@@ -7,6 +7,7 @@ import stringifyData from "./services/stringifyData";
 import {url_base} from "./constants/api_url";
 import CookieService from "./services/CookieService";
 import { withRouter, Redirect, useHistory} from 'react-router';
+import Spinner from "reactstrap/es/Spinner";
 const expiresAt = 60 * 24;
 
 const UserLogin = (props) => {
@@ -145,8 +146,9 @@ const UserLogin = (props) => {
     }
 
     return(
+
         <div className="rowLogin row justify-content-center">
-            <div id="cardLogin" className="login card card-nav-tabs animate fadeInUp one">
+            {idCondominio ?  <div id="cardLogin" className="login card card-nav-tabs animate fadeInUp one">
                 <div className="card-body">
                     <form id="formLogin" className="center" onSubmit={handleSubmit(onSubmit)}>
                         <h3>Bienvenid@ a CondoSpace</h3>
@@ -187,6 +189,8 @@ const UserLogin = (props) => {
                     </form>
                 </div>
             </div>
+            : <Spinner animation="grow" />}
+
         </div>
 
     );

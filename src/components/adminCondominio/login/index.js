@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Col, Form, FormGroup, Row} from "reactstrap";
 import {useUsuario} from "../../../context/usuario-context";
 import {useForm} from "react-hook-form";
@@ -11,15 +11,39 @@ import './styles.scss';
 import Checkbox from "../common/checkbox";
 const expiresAt = 60 * 60;
 
-
-const AdminLogin = () => {
+const UserLogin = (props) => {
+    const {idCondominio,setIdCondominio,setTipoUsuario,errorUser,errorPassword,setUsuario} = useUsuario();
     const [esperandoRespuesta, setEsperandoRespuesta] = useState(null);
-    const {errorUser,errorPassword,setUsuario,setTipoUsuario} = useUsuario();
     const { register, handleSubmit } = useForm();
     const [ recordar, setRecordar ] = useState(false);
+    const [ nombreCondominio, setNombreCondominio ] = useState();
+    const condominio  = props.match.params.condominio;
     let history = useHistory();
 
-    const spinner = <span className="spinner-border spinner-border-sm" role="status"
+    function validaCondominio(condominio) {
+        return axios({
+            url:`${url_base}getCondominioByName/${condominio}`,
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then(
+            (response) => {
+                setIdCondominio(response.data.idCondominio);
+                setNombreCondominio(response.data.nombreCondominio);
+                return response.data
+            },
+            (error) => {
+                window.location.href = '/error';
+            }
+        );
+    }
+
+    useEffect(() => {
+        validaCondominio(condominio);
+    }, []);
+
+    const spinner = <span style={{color:'white'}} className="mt-5 spinner-border spinner-grow" role="status"
                         aria-hidden="true"/>;
 
     const clearInput = e => {
@@ -88,11 +112,13 @@ const AdminLogin = () => {
     return(
         <div className="row justify-content-center">
 
-            <div className="mt-5 login cardLogin card-nav-tabs animate fadeInUp one">
+            {idCondominio ? <div className="mt-5 login cardLogin amatista card-nav-tabs animate fadeInUp one">
                 <div className="card-body">
-                    <h3 className="text-center">Sistema Administrativo CondoSpace</h3>
+
+                    { nombreCondominio && <h3 className="text-center animate fadeInUp one">Iniciar Sesión en { nombreCondominio } </h3>}
+
                     <Form id="form"  onSubmit={handleSubmit(onSubmit)}>
-                        <Row className="justify-content-center">
+                        <Row className="animate fadeIn two justify-content-center">
                             <Col sm={8}>
                                 <FormGroup>
                                     <input id="inputEmail"
@@ -106,7 +132,7 @@ const AdminLogin = () => {
                                 </FormGroup>
                             </Col>
                         </Row>
-                        <Row className="justify-content-center">
+                        <Row className="animate fadeIn two justify-content-center">
                             <Col sm={8}>
                                 <FormGroup>
                                     <input id="inputPassword"
@@ -120,8 +146,8 @@ const AdminLogin = () => {
                                 </FormGroup>
                             </Col>
                         </Row>
-                        <hr className="divider" style={{color:'white'}}/>
-                        <Row className="mt-3">
+                        <hr className="divider animate fadeIn four" style={{color:'white'}}/>
+                        <Row className="mt-3 animate fadeInDown three">
                             <Col>
                                 <FormGroup>
                                     <Checkbox setRecordar={setRecordar}>
@@ -130,8 +156,8 @@ const AdminLogin = () => {
                                 </FormGroup>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col className="text-center">
+                        <Row className="animate fadeInDown three">
+                            <Col className="text-center ">
                                 <Button type="submit"  className="primary border mt-3">
                                     { esperandoRespuesta ? spinner : ''}
                                     Iniciar Sesión
@@ -144,9 +170,10 @@ const AdminLogin = () => {
 
                 </div>
             </div>
+            : spinner}
         </div>
 
     );
 };
 
-export default withRouter(AdminLogin);
+export default withRouter(UserLogin);

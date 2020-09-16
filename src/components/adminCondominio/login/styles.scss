@@ -1,13 +1,12 @@
-$primaryColor: #21447C;
-$secondayColor: #483575;
+$primaryColor: #51BBFE;
+$secondayColor: #94B0DA;
 $neutralColor: #12101D;
 $alertColor: #6F2234;
 
 div.cardLogin {
 
+  height: 380px;
   border-radius: 10px;
-  background: linear-gradient(60deg, $primaryColor, $secondayColor);
-  box-shadow: 0 5px 20px 0 rgba(0,0,0,.2), 0 13px 24px -11px #4C68BB;
   width: 500px;
   color: white;
 
@@ -27,6 +26,38 @@ div.cardLogin {
   }
 
 }
+
+.aqua {
+  background: linear-gradient(60deg, #68D6FC, #4C68BB) !important;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(76, 104, 187, 0.6);
+}
+
+.pastel {
+  background: linear-gradient(60deg, #6E83D8, #B876E5) !important;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(110, 131, 216, 0.6);
+}
+
+.ocaso {
+  background: linear-gradient(60deg, #ee4540, #c72c41);
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(128, 19, 54, 0.6);
+}
+
+.amatista {
+  background: linear-gradient(60deg, #341677, #202040) !important;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(32, 32, 64, 0.6);
+}
+
+.coral {
+  background: linear-gradient(60deg, #048BA8, #531CB3);
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(83, 28, 179, 0.6);
+}
+
+.esmeralda {
+  background: linear-gradient(60deg, #86BBD8, #28536B);
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(40, 83, 107, 0.6);
+}
+
+
 
 hr {
   border-top: 1px solid white !important;
