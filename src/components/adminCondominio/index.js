@@ -9,30 +9,26 @@ import { withRouter, useHistory } from 'react-router-dom'
 import CookieService from "../../services/CookieService";
 import {getUser} from "../../actions/getUser";
 import './styles.scss';
+import {useUsuario} from "../../context/usuario-context";
 
 export const AdminCondominio = (props) => {
+    const { usuario, userLoggedIn,setIdCondominio,tipoUsuario } = useUsuario();
     const history = useHistory();
 
     useEffect(() => {
 
         async function auth() {
-            debugger;
-            const accessToken = CookieService.get('access_token');
 
-            //Si el token existe carga el usuario en el contexto
-            if(accessToken === undefined) {
-                history.push('/admin/login');
-                return;
+            if(!userLoggedIn) {
+                //history.push(`/${urlCondominio}`);
             }
 
-            //Se obtiene una respuesta del servidor con los datos del usuario, de existir se setea en el contexto
-            const response = await getUser(accessToken);
+            setIdCondominio(usuario.user.idCondominio);
 
-            if(response) {
-                if(response.user.idTipoUsuario !== 1){
-                    //history.push('/error/403')
-                }
+            if(tipoUsuario !== 2){
+                history.push('/error/403')
             }
+
         }
 
         auth();

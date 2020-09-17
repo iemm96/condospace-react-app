@@ -50,6 +50,7 @@ const AppRoutes = () => {
             //Si el token existe carga el usuario en el contexto
             if(accessToken === undefined) {
                 setUserLoggedIn(false);
+                setIsLoading(false);
                 return;
             }
 

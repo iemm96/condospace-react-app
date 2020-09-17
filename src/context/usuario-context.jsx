@@ -7,9 +7,11 @@ const UsuarioContext = React.createContext();
 export function UsuarioProvider (props) {
     const [usuario,setUsuario] = useState(null);
     const [idCondominio,setIdCondominio] = useState(null);
+    const [urlCondominio,setUrlCondominio] = useState(null);
     const [tipoUsuario,setTipoUsuario] = useState(null);
     const [cargandoUsuario,setCargandoUsuario] = useState(false);
     const [userLoggedIn,setUserLoggedIn] = useState(false);
+    const [primerInicio,setPrimerInicio] = useState(false);
     const [cargandoRequest,setCargandoRequest] = useState(false);
     const [notificacion,setNotificacion] = useState(null);
     const [tema,setTema] = useState('aqua');
@@ -70,6 +72,10 @@ export function UsuarioProvider (props) {
             usuario,
             cargandoUsuario,
             idCondominio,
+            primerInicio,
+            urlCondominio,
+            setUrlCondominio,
+            setPrimerInicio,
             cargandoRequest,
             setUsuario,
             setIdCondominio,
@@ -84,7 +90,7 @@ export function UsuarioProvider (props) {
             fondo,
             setFondo
         });
-    },[usuario,fondo,tema,userLoggedIn,cargandoUsuario,cargandoRequest,setIdCondominio,idCondominio,tipoUsuario,setTipoUsuario,setCargandoUsuario,setNotificacion]);
+    },[primerInicio,setPrimerInicio,usuario,fondo,tema,userLoggedIn,cargandoUsuario,cargandoRequest,setIdCondominio,idCondominio,tipoUsuario,setTipoUsuario,setCargandoUsuario,setNotificacion]);
 
     return <UsuarioContext.Provider value={value} {...props}/>
 }

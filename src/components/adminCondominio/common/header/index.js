@@ -6,15 +6,17 @@ import DropdownToggle from "reactstrap/es/DropdownToggle";
 import DropdownMenu from "reactstrap/es/DropdownMenu";
 import DropdownItem from "reactstrap/es/DropdownItem";
 import CookieService from "../../../../services/CookieService";
-import SideBar from "./../SideBar";
 import {Link, useLocation} from 'react-router-dom';
 import './styles.scss';
 import {useUsuario} from "../../../../context/usuario-context";
+import Sidebar from "../sidebar";
 
-const Header = () => {
-    const { usuario,tema } = useUsuario();
+const Header = (props) => {
+    const { usuario,tema,primerInicio } = useUsuario();
     const [isOpenSidebar,setIsOpenSidebar] = useState(false);
     const [titleSection,setTitleSection] = useState(false);
+    const sidebar = props.sidebar ? props.sidebar : true;
+
     let location = useLocation();
     let arrUrl = location.pathname.split('/');
     let secondPath = arrUrl[2];
@@ -68,21 +70,26 @@ const Header = () => {
         CookieService.remove('access_token');
         CookieService.remove('tipoUsuario');
         let arrUrl = location.pathname.split('/');
-        window.location.href =  `/${arrUrl[1]}/login`;
+        window.location.href =  `/${arrUrl[1]}`;
     };
 
     const toggleSidebar = () => (setIsOpenSidebar(!isOpenSidebar));
 
     return(<div className="mt-3">
         <header className="main-header ">
-            <SideBar condominio={usuario.condominio} isOpen={isOpenSidebar}/>
+            <Sidebar condominio={usuario.condominio} isOpen={isOpenSidebar}/>
 
             <Navbar id="user-header" className={'header-dashboard navbar navbar-expand-xl animate fadeInDown one navbar-light top-navbar ' + tema}
                     data-toggle="sticky-onscroll">
                 <div className="container">
-                    {usuario.user.idTipoUsuario === 2 ? <Button color="info" className="" onClick={toggleSidebar}>
+
+                    { !primerInicio &&
+
+                    <Button color="info" className="" onClick={toggleSidebar}>
                         <FontAwesomeIcon icon={faBars}/>
-                    </Button> : ''}
+                    </Button>
+
+                    }
 
                     <NavLink className="navbar-brand"  disabled>CondoSpace</NavLink>
 
@@ -91,7 +98,7 @@ const Header = () => {
                         <ul className="navbar-nav">
 
                             <li className="nav-item">
-                                <NavLink className="nav-link" to={`/${arrUrl[1]}/login`}>
+                                <NavLink className="nav-link" to={`/${arrUrl[1]}`}>
                                     {usuario ? <a>{usuario.condominio}</a> : ''}
                                 </NavLink>
                             </li>

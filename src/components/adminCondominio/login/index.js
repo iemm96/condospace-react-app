@@ -21,6 +21,7 @@ const UserLogin = (props) => {
     let history = useHistory();
 
     function validaCondominio(condominio) {
+
         return axios({
             url:`${url_base}getCondominioByName/${condominio}`,
             method: 'GET',
@@ -34,7 +35,7 @@ const UserLogin = (props) => {
                 return response.data
             },
             (error) => {
-                window.location.href = '/error';
+                //window.location.href = '/error';
             }
         );
     }

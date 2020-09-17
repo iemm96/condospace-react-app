@@ -16,8 +16,9 @@ import {
 import { NavItem, NavLink, Nav } from 'reactstrap';
 import classNames from 'classnames';
 import {Link} from 'react-router-dom';
+import './styles.scss';
 
-const SideBar = props => (
+const Sidebar = props => (
     <div className={classNames('sidebar', {'is-open': props.isOpen})}>
       <div className="sidebar-header">
         <span color="info" onClick={props.toggle} style={{color: '#fff'}}>&times;</span>
@@ -80,4 +81,4 @@ const SideBar = props => (
     </div>
   );
 
-export default SideBar;
+export default Sidebar;
