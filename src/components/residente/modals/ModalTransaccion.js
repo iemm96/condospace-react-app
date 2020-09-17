@@ -4,7 +4,7 @@ import Select from "react-select";
 import {updateRecord} from "../../../actions/updateRecord";
 import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
-import DatePicker, { registerLocale } from "react-datepicker/es";
+import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
 import {format} from "date-fns";

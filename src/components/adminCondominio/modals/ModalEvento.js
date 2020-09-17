@@ -9,7 +9,7 @@ import {storeRecord} from "../../../actions/storeRecord";
 import {useForm} from "react-hook-form";
 import {useUsuario} from "../../../context/usuario-context";
 import {store} from "react-notifications-component";
-import DatePicker from "react-datepicker/es";
+import DatePicker from "react-datepicker";
 import {format} from "date-fns";
 
 const ModalEvento = (props) => {
